@@ -248,10 +248,13 @@
   overflow: hidden;
 }
 
-/* スマホ幅（1カラム表示）では正方形だと縦に大きくなりすぎるため高さの上限をつける */
+/* スマホ幅（1カラム表示）では正方形のまま画像エリアを一回り小さくして中央寄せする
+   （正方形だとカード幅いっぱいで縦に大きくなりすぎるため） */
 @media (max-width: 479.98px) {
   .kuji-card__img-wrap {
-    max-height: 180px;
+    width: 65%;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
   }
 }
 
