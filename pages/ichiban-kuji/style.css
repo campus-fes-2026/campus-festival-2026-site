@@ -248,6 +248,13 @@
   overflow: hidden;
 }
 
+/* スマホ幅（1カラム表示）では正方形だと縦に大きくなりすぎるため高さの上限をつける */
+@media (max-width: 479.98px) {
+  .kuji-card__img-wrap {
+    max-height: 180px;
+  }
+}
+
 /* 画像プレースホルダーの装飾ライン */
 .kuji-card__img-wrap .img-placeholder-border {
   position: absolute;
