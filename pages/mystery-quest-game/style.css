@@ -576,6 +576,13 @@ img {
   letter-spacing: 0.04em;
 }
 
+/* 検索ガイドの補足行（本文より控えめに） */
+.search-guide--sub {
+  margin-top: -4px;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
 .search-chips {
   display: flex;
   flex-wrap: wrap;

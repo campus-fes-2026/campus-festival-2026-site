@@ -103,64 +103,12 @@
 
       <h1 class="mt-view-title">キャンフェスデマ事件 — 捜査ファイル</h1>
 
-      <!-- ① 冒頭の「怪しい投稿」— 事件発端のデマポスト -->
-      <article class="post post--suspect" data-post="intro">
-        <div class="post__avatar post__avatar--suspect" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11c-1.5 0-2.5.5-3 2"/><path d="M4 6a2 2 0 0 0-2 2v4a5 5 0 0 0 5 5 8 8 0 0 1 5 2 8 8 0 0 1 5-2 5 5 0 0 0 5-5V8a2 2 0 0 0-2-2h-3a8 8 0 0 0-5 2 8 8 0 0 0-5-2z"/><path d="M6 11c1.5 0 2.5.5 3 2"/></svg></div>
-        <div class="post__body">
-          <div class="post__header">
-            <span class="post__name">謎の投稿者 X</span>
-            <span class="post__handle">@unknown_x_2026</span>
-            <span class="post__time">09:12</span>
-          </div>
-          <p class="post__text">
-            ［緊急拡散希望］キャンフェス、今日中止らしいよ。
-            運営から公式アナウンスあった。もう引き返せない。<br>
-            <span class="post__hashtag">#キャンフェス2026</span>
-            <span class="post__hashtag">#中止</span>
-            <span class="post__hashtag">#緊急</span>
-          </p>
-          <div class="post__footer">
-            <span class="post__stat">🔁 142</span>
-            <span class="post__stat">❤️ 38</span>
-            <span class="post__badge post__badge--warning">⚠️ デマ投稿</span>
-          </div>
-        </div>
-      </article>
-
       <!-- ============================================================
            噂が広がる一般人の反応（雰囲気づくり・ヒント要素なし）
            ✏️ 内容はGoogleスプレッドシートからCSV取得して script.js が描画する
               （種別=timeline の行）。ここは差し込み先の空スロット。
       ============================================================ -->
       <div id="ambient-posts-slot"></div>
-
-      <!-- ============================================================
-           ④ 最終問題ポスト（メッセージのみ / stage1クリア後にJSで出現）
-              ※ 回答入力フォームは DM ビューに分離
-      ============================================================ -->
-      <article class="post post--final" id="final-post" data-post="final" hidden aria-live="polite">
-        <div class="post__avatar post__avatar--suspect" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11c-1.5 0-2.5.5-3 2"/><path d="M4 6a2 2 0 0 0-2 2v4a5 5 0 0 0 5 5 8 8 0 0 1 5 2 8 8 0 0 1 5-2 5 5 0 0 0 5-5V8a2 2 0 0 0-2-2h-3a8 8 0 0 0-5 2 8 8 0 0 0-5-2z"/><path d="M6 11c1.5 0 2.5.5 3 2"/></svg></div>
-        <div class="post__body">
-          <div class="post__header">
-            <span class="post__name post__name--red">謎の投稿者 X（正体判明）</span>
-            <span class="post__handle">@unknown_x_2026</span>
-            <span class="post__time">10:44</span>
-          </div>
-          <p class="post__text">
-            ……よくここまで来た。だが、まだ終わりじゃない。<br>
-            最後にこれに答えてみろ。<br><br>
-            <span class="post__final-question">
-              ❓ 最終問題：私の本当の名前（フルネーム）は何か？<br>
-              <small>（ヒント：投稿を全部読み返すと答えが見えてくる）</small>
-            </span>
-          </p>
-          <div class="post__footer">
-            <span class="post__stat">🔁 ???</span>
-            <span class="post__stat">❤️ 0</span>
-            <span class="post__badge post__badge--red">🔴 LIVE</span>
-          </div>
-        </div>
-      </article>
 
       <!-- ============================================================
            事件解決後にタイムラインへ追加表示される投稿
@@ -208,6 +156,7 @@
       </div>
 
       <p class="search-guide">投稿に出てきたキーワードやハッシュタグで検索してみよう</p>
+      <p class="search-guide search-guide--sub">検索したら謎のヒントが得られるかも？</p>
 
       <!-- ハッシュタグ候補チップ：ヒント投稿のタグから script.js が動的生成する -->
       <div class="search-chips" role="list" id="search-chips"></div>
@@ -227,14 +176,14 @@
     <!-- /#view-search -->
 
     <!-- ====================================================
-         VIEW 3 : DM（捜査本部とのやり取り＝ゲーム操作）
+         VIEW 3 : DM（キャンフェススタッフとのやり取り＝ゲーム操作）
     ==================================================== -->
     <section class="app-view" id="view-dm" aria-label="ダイレクトメッセージ" hidden>
 
       <div class="dm-header">
         <span class="dm-header__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
         <div class="dm-header__meta">
-          <span class="dm-header__name">捜査本部</span>
+          <span class="dm-header__name">キャンフェススタッフR</span>
           <span class="dm-header__handle">@campfes_hq</span>
         </div>
       </div>
@@ -245,57 +194,56 @@
         <div class="dm-msg">
           <span class="dm-msg__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
           <div class="dm-msg__bubble">
-            <p>【捜査依頼】キャンフェス2026に関するデマ投稿を確認しました。タイムラインの投稿と、検索で見つかる目撃情報を頼りに、捜査コードを特定してください。</p>
+            <p>【捜査について】キーワードがわかったら、こちらに送信してください！</p>
           </div>
         </div>
 
-        <!-- 捜査コード入力フォーム（常時表示 / 旧 input-zone-stage1 を移設・中身不変） -->
+        <!-- キーワード入力フォーム（常時表示 / 旧 input-zone-stage1 を移設・中身不変） -->
         <div class="input-zone" id="input-zone-stage1">
           <div class="input-zone__inner">
-            <p class="input-zone__label">🔐 捜査コードを入力</p>
+            <p class="input-zone__label">🔐 キーワードを入力</p>
             <!--
             ✏️ 問題の指示文（変更可）
             -->
             <p class="input-zone__question">
-              投稿を読んで答えをまとめよ。<br>
-              <strong>1〜6問の答えを合わせた「捜査コード」</strong>を入力してください。
+              キャンフェス会場に散らばった6問の謎を解き、答えを手元のクロスワード表に埋めて、導かれたキーワードを入力してください。
             </p>
-            <div class="input-zone__form" role="form" aria-label="捜査コード入力フォーム">
+            <div class="input-zone__form" role="form" aria-label="キーワード入力フォーム">
               <input
                 type="text"
                 id="stage1-input"
                 class="input-zone__field"
-                placeholder="捜査コードを入力…"
+                placeholder="キーワードを入力…"
                 autocomplete="off"
                 autocorrect="off"
                 autocapitalize="off"
                 spellcheck="false"
-                aria-label="捜査コード入力欄"
+                aria-label="キーワード入力欄"
               >
               <button
                 type="button"
                 id="stage1-submit"
                 class="input-zone__btn"
-                aria-label="捜査コードを送信"
+                aria-label="キーワードを送信"
               >
                 送信 ▶
               </button>
             </div>
             <p class="input-zone__error" id="stage1-error" role="alert" aria-live="assertive" hidden>
-              ❌ 捜査コードが違います。もう一度確認してください。
+              ❌ キーワードが違います。もう一度確認してください。
             </p>
           </div>
         </div>
 
-        <!-- 2通目（捜査コード正解後にJSで出現） -->
+        <!-- 2通目（キーワード正解後にJSで出現 / 旧・最終問題ポストの出題文をここに統合） -->
         <div class="dm-msg" id="dm-msg-2" hidden aria-live="polite">
           <span class="dm-msg__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
           <div class="dm-msg__bubble">
-            <p>🔓 捜査コード認証完了。犯人からの挑発的な投稿がタイムラインに届きました。あわせて、最終問題への回答をこちらで受け付けます。</p>
+            <p>🔓 キーワード認証完了。最後にもう一問だけ答えてください。<br><br>❓ 最終問題：私の本当の名前（フルネーム）は何か？<br><small>（ヒント：投稿を全部読み返すと答えが見えてくる）</small></p>
           </div>
         </div>
 
-        <!-- 最終回答入力フォーム（捜査コード正解後にJSで出現 / 旧 #final-post 内から分離・中身不変） -->
+        <!-- 最終回答入力フォーム（キーワード正解後にJSで出現 / 旧 #final-post 内から分離・中身不変） -->
         <div class="input-zone input-zone--inline" id="input-zone-final" hidden aria-live="polite">
           <div class="input-zone__inner">
             <p class="input-zone__label">🚨 最終回答を入力</p>
