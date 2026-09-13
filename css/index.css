@@ -462,28 +462,6 @@
   background-color: var(--color-bg-dark);
 }
 
-.map-placeholder {
-  width: 100%;
-  aspect-ratio: 4/3;
-  border: 1px dashed var(--color-accent);
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background-color: var(--color-bg-card);
-  color: var(--color-text-sub);
-  font-size: 0.85rem;
-  text-align: center;
-  padding: var(--space-md);
-}
-
-.map-placeholder__icon {
-  font-size: 2.5rem;
-  opacity: 0.4;
-}
-
 .map-img {
   width: 100%;
   border-radius: var(--radius-md);

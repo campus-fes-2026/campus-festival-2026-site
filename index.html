@@ -530,21 +530,6 @@
           </div>
         </div>
 
-        <!-- ============ バンド（準備中） ============ -->
-        <div class="project-card project-card--placeholder" id="card-band">
-          <div class="project-card__bar"></div>
-          <div class="project-card__body">
-            <p class="project-card__tag">Coming Soon</p>
-            <h3 class="project-card__name">バンド</h3>
-            <p class="project-card__place">場所 未定</p>
-            <p class="project-card__desc">ページ準備中です。もうしばらくお待ちください。</p>
-          </div>
-          <div class="project-card__footer">
-            <span>準備中</span>
-            <span>—</span>
-          </div>
-        </div>
-
         <!-- ============ 一番くじ ============ -->
         <a href="pages/ichiban-kuji/index.html" class="project-card" id="card-lottery"
           style="border-color: rgba(201,146,42,0.45);">
@@ -572,14 +557,9 @@
   <!-- ========================================================
        ④ キャンパスマップセクション
        ========================================================
-  ✏️  【編集ガイド】キャンパスマップ
-       マップ画像ができたら、以下の手順で差し替えてください：
-      1. 画像ファイル（例：map.jpg）をサイトのフォルダに入れる
-      2. 下の < 画像ここ > コメントの位置にある <img> タグの
-      src="map.jpg" を実際のファイル名に変える
-      3. .map-placeholder（プレースホルダー枠）を削除する
-
-     画像の推奨サイズ：横幅 1200px 以上（JPGまたはPNG）
+  ✏️ 【編集ガイド】キャンパスマップ
+     画像を差し替えたい場合は、下の <img> の src="assets/img/campus-map.jpg" を
+     新しいファイルパスに変更してください（推奨サイズ：横幅 1200px 以上）。
   ======================================================== -->
   <section class="section map-section" id="map">
     <div class="container">
@@ -590,21 +570,7 @@
         <span class="section-heading__line"></span>
       </div>
 
-      <!--
-      ✏️ 【画像の差し替え方】
-         画像ができたら、以下のプレースホルダーを削除して、
-         その場所に <img src="map.jpg" alt="キャンパスマップ" class="map-img"> を追加してください。
-
-         例：
-         <img src="map.jpg" alt="キャンパスマップ" class="map-img">
-      -->
-      <div class="map-placeholder" id="campus-map-placeholder">
-        <span class="map-placeholder__icon">🗺️</span>
-        <span>ここにキャンパスマップの画像が入ります</span>
-        <span style="font-size:0.75rem; color: var(--color-text-muted);">
-          画像ファイルを用意したら index.html の<br>「✏️ 【画像の差し替え方】」コメントを参照してください
-        </span>
-      </div>
+      <img src="assets/img/campus-map.jpg" alt="キャンフェス2026 会場フロアマップ" class="map-img" loading="lazy">
 
     </div>
   </section>
@@ -661,7 +627,7 @@
           <span class="caution-item__icon" aria-hidden="true">🆘</span>
           <div class="caution-item__text">
             <strong>緊急時・体調不良のとき</strong>
-            <p>体調が優れない場合は、最寄りのスタッフにお声がけください。救護室は（場所未定）に設置しています。</p>
+            <p>体調が優れない場合は、最寄りのスタッフにお声がけください。</p>
           </div>
         </li>
 
