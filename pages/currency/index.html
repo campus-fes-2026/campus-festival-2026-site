@@ -8,13 +8,13 @@
      検索エンジンやSNSでシェアされたときに表示される説明文です。
      企画の内容・場所・見どころを110文字程度で書いてください。
   -->
-  <meta name="description" content="Campus Café — キャンフェス2026の企画紹介ページ。手作りドリンク＆スイーツをご用意してお待ちしています。3号館 204教室にてオープン。">
+  <meta name="description" content="Campus Café — キャンフェス2026の企画紹介ページ。人狼のサイトです。3号館 204教室にてオープン。">
 
   <!--
   ✏️ 【編集ガイド】ページタイトル
      「企画名 | 文化祭名」の形式で書くと分かりやすいです。
   -->
-  <title>Campus Café | キャンフェス 2026</title>
+  <title>Campus werewolf | キャンフェス 2026</title>
 
   <!--
   ✏️ 【編集ガイド】スタイルシートの読み込み
@@ -25,7 +25,8 @@
        ../../css/common.css のパスが正しいか確認してください。
        （pages/自分のフォルダ名/ に置いた場合は変更不要です）
   -->
-  <link rel="stylesheet" href="../../css/common.css">
+  <!--><link rel="stylesheet" href="../../css/common.css"> -->
+    <link rel="stylesheet" href="../../css/common.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -40,7 +41,33 @@
 
   <!-- ファイルの先頭には必ずこの非表示チェックボックスを配置してください（メニュー開閉の制御用） -->
   <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
-
+  <div id="night-filter" style="
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    background: linear-gradient(to bottom, rgba(2,2,10,0) 0%, rgba(2,2,10,0.55) 45%, rgba(2,2,10,1) 100%);
+    opacity: 0; /* 初期状態は透明（昼） */
+    pointer-events: none; /* クリックを邪魔しない */
+    z-index: 5; /* 本文より奥、通常の背景より手前（雰囲気づけのヴィネット） */
+    transition: opacity 0.4s ease-out;
+  "></div>
+  <!-- ✏️ 画面の四隅だけを暗くする「覗き込まれているような」ヴィネット。
+       night-filter（全体に薄く乗る暗幕）とは別に、中心から外側に向けて
+       暗くなるグラデーションを重ねています。濃さはJSがスクロール量に応じて制御します。 -->
+  <div id="vignette" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, rgba(0,0,0,0) 35%, rgba(0,0,0,0.92) 100%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 6;
+    transition: opacity 0.6s ease-out;
+  "></div>
   <nav class="site-nav" aria-label="サイトナビゲーション">
     <div class="site-nav__inner">
       <!-- サイト名（クリックでトップページへ戻る） -->
@@ -119,13 +146,18 @@
   <header class="page-hero" id="top">
 
     <!-- ✏️ 企画の種類タグ（英語表記が映えます） -->
-    <p class="page-hero__tag">Café</p>
+    <p class="page-hero__tag" id="hero-tag" data-mode-copy>Village</p>
 
     <!-- ✏️ 企画名（自分の企画名に変えてください） -->
-    <h1 class="page-hero__title">Campus Café</h1>
+    <h1 class="page-hero__title" id="hero-title" data-mode-copy>陽だまりの村</h1>
 
     <!-- ✏️ 開催場所 -->
-    <p class="page-hero__place">3号館 2F &ensp;—&ensp; 204教室</p>
+    <p class="page-hero__place" id="hero-place" data-mode-copy>3号館 2F &ensp;—&ensp; 204教室</p>
+
+    <a class="scroll-cue" href="#about">
+      日が沈むころ、村の顔が変わる。
+      <span aria-hidden="true">↓</span>
+    </a>
 
   </header>
 
@@ -134,300 +166,91 @@
   ======================================================== -->
   <main>
 
-    <!-- ========================================================
-         ① 企画概要・紹介文
-         ========================================================
-    ✏️ 【編集ガイド】紹介文
-       100〜200文字を目安に、企画の魅力を自由に書いてください。
-       複数の段落に分けたい場合は <p>〜</p> を増やしてください。
-    ======================================================== -->
     <section class="section about-section" id="about">
       <div class="container">
-
-        <!-- ✏️ 見出しを変えてください（または削除してもOK） -->
-        <h2 class="page-section-title">About — 企画について</h2>
-
-        <!-- ✏️ ここに紹介文を書いてください（100〜200文字程度） -->
+        <h2 class="page-section-title">About — 陽だまりの村へようこそ</h2>
         <p class="about-text">
-          「Campus Café」は、バリスタを目指す学生たちが本気で取り組む手作りカフェ企画です。
-          丁寧にハンドドリップしたコーヒーや、試作を重ねた自慢のスイーツをご用意してお待ちしています。
-          忙しい文化祭の中で、ほっと一息つける「静かな時間」をご提供できれば幸いです。
-          お友達との語らいに、一人でのんびりしたいときに、ぜひお立ち寄りください。
+          ここは豊かな自然と、温かい心を持った人々に囲まれた、とても平和な村です。
+          <span class="stealth-text">……夜が来るまでは。</span><br><br>
+          旅の疲れを癒やし、村人たちとのんびりとした時間をお過ごしください。
+          <span class="stealth-text" data-reveal-start="0.36" data-reveal-range="0.30" style="display: block; margin-top: 10px;">誰が嘘をついている？ 誰が人狼だ？</span>
         </p>
-        <!-- ✏️ ここまでが紹介文です -->
-
       </div>
     </section>
 
-    <!-- ========================================================
-         ② メニュー・サービス内容
-         ========================================================
-    ✏️ 【編集ガイド】メニューの追加・変更方法
-       .menu-item のブロックをコピーして商品を増やせます。
-       各商品の変更箇所：
-       1. .menu-item__img-wrap 内 → 商品画像（下の説明を参照）
-       2. .menu-item__name → 商品名
-       3. .menu-item__desc → 商品の説明（不要なら <p> ごと削除OK）
-       4. .menu-item__price → 値段
-
-       【画像の差し替え方】
-       画像ファイルを準備したら、絵文字のプレースホルダーを削除して、
-       以下のように <img> タグを記述してください：
-       <img src="coffee.jpg" alt="本日のコーヒー">
-    ======================================================== -->
     <section class="section menu-section" id="menu">
       <div class="container">
-
-        <h2 class="page-section-title">Menu — メニュー</h2>
-
+        <h2 class="page-section-title" id="residents-title" data-mode-copy>Residents — 村の住人たち</h2>
         <ul class="menu-list" role="list">
 
-          <!-- ============ 商品1 ============
-               ✏️ このブロックをコピーして商品を追加できます -->
-          <li class="menu-item" id="menu-item-coffee">
-
-            <!-- 商品画像エリア
-                 ✏️ 画像ができたら、下の絵文字テキストを
-                    <img src="coffee.jpg" alt="本日のコーヒー"> に差し替えてください -->
-            <div class="menu-item__img-wrap" aria-hidden="true">☕</div>
-
+          <li class="menu-item">
+            <div class="menu-item__img-wrap" aria-hidden="true">🧑‍🌾</div>
             <div class="menu-item__body">
-              <!-- ✏️ 商品名 -->
-              <p class="menu-item__name">本日のコーヒー</p>
-              <!-- ✏️ 商品説明（不要なら <p> ごと削除してください） -->
-              <p class="menu-item__desc">
-                毎朝ハンドドリップで丁寧に淹れる本日のスペシャルティコーヒー。<br>
-                ホット・アイスどちらも対応可能です。
+              <p class="menu-item__name" data-village="村人（市民）" data-werewolf="狼（人狼）">村人（市民）</p>
+              <p class="menu-item__desc" data-village="特別な能力を持たない、ごく普通の村人です。話し合いで村を守ります。" data-werewolf="夜になれば正体を現し、笑顔の裏に研いだ牙で、眠りについた村人を喰らい尽くす。">
+                特別な能力を持たない、ごく普通の村人です。話し合いで村を守ります。
               </p>
-              <!-- ✏️ 値段（税込み表記を忘れずに） -->
-              <p class="menu-item__price">¥200 <small>（税込）</small></p>
-            </div>
-
-          </li>
-          <!-- ============ / 商品1 ============ -->
-
-          <!-- ============ 商品2 ============ -->
-          <li class="menu-item" id="menu-item-cake">
-            <div class="menu-item__img-wrap" aria-hidden="true">🍰</div>
-            <div class="menu-item__body">
-              <p class="menu-item__name">手作りガトーショコラ</p>
-              <p class="menu-item__desc">
-                試作を重ねた自慢のガトーショコラ。<br>
-                濃厚なチョコの風味としっとり食感が特徴です。
-              </p>
-              <p class="menu-item__price">¥300 <small>（税込）</small></p>
             </div>
           </li>
-          <!-- ============ / 商品2 ============ -->
 
-          <!-- ============ 商品3 ============ -->
-          <li class="menu-item" id="menu-item-smoothie">
-            <div class="menu-item__img-wrap" aria-hidden="true">🥤</div>
+          <li class="menu-item">
+            <div class="menu-item__img-wrap" aria-hidden="true">🔮</div>
             <div class="menu-item__body">
-              <p class="menu-item__name">季節のスムージー</p>
-              <p class="menu-item__desc">
-                旬のフルーツをたっぷり使ったヘルシースムージー。<br>
-                牛乳・豆乳からお選びいただけます。
+              <p class="menu-item__name" data-village="占い師" data-werewolf="人狼の正体を知る者">占い師</p>
+              <p class="menu-item__desc" data-village="毎晩、誰か一人の正体が「人狼」かどうかを知ることができる賢者です。" data-werewolf="夜ごとに誰が本当の獣かを見抜き、最後には最初に噛み殺す。">
+                毎晩、誰か一人の正体が「人狼」かどうかを知ることができる賢者です。
               </p>
-              <p class="menu-item__price">¥250 <small>（税込）</small></p>
             </div>
           </li>
-          <!-- ============ / 商品3 ============ -->
 
-          <!-- ============ 商品4 ============ -->
-          <li class="menu-item" id="menu-item-cookie">
-            <div class="menu-item__img-wrap" aria-hidden="true">🍪</div>
+          <li class="menu-item">
+            <div class="menu-item__img-wrap" aria-hidden="true">🛡️</div>
             <div class="menu-item__body">
-              <p class="menu-item__name">アイシングクッキー（3枚セット）</p>
-              <p class="menu-item__desc">
-                手作りのオリジナルデザインクッキー。<br>
-                限定品のためなくなり次第終了です。
+              <p class="menu-item__name" data-village="騎士（狩人）" data-werewolf="人狼の夜を守る鎧の下の獣">騎士（狩人）</p>
+              <p class="menu-item__desc" data-village="毎晩、誰か一人を人狼の襲撃から守り抜く勇敢な戦士です。" data-werewolf="守りの名のもとに、夜の最初の犠牲者を見逃さずにその牙を向ける。">
+                毎晩、誰か一人を人狼の襲撃から守り抜く勇敢な戦士です。
               </p>
-              <p class="menu-item__price">¥350 <small>（税込）</small></p>
             </div>
           </li>
-          <!-- ============ / 商品4 ============ -->
 
-        </ul><!-- /.menu-list -->
+        </ul>
       </div>
     </section>
 
-    <!-- ========================================================
-         ③ アレルギー情報
-         ========================================================
-    ✏️ 【編集ガイド】アレルギー表の書き方
-       各セルの記号：
-         ● = 含む（アレルゲンあり）
-         ー = 含まない
-         △ = 要確認（製造ラインに注意が必要な場合）
-
-       商品が増えたら <tr>〜</tr> のブロックをコピーして行を追加。
-       アレルゲンの種類が変わったら <th> を増やして列を追加できます。
-
-       ⚠️ アレルギー情報は必ず正確に記載してください！
-          不明な場合は「要確認」または「△」と記載しましょう。
-    ======================================================== -->
-    <section class="section allergy-section" id="allergy">
+    <section class="section" id="hours">
       <div class="container">
-
-        <h2 class="page-section-title">Allergy — アレルギー情報</h2>
-
-        <!-- 注意書き（✏️ 内容を変えてください） -->
-        <div class="allergy-note">
-          ⚠️ アレルギーをお持ちの方は、注文前にスタッフへお声がけください。<br>
-          当企画のキッチンでは、卵・乳・小麦を使用した商品を調理しています。<br>
-          交差汚染の可能性があることをご了承ください。<br>
-          <strong style="font-size:0.78rem;">●＝含む &ensp;｜&ensp; ー＝含まない &ensp;｜&ensp; △＝要確認</strong>
-        </div>
-
-        <!-- スマホでは横スクロールして見られます -->
-        <div class="table-scroll">
-          <table class="allergy-table" aria-label="アレルギー情報一覧">
-            <thead>
-              <tr>
-                <!--
-                ✏️ 列の見出しを変えてください。
-                   アレルゲンの種類を追加・変更できます。
-                -->
-                <th scope="col">商品名</th>
-                <th scope="col">🥚 卵</th>
-                <th scope="col">🥛 乳</th>
-                <th scope="col">🌾 小麦</th>
-                <th scope="col">🥜 ナッツ</th>
-                <th scope="col">🍓 果物</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!--
-              ✏️ 各行の ● / ー / △ を正確に書き換えてください。
-                 CSSクラスも合わせて変えてください：
-                   あり  → class="allergy--yes"
-                   なし  → class="allergy--no"
-                   要確認 → class="allergy--check"
-              -->
-
-              <!-- 商品1行 -->
-              <tr>
-                <td>本日のコーヒー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-              </tr>
-
-              <!-- 商品2行 -->
-              <tr>
-                <td>手作りガトーショコラ</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-              </tr>
-
-              <!-- 商品3行（牛乳） -->
-              <tr>
-                <td>スムージー（牛乳）</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
-              </tr>
-
-              <!-- 商品3行（豆乳） -->
-              <tr>
-                <td>スムージー（豆乳）</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
-              </tr>
-
-              <!-- 商品4行 -->
-              <tr>
-                <td>アイシングクッキー</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div><!-- /.table-scroll -->
-
-      </div>
-    </section>
-
-    <!-- ========================================================
-         ④ 営業タイムスケジュール
-         ========================================================
-    ✏️ 【編集ガイド】タイムスケジュール
-       .timeline__item のブロックをコピーして項目を追加できます。
-       .timeline__time → 時刻を変更
-       <strong> → イベント名を変更
-       <p> → 説明文を変更（不要なら削除OK）
-
-       ハイライト（目立たせる）にしたい項目には
-       class="timeline__item--highlight" を追加してください。
-    ======================================================== -->
-    <section class="section" id="hours" style="background-color: var(--color-bg-dark);">
-      <div class="container">
-
-        <h2 class="page-section-title">Hours — 営業時間</h2>
-
+        <h2 class="page-section-title">Story — 村で起きること</h2>
+        <p class="timeline-note">ゲーム内で起きる、村の一日の流れです。</p>
         <div class="timeline">
 
-          <!-- ✏️ 以下の項目を営業スケジュールに書き換えてください -->
-
           <div class="timeline__item timeline__item--highlight">
-            <!-- ✏️ 時刻 -->
-            <p class="timeline__time">10 : 00</p>
+            <p class="timeline__time">07 : 00</p>
             <div class="timeline__body">
-              <!-- ✏️ イベント名 -->
-              <strong>オープン</strong>
-              <!-- ✏️ 説明文（不要なら削除） -->
-              <p>本日のコーヒー提供スタート。午前中は比較的すいています。</p>
+              <strong>朝の鐘</strong>
+              <p>村人たちが目覚め、平和な一日が始まります。</p>
+              <p class="stealth-text">無惨な死体を発見する絶望の朝だ。</p>
             </div>
           </div>
 
           <div class="timeline__item">
-            <p class="timeline__time">11 : 00 — 13 : 00</p>
+            <p class="timeline__time">12 : 00</p>
             <div class="timeline__body">
-              <strong>混雑ピーク予想</strong>
-              <p>お昼前後は混み合います。早めまたは遅めのご来店がおすすめです。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <p class="timeline__time">13 : 30 — 14 : 00</p>
-            <div class="timeline__body">
-              <strong>一時準備中（クローズ）</strong>
-              <p>仕込みのため一時的に閉店します。再開時刻はSNSでお知らせします。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <p class="timeline__time">14 : 00 —</p>
-            <div class="timeline__body">
-              <strong>アフタヌーンタイム・限定クッキー発売</strong>
-              <p>アイシングクッキーの販売は午後からです。なくなり次第終了。</p>
+              <strong>昼の集会（処刑会議）</strong>
+              <p>広場に集まり、村のこれからについて話し合います。</p>
+              <p class="stealth-text">愚かな議論。見当違いの仲間を吊るすがいい。</p>
             </div>
           </div>
 
           <div class="timeline__item timeline__item--highlight">
-            <p class="timeline__time">16 : 30</p>
+            <p class="timeline__time">18 : 00</p>
             <div class="timeline__body">
-              <strong>クローズ（予定）</strong>
-              <p>材料がなくなった時点で早めに閉店する場合があります。</p>
+              <strong>日没</strong>
+              <p>日が沈み、各自家路につき、静かな夜を迎えます。</p>
+              <p class="stealth-text" style="font-size: 1.2rem;">さあ、我々の時間だ。今夜は誰を喰らおうか。</p>
             </div>
           </div>
 
-        </div><!-- /.timeline -->
+        </div>
       </div>
     </section>
 
@@ -442,7 +265,7 @@
   <footer class="page-footer">
 
     <!-- ✏️ 企画名 -->
-    <strong>Campus Café — キャンフェス 2026</strong>
+    <strong>Campus werewolf — キャンフェス 2026</strong>
 
     <!-- ✏️ 担当チーム情報（不要なら削除してください） -->
     <p style="margin-bottom: 10px;">
@@ -458,6 +281,22 @@
 
   </footer>
 
+  <!-- ✏️ 完全な暗闇（一番下まで到達）になった瞬間に一度だけ表示される、
+       「人狼陣営」の全画面オーバーレイです。数秒後に自動でフェードアウトし、
+       下の(暗くなった)本来のページが見えるようになります。
+       マーク画像ができたら、下の🐺の絵文字を
+       <img src="画像のパス" alt="人狼陣営マーク"> に差し替えてください。 -->
+  <div id="werewolf-overlay" aria-hidden="true">
+    <div class="werewolf-overlay__inner">
+      <div class="werewolf-overlay__mark"><img src="../../assets/wolf-mark.png" alt="人狼陣営マーク"></div>
+      <p class="werewolf-overlay__label">人狼陣営</p>
+    </div>
+  </div>
+
+  <!-- ✏️ 片道切符でダークモードになったあとに、明るいモードへ戻すためのボタン -->
+  <button id="night-return" type="button" class="night-return-btn">↑ 村へ戻り、住人たちの正体を確かめる</button>
+  <button id="reset-daylight" type="button" class="reset-daylight-btn">☀️ ライトモードに戻る</button>
+
   <!--
   メニュー自動クローズ JS の読み込み
   ✅ 【編集ガイド】
@@ -465,6 +304,360 @@
      メニュー内のリンクをタップしたときにメニューを自動で閉じます。
   -->
   <script src="../../js/menu.js"></script>
+  <script>
+    // ---- 色の参照用ユーティリティ ----
+    const hexToRgb = (hex) => {
+      const h = hex.replace('#', '').trim();
+      const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h;
+      const num = parseInt(full, 16);
+      return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+    };
 
+    // ---- 昼(村)⇔夜(人狼)で切り替えるCSS変数のペア ----
+    // ✏️ 対象を増やしたいときは [基本の変数名, 夜用(-night)の変数名] を追加してください。
+    //    夜側の色は style.css の「1.2. 夜（人狼陣営）用の配色」で調整できます。
+    //    切り替え自体は一瞬ですが、各要素側に transition が設定されているので
+    //    見た目としては0.6秒ほどかけてなめらかにフェードします（スクロール量には連動しません）。
+    const NIGHT_COLOR_VARS = [
+      ['--color-bg', '--color-bg-night'],
+      ['--color-bg-dark', '--color-bg-dark-night'],
+      ['--color-bg-card', '--color-bg-card-night'],
+      ['--color-text', '--color-text-night'],
+      ['--color-text-sub', '--color-text-sub-night'],
+      ['--page-hero-bg', '--page-hero-bg-night'],
+      ['--page-accent-pale', '--page-accent-pale-night'],
+    ];
+
+    const rootEl = document.documentElement;
+    const rootStyle = getComputedStyle(rootEl);
+    const colorPairs = NIGHT_COLOR_VARS.map(([base, night]) => ({
+      base,
+      from: rootStyle.getPropertyValue(base).trim(),
+      to: rootStyle.getPropertyValue(night).trim(),
+    }));
+
+    // ---- 片道切符（一方通行）で「人狼陣営」へ切り替わるポイント ----
+    // ✏️ NIGHT_THRESHOLD: スクロールがこの割合(0〜1)を超えた瞬間、一気に人狼陣営へ切り替わります。
+    //    一番下まで到達する必要はありません。0.8〜0.9くらいの間で調整してください。
+    const NIGHT_THRESHOLD = 0.85;
+    let latchedProgress = 0; // 一番進んだスクロール位置を記憶（戻らない＝片道切符）
+    let isNightMode = false;
+    let suppressLatch = false; // リセット直後、スクロールが戻りきるまでラッチの更新を止めるフラグ
+
+    // About セクションの「本音テキスト」は、この切り替えとは切り離して
+    // 以前と同じようにスクロール位置にそのまま連動して浮かび上がります
+    // （上にスクロールすれば薄くなり、下にスクロールすればまた浮かび上がる）。
+    const REVEAL_START = 0.15;
+    const REVEAL_RANGE = 0.85;
+    const COPY_FADE_MS = 180;
+    let renderedMode = 'day';
+    let pendingMode = null;
+    let copyChangeTimer;
+
+    // 明滅（ろうそくの炎のような揺らぎ）は人狼陣営になったあとだけ発生させる
+    const FLICKER_MAX = 0.07; // ← 揺らぎの強さ。大きくするほど明滅が激しくなる
+    const maxMistOpacity = 0.5; // ← 暗幕の最大の濃さ
+    const maxVignetteOpacity = 0.85; // ← 画面端ヴィネットの最大の濃さ
+
+    // 「人狼陣営」全画面オーバーレイの制御
+    const werewolfOverlay = document.getElementById('werewolf-overlay');
+    const OVERLAY_VISIBLE_MS = 2600; // ← 表示している時間（ミリ秒）。長くしたいときはここを増やす
+    const OVERLAY_FADE_OUT_MS = 1200;
+    const ROLE_REVEAL_WAIT_MS = 300;
+    let overlayTriggered = false;
+    let overlayFinished = false;
+
+    // ---- 固定ナビバーの背景色（--nav-bg）----
+    const navBgFromRgb = hexToRgb(rootStyle.getPropertyValue('--color-bg').trim());
+    const navBgToRgb = hexToRgb(rootStyle.getPropertyValue('--color-bg-night').trim());
+    const navBgFromStr = `rgba(${navBgFromRgb[0]}, ${navBgFromRgb[1]}, ${navBgFromRgb[2]}, 0.95)`;
+    const navBgToStr = `rgba(${navBgToRgb[0]}, ${navBgToRgb[1]}, ${navBgToRgb[2]}, 0.95)`;
+
+    const filterEl = document.getElementById('night-filter');
+    const vignetteEl = document.getElementById('vignette');
+    const resetButton = document.getElementById('reset-daylight');
+    const stealthTexts = [...document.querySelectorAll('.stealth-text')];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 赤文字だけを1文字ずつ包み、最初に見え始めたときだけ表示演出を再生する。
+    // 読み上げ用には元の文章を aria-label に残し、分割した文字は読み上げ対象から外す。
+    if (!reduceMotion) {
+      stealthTexts.forEach((text) => {
+        const originalText = text.textContent;
+        text.setAttribute('aria-label', originalText.trim());
+        text.textContent = '';
+        text.classList.add('kinetic-ready');
+
+        Array.from(originalText).forEach((character, index) => {
+          const letter = document.createElement('span');
+          letter.className = 'kinetic-letter';
+          letter.setAttribute('aria-hidden', 'true');
+          letter.style.setProperty('--letter-index', index);
+          letter.textContent = character === ' ' ? '\u00a0' : character;
+          text.appendChild(letter);
+        });
+      });
+
+      if ('IntersectionObserver' in window) {
+        const kineticObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.dataset.kineticInView = 'true';
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.5 });
+
+        stealthTexts.forEach((text) => kineticObserver.observe(text));
+      } else {
+        stealthTexts.forEach((text) => { text.dataset.kineticInView = 'true'; });
+      }
+    }
+
+    // 昼と夜で変わる文面は、一度だけフェードアウトしてから差し替える。
+    // スクロールの各フレームで文字を書き換えないため、スマホでも軽く動作する。
+    const renderModeCopy = () => {
+      const nextMode = isNightMode ? 'night' : 'day';
+      if (nextMode === renderedMode || nextMode === pendingMode) return;
+
+      pendingMode = nextMode;
+      document.body.classList.add('mode-copy-is-changing');
+      window.clearTimeout(copyChangeTimer);
+
+      copyChangeTimer = window.setTimeout(() => {
+        const residentsTitle = document.getElementById('residents-title');
+        const heroTag = document.getElementById('hero-tag');
+        const heroTitle = document.getElementById('hero-title');
+        const heroPlace = document.getElementById('hero-place');
+
+        if (residentsTitle) residentsTitle.textContent = isNightMode ? 'Residents — 夜の住人たち' : 'Residents — 村の住人たち';
+        if (heroTag) heroTag.textContent = isNightMode ? 'Night' : 'Village';
+        if (heroTitle) heroTitle.textContent = isNightMode ? '血に濡れた村' : '陽だまりの村';
+        if (heroPlace) heroPlace.textContent = isNightMode ? '闇の広場 2F — 204教室' : '3号館 2F — 204教室';
+
+        document.title = isNightMode
+          ? '血に濡れた村 | キャンフェス 2026'
+          : 'Campus Café | キャンフェス 2026';
+
+        renderedMode = nextMode;
+        pendingMode = null;
+        window.requestAnimationFrame(() => document.body.classList.remove('mode-copy-is-changing'));
+      }, COPY_FADE_MS);
+    };
+
+    const nightReturnButton = document.getElementById('night-return');
+    const roleCards = [...document.querySelectorAll('.menu-item')];
+    const roleTriggerCard = roleCards[0];
+    const roleRevealTimers = [];
+    let roleObserver;
+    let roleRevealArmed = false;
+    let nightEntryScrollTop = 0;
+    let roleTriggerReached = false;
+    let roleRevealScheduled = false;
+
+    const setRoleCardCopy = (card, mode) => {
+      card.querySelectorAll('.menu-item__name, .menu-item__desc').forEach((element) => {
+        const roleText = mode === 'night' ? element.dataset.werewolf : element.dataset.village;
+        if (roleText !== undefined) element.textContent = roleText;
+      });
+    };
+
+    const revealNightRole = (card) => {
+      if (card.dataset.nightRevealed || !isNightMode) return;
+      card.dataset.nightRevealed = 'pending';
+
+      if (reduceMotion) {
+        setRoleCardCopy(card, 'night');
+        card.dataset.nightRevealed = 'true';
+        card.classList.add('role-is-night');
+        return;
+      }
+
+      card.classList.add('role-is-changing');
+      const timer = window.setTimeout(() => {
+        if (!isNightMode) return;
+        setRoleCardCopy(card, 'night');
+        card.dataset.nightRevealed = 'true';
+        card.classList.remove('role-is-changing');
+        card.classList.add('role-is-night');
+      }, 460);
+      roleRevealTimers.push(timer);
+    };
+
+    const revealAllNightRoles = () => {
+      if (!isNightMode || !overlayFinished || !roleTriggerReached || roleRevealScheduled) return;
+      roleRevealScheduled = true;
+      window.setTimeout(() => {
+        if (isNightMode) roleCards.forEach(revealNightRole);
+      }, ROLE_REVEAL_WAIT_MS);
+    };
+
+    const beginNightRoleReveals = () => {
+      if (roleRevealArmed) return;
+      roleRevealArmed = true;
+
+      if (!('IntersectionObserver' in window)) {
+        roleTriggerReached = true;
+        revealAllNightRoles();
+        return;
+      }
+
+      roleObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          roleTriggerReached = true;
+          revealAllNightRoles();
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.55 });
+
+      if (roleTriggerCard) roleObserver.observe(roleTriggerCard);
+    };
+
+    // 人狼陣営へ切り替える処理（一瞬で変数を書き換え、あとはCSSのtransitionに任せる）
+    const enterNightMode = () => {
+      isNightMode = true;
+      colorPairs.forEach(({ base, to }) => rootEl.style.setProperty(base, to));
+      rootEl.style.setProperty('--nav-bg', navBgToStr);
+      if (resetButton) resetButton.classList.add('is-visible');
+      if (nightReturnButton) nightReturnButton.classList.add('is-visible');
+      nightEntryScrollTop = window.scrollY;
+      roleRevealArmed = false;
+      roleTriggerReached = false;
+      roleRevealScheduled = false;
+      overlayFinished = false;
+
+      if (!overlayTriggered && werewolfOverlay) {
+        overlayTriggered = true;
+        werewolfOverlay.classList.add('is-visible');
+        window.setTimeout(() => {
+          werewolfOverlay.classList.remove('is-visible');
+          window.setTimeout(() => {
+            overlayFinished = true;
+            revealAllNightRoles();
+          }, OVERLAY_FADE_OUT_MS);
+        }, OVERLAY_VISIBLE_MS);
+      } else {
+        overlayFinished = true;
+      }
+    };
+
+    // ライトモード（村）へ戻す処理
+    const enterDayMode = () => {
+      isNightMode = false;
+      window.clearTimeout(copyChangeTimer);
+      pendingMode = null;
+      document.body.classList.remove('mode-copy-is-changing');
+      colorPairs.forEach(({ base, from }) => rootEl.style.setProperty(base, from));
+      rootEl.style.setProperty('--nav-bg', navBgFromStr);
+      if (resetButton) resetButton.classList.remove('is-visible');
+      if (nightReturnButton) nightReturnButton.classList.remove('is-visible');
+      if (werewolfOverlay) werewolfOverlay.classList.remove('is-visible');
+      if (roleObserver) roleObserver.disconnect();
+      roleObserver = null;
+      roleRevealArmed = false;
+      roleTriggerReached = false;
+      roleRevealScheduled = false;
+      overlayFinished = false;
+      roleRevealTimers.forEach((timer) => window.clearTimeout(timer));
+      roleRevealTimers.length = 0;
+      roleCards.forEach((card) => {
+        card.classList.remove('role-is-changing', 'role-is-night');
+        delete card.dataset.nightRevealed;
+        setRoleCardCopy(card, 'day');
+      });
+    };
+
+    if (resetButton) {
+      resetButton.addEventListener('click', () => {
+        latchedProgress = 0;
+        overlayTriggered = false;
+        suppressLatch = true; // スクロールが十分戻るまでラッチを止める（戻った瞬間に再発火するバグの対策）
+        enterDayMode();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    if (nightReturnButton) {
+      nightReturnButton.addEventListener('click', () => {
+        beginNightRoleReveals();
+        document.getElementById('menu')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+    }
+
+    const updateAtmosphere = (time) => {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const scrollTop = window.scrollY;
+      const scrollPercent = Math.min(1, Math.max(0, scrollTop / maxScroll));
+
+      if (suppressLatch) {
+        // スクロールが十分に上まで戻ってから、ラッチの更新を再開する
+        if (scrollPercent < 0.05) {
+          suppressLatch = false;
+        }
+      } else {
+        // 一番進んだ位置だけを記憶する（後戻りしない＝片道切符）
+        latchedProgress = Math.max(latchedProgress, scrollPercent);
+      }
+
+      // NIGHT_THRESHOLD を超えた瞬間、一度だけ人狼陣営へ切り替える
+      if (!isNightMode && latchedProgress >= NIGHT_THRESHOLD) {
+        enterNightMode();
+      }
+
+      // 人狼陣営になった直後には役職を変えず、利用者が上へ戻り始めてから監視を開始する。
+      if (isNightMode && !roleRevealArmed && scrollTop < nightEntryScrollTop - 160) {
+        beginNightRoleReveals();
+      }
+
+      // 人狼陣営になったあとは、ろうそくの炎のようにごく僅かに明滅させる
+      const flicker = isNightMode
+        ? 1 + Math.sin(time / 900) * FLICKER_MAX + Math.sin(time / 233) * (FLICKER_MAX * 0.5)
+        : 1;
+
+      // ---- 暗幕（雰囲気づけのヴィネット）----
+      filterEl.style.opacity = (isNightMode ? maxMistOpacity * flicker : 0).toFixed(3);
+
+      // ---- 画面端のヴィネット（覗き込まれているような圧迫感）----
+      if (vignetteEl) {
+        vignetteEl.style.opacity = (isNightMode ? maxVignetteOpacity * flicker : 0).toFixed(3);
+      }
+
+      // ---- 赤文字（Aboutの本音テキスト）の浮かび上がり：スクロール位置に直接連動・可逆 ----
+      // ただし、一度「人狼陣営」になったあとは、上にスクロールして戻っても常にフル表示のままにする。
+      renderModeCopy();
+
+      stealthTexts.forEach((text) => {
+        const revealStart = Number(text.dataset.revealStart ?? REVEAL_START);
+        const revealRange = Number(text.dataset.revealRange ?? REVEAL_RANGE);
+        const revealProgress = Math.min(1, Math.max(0, (scrollPercent - revealStart) / revealRange));
+        const scrollLinkedReveal = 1 - Math.pow(1 - revealProgress, 2.2);
+        const easedReveal = isNightMode ? 1 : scrollLinkedReveal;
+        const alpha = Math.min(1, Math.max(0, easedReveal));
+
+        if (!reduceMotion && text.dataset.kineticInView === 'true' && alpha >= 0.18) {
+          text.classList.add('kinetic-active');
+        }
+
+        // ✏️ より彩度の高い赤 + 強めのグロー（二重シャドウ）でくっきり見せる
+        const red = `rgba(255, 40, 40, ${alpha})`;
+        const shadow = alpha > 0.05
+          ? `0 0 ${4 + alpha * 6}px rgba(0, 0, 0, ${0.5 * alpha}), 0 0 ${10 + alpha * 16}px rgba(255, 60, 60, ${0.35 + alpha * 0.35})`
+          : 'none';
+
+        text.style.color = alpha > 0.01 ? red : 'transparent';
+        text.style.textShadow = shadow;
+      });
+    };
+
+    // スクロールを止めていても「明滅」だけは続けたいので、
+    // スクロールイベントではなく常時アニメーションループで毎フレーム更新する。
+    const loop = (time) => {
+      updateAtmosphere(time);
+      window.requestAnimationFrame(loop);
+    };
+
+    window.addEventListener('resize', () => updateAtmosphere(performance.now()));
+    window.requestAnimationFrame(loop);
+  </script>
 </body>
 </html>
