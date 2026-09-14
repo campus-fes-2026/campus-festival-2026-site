@@ -34,6 +34,139 @@
 }
 
 /* ============================================================
+   1.2. 夜（人狼陣営）用の配色
+   ============================================================
+   ✏️ ここが「完全な暗闇」になったときの色です。
+      JS がスクロール量(0〜100%)に応じて、上の昼の配色から
+      ここに書いた夜の配色へ連続的に（グラデーションで）
+      少しずつ変化させます。一番下までスクロールすると
+      ちょうどこの色になります。
+      夜の雰囲気を変えたいときはここの色だけ変えればOKです。
+   ============================================================ */
+:root {
+  --color-bg-night:         #0c0a10;
+  --color-bg-dark-night:    #0c0a10;
+  --color-bg-card-night:    #15121a;
+  --color-text-night:       #efe4e2;
+  --color-text-sub-night:   #cdb9b6;
+  --page-hero-bg-night:     #050409;
+  --page-accent-pale-night: #3b3129;
+}
+
+/* ============================================================
+   1.5. 人狼モード（サイト全体の変貌）
+   ============================================================
+   ✏️ 背景色・文字色は body.werewolf-mode のような二択クラスではなく、
+      JS がスクロール量に応じて --color-bg 等のCSS変数そのものを
+      連続的に書き換えることで実現しています（1.2 の夜の配色を参照）。
+      ここには「常に」必要なレイアウト調整だけを書きます。
+   ============================================================ */
+
+/* main/header/footer は暗幕（#night-filter, z-index:5）より確実に手前に出す */
+header.page-hero,
+main,
+footer.page-footer {
+  position: relative;
+  z-index: 10;
+}
+
+/* body自体の背景・文字色も、変数の変化に追従させる。
+   夜への切り替えは一瞬(JS)ですが、ここで0.6秒のtransitionをかけているので
+   見た目にはなめらかにフェードします。 */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+/* ✏️ 固定ナビバー（common.cssではハードコードされた白のまま）も、
+   人狼陣営への切り替えに合わせて色が変わるよう、このページだけ上書きしています。
+   --nav-bg はJSが切り替えのタイミングで書き換えます（フォールバックは元の白）。 */
+.site-nav {
+  background-color: var(--nav-bg, rgba(247, 244, 239, 0.95));
+  border-bottom-color: var(--page-accent-pale);
+  transition: background-color 0.6s ease, border-color 0.6s ease;
+}
+
+/* ✏️ 片道切符でダークモードになったあと、明るいモードに戻すためのボタン。
+   普段は透明・クリック不可で、暗転が始まると同時に浮かび上がります。 */
+.reset-daylight-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 50;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--page-accent-pale);
+  background-color: var(--color-bg-card);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-out;
+}
+.reset-daylight-btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.reset-daylight-btn:hover {
+  border-color: var(--page-accent);
+}
+
+/* 夜になったあと、見落とされやすい正体の変化へ戻るための案内 */
+.night-return-btn {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 50;
+  max-width: calc(100% - 124px);
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 90, 90, 0.55);
+  border-radius: var(--radius-sm);
+  background: rgba(12, 10, 16, 0.9);
+  color: #ffe8e8;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.night-return-btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+/* ✏️ 人狼陣営への切り替えはJS側では一瞬ですが、
+   対象になる要素にまとめてtransitionをかけることで、
+   見た目には0.6秒ほどかけてなめらかにフェードします。 */
+.about-section,
+.menu-section,
+#hours,
+.allergy-section,
+.menu-item,
+.menu-item__img-wrap,
+.about-text,
+.menu-item__name,
+.menu-item__desc,
+.page-section-title,
+.page-hero,
+.page-hero__title,
+.page-footer,
+.timeline__body,
+.timeline__body p {
+  transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease;
+}
+
+/* ============================================================
    2. 企画ページ ヒーローヘッダー
    ============================================================ */
 .page-hero {
@@ -94,6 +227,60 @@
   color: var(--page-accent);
 }
 
+/* 下に続く仕掛けを、内容を明かしすぎずに伝える */
+.scroll-cue {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--space-md);
+  color: rgba(247, 244, 239, 0.72);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+}
+.scroll-cue span {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* ============================================================
+   2.5. 赤文字（人狼の本音テキスト）
+   ============================================================
+   ✏️ 色・発光の強さはここで一括調整できます。
+      JS 側は透明度(alpha)だけを制御しています。
+   ============================================================ */
+.stealth-text {
+  color: transparent;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+  transition: color 0.35s ease-out, text-shadow 0.35s ease-out;
+}
+
+/* 赤文字だけが、囁きのように一度だけ輪郭を結ぶ */
+.kinetic-letter {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stealth-text.kinetic-ready .kinetic-letter {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(0.38em);
+    transition:
+      opacity 0.42s ease-out,
+      filter 0.48s ease-out,
+      transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--letter-index) * 32ms);
+  }
+
+  .stealth-text.kinetic-ready.kinetic-active .kinetic-letter {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
 /* ============================================================
    3. セクション見出し（企画ページ用）
    ============================================================ */
@@ -141,6 +328,20 @@
   background-color: var(--color-bg-dark);
 }
 
+/* Timelineセクション。以前はHTML側にインラインstyleで
+   background-color: var(--color-bg-dark) が直接書かれていて、
+   夜の配色に切り替わらない原因になっていたため、ここに統一しました。
+   ✏️ 色を変えたいときは --color-bg-dark（common.css）を編集してください。 */
+#hours {
+  background-color: var(--color-bg-dark);
+}
+
+.timeline-note {
+  margin: calc(var(--space-sm) * -0.35) 0 var(--space-md);
+  color: var(--color-text-sub);
+  font-size: 0.82rem;
+}
+
 .menu-list {
   display: flex;
   flex-direction: column;
@@ -148,13 +349,14 @@
 }
 
 .menu-item {
+  position: relative;
   display: flex;
   gap: var(--space-sm);
   background-color: var(--color-bg-card);
   border: 1px solid var(--page-accent-pale);
   border-radius: var(--radius-md);
   overflow: hidden;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, border-color 0.45s ease;
 }
 .menu-item:hover {
   box-shadow: var(--shadow-sm);
@@ -196,6 +398,41 @@
   flex-direction: column;
   justify-content: center;
   gap: 4px;
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.22s ease, transform 0.22s ease, filter 0.22s ease;
+}
+
+/* 狼の影が横切ったあとに、カード内の役職が正体へ変わる */
+.menu-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(105deg, transparent 24%, rgba(2, 1, 4, 0.98) 46%, rgba(115, 14, 22, 0.82) 53%, transparent 76%);
+  transform: translateX(-120%);
+}
+.menu-item.role-is-changing::after {
+  opacity: 1;
+  animation: wolf-shadow-sweep 0.46s ease-in-out both;
+}
+.menu-item.role-is-changing .menu-item__body {
+  opacity: 0;
+  transform: translateX(6px);
+  filter: blur(2px);
+}
+.menu-item.role-is-night {
+  border-color: rgba(255, 70, 70, 0.45);
+}
+.menu-item.role-is-night .menu-item__name {
+  color: #ff7777;
+  text-shadow: 0 0 12px rgba(255, 50, 50, 0.35);
+}
+@keyframes wolf-shadow-sweep {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(120%); }
 }
 
 /* 商品名 */
@@ -210,6 +447,27 @@
   font-size: 0.8rem;
   color: var(--color-text-sub);
   line-height: 1.7;
+}
+
+/* 夜への移行時は、文面を一度だけ静かに消してから差し替える */
+[data-mode-copy] {
+  transition: opacity 0.18s ease;
+}
+body.mode-copy-is-changing [data-mode-copy] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-mode-copy],
+  .scroll-cue,
+  #werewolf-overlay,
+  .night-return-btn,
+  .menu-item,
+  .menu-item__body,
+  body,
+  .site-nav {
+    transition: none;
+  }
 }
 
 /* 値段 */
@@ -307,6 +565,58 @@
 /* 「要確認」 */
 .allergy--check {
   color: #7A5C00;
+}
+
+/* ============================================================
+   6.5. 「人狼陣営」全画面オーバーレイ
+   ============================================================
+   ✏️ 完全な暗闇（一番下まで到達）になった瞬間に一度だけ表示され、
+      数秒後に自動でフェードアウトします。
+      表示時間や絵文字マークのサイズなどはここで調整できます。
+   ============================================================ */
+#werewolf-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background-color: #030203;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease-in-out;
+}
+#werewolf-overlay.is-visible {
+  opacity: 1;
+}
+
+.werewolf-overlay__inner {
+  text-align: center;
+}
+
+/* ✏️ イラスト担当のマーク画像ができたら、HTML側の🐺を
+      <img src="..." alt="人狼陣営マーク"> に差し替えてください。
+      その場合、画像の大きさはここの width で調整できます。 */
+.werewolf-overlay__mark {
+  font-size: 5rem;
+  line-height: 1;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 24px rgba(181, 148, 105, 0.5));
+}
+.werewolf-overlay__mark img {
+  width: 140px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.werewolf-overlay__label {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  color: #F7F4EF;
+  text-transform: uppercase;
 }
 
 /* ============================================================
