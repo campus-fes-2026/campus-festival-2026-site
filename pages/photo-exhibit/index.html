@@ -14,7 +14,7 @@
   ✏️ 【編集ガイド】ページタイトル
      「企画名 | 文化祭名」の形式で書くと分かりやすいです。
   -->
-  <title>Campus Café | キャンフェス 2026</title>
+  <title>写真展示 | キャンフェス 2026</title>
 
   <!--
   ✏️ 【編集ガイド】スタイルシートの読み込み
@@ -119,13 +119,13 @@
   <header class="page-hero" id="top">
 
     <!-- ✏️ 企画の種類タグ（英語表記が映えます） -->
-    <p class="page-hero__tag">Café</p>
+    <p class="page-hero__tag">exihbit</p>
 
     <!-- ✏️ 企画名（自分の企画名に変えてください） -->
-    <h1 class="page-hero__title">Campus Café</h1>
+    <h1 class="page-hero__title">写真展示</h1>
 
     <!-- ✏️ 開催場所 -->
-    <p class="page-hero__place">3号館 2F &ensp;—&ensp; 204教室</p>
+    <p class="page-hero__place">キャンパス内の壁に展示しています</p>
 
   </header>
 
@@ -149,17 +149,15 @@
 
         <!-- ✏️ ここに紹介文を書いてください（100〜200文字程度） -->
         <p class="about-text">
-          「Campus Café」は、バリスタを目指す学生たちが本気で取り組む手作りカフェ企画です。
-          丁寧にハンドドリップしたコーヒーや、試作を重ねた自慢のスイーツをご用意してお待ちしています。
-          忙しい文化祭の中で、ほっと一息つける「静かな時間」をご提供できれば幸いです。
-          お友達との語らいに、一人でのんびりしたいときに、ぜひお立ち寄りください。
+          写真を展示してキャンフェスをより明るく、綺麗にしてみました！<br>
+          風景写真や、ゲーム内など日常の写真を展示しています
         </p>
         <!-- ✏️ ここまでが紹介文です -->
 
       </div>
     </section>
 
-    <!-- ========================================================
+   <!-- ========================================================
          ② メニュー・サービス内容
          ========================================================
     ✏️ 【編集ガイド】メニューの追加・変更方法
@@ -178,188 +176,53 @@
     <section class="section menu-section" id="menu">
       <div class="container">
 
-        <h2 class="page-section-title">Menu — メニュー</h2>
+        <h2 class="page-section-title">Example — 写真の例</h2>
 
         <ul class="menu-list" role="list">
 
           <!-- ============ 商品1 ============
                ✏️ このブロックをコピーして商品を追加できます -->
           <li class="menu-item" id="menu-item-coffee">
-
-            <!-- 商品画像エリア
-                 ✏️ 画像ができたら、下の絵文字テキストを
-                    <img src="coffee.jpg" alt="本日のコーヒー"> に差し替えてください -->
-            <div class="menu-item__img-wrap" aria-hidden="true">☕</div>
+            <div class="menu-item__img-wrap-1" aria-hidden="true"><img src="画像/IMG_0026.jpeg" alt="本日のカニ"></div>
 
             <div class="menu-item__body">
               <!-- ✏️ 商品名 -->
-              <p class="menu-item__name">本日のコーヒー</p>
+              <p class="menu-item__name">風景写真の例</p>
               <!-- ✏️ 商品説明（不要なら <p> ごと削除してください） -->
               <p class="menu-item__desc">
-                毎朝ハンドドリップで丁寧に淹れる本日のスペシャルティコーヒー。<br>
-                ホット・アイスどちらも対応可能です。
+                
               </p>
-              <!-- ✏️ 値段（税込み表記を忘れずに） -->
-              <p class="menu-item__price">¥200 <small>（税込）</small></p>
+              <p class="menu-item__price"> <small></small></p>
             </div>
 
           </li>
           <!-- ============ / 商品1 ============ -->
+          <li class="menu-item" id="menu-item-coffee">
+            <div class="menu-item__img-wrap-1" aria-hidden="true"><img src="画像/VRChat_2026-06-26_14-40-42.037_1080x1920.png" alt="本日のカニ"></div>
 
+            <div class="menu-item__body">
+              <!-- ✏️ 商品名 -->
+              <p class="menu-item__name">ゲーム内写真の例</p>
+              <!-- ✏️ 商品説明（不要なら <p> ごと削除してください） -->
+              <p class="menu-item__desc">
+                
+              </p>
+              <p class="menu-item__price"> <small></small></p>
+            </div>
+
+          </li>
           <!-- ============ 商品2 ============ -->
-          <li class="menu-item" id="menu-item-cake">
-            <div class="menu-item__img-wrap" aria-hidden="true">🍰</div>
-            <div class="menu-item__body">
-              <p class="menu-item__name">手作りガトーショコラ</p>
-              <p class="menu-item__desc">
-                試作を重ねた自慢のガトーショコラ。<br>
-                濃厚なチョコの風味としっとり食感が特徴です。
-              </p>
-              <p class="menu-item__price">¥300 <small>（税込）</small></p>
-            </div>
-          </li>
           <!-- ============ / 商品2 ============ -->
-
-          <!-- ============ 商品3 ============ -->
-          <li class="menu-item" id="menu-item-smoothie">
-            <div class="menu-item__img-wrap" aria-hidden="true">🥤</div>
-            <div class="menu-item__body">
-              <p class="menu-item__name">季節のスムージー</p>
-              <p class="menu-item__desc">
-                旬のフルーツをたっぷり使ったヘルシースムージー。<br>
-                牛乳・豆乳からお選びいただけます。
-              </p>
-              <p class="menu-item__price">¥250 <small>（税込）</small></p>
-            </div>
-          </li>
-          <!-- ============ / 商品3 ============ -->
-
-          <!-- ============ 商品4 ============ -->
-          <li class="menu-item" id="menu-item-cookie">
-            <div class="menu-item__img-wrap" aria-hidden="true">🍪</div>
-            <div class="menu-item__body">
-              <p class="menu-item__name">アイシングクッキー（3枚セット）</p>
-              <p class="menu-item__desc">
-                手作りのオリジナルデザインクッキー。<br>
-                限定品のためなくなり次第終了です。
-              </p>
-              <p class="menu-item__price">¥350 <small>（税込）</small></p>
-            </div>
-          </li>
-          <!-- ============ / 商品4 ============ -->
 
         </ul><!-- /.menu-list -->
       </div>
     </section>
 
-    <!-- ========================================================
-         ③ アレルギー情報
-         ========================================================
-    ✏️ 【編集ガイド】アレルギー表の書き方
-       各セルの記号：
-         ● = 含む（アレルゲンあり）
-         ー = 含まない
-         △ = 要確認（製造ラインに注意が必要な場合）
-
-       商品が増えたら <tr>〜</tr> のブロックをコピーして行を追加。
-       アレルゲンの種類が変わったら <th> を増やして列を追加できます。
-
-       ⚠️ アレルギー情報は必ず正確に記載してください！
-          不明な場合は「要確認」または「△」と記載しましょう。
-    ======================================================== -->
-    <section class="section allergy-section" id="allergy">
+    <section class="section" id="hours" style="background-color: var(--color-bg-card);">
       <div class="container">
 
-        <h2 class="page-section-title">Allergy — アレルギー情報</h2>
-
-        <!-- 注意書き（✏️ 内容を変えてください） -->
-        <div class="allergy-note">
-          ⚠️ アレルギーをお持ちの方は、注文前にスタッフへお声がけください。<br>
-          当企画のキッチンでは、卵・乳・小麦を使用した商品を調理しています。<br>
-          交差汚染の可能性があることをご了承ください。<br>
-          <strong style="font-size:0.78rem;">●＝含む &ensp;｜&ensp; ー＝含まない &ensp;｜&ensp; △＝要確認</strong>
-        </div>
-
-        <!-- スマホでは横スクロールして見られます -->
-        <div class="table-scroll">
-          <table class="allergy-table" aria-label="アレルギー情報一覧">
-            <thead>
-              <tr>
-                <!--
-                ✏️ 列の見出しを変えてください。
-                   アレルゲンの種類を追加・変更できます。
-                -->
-                <th scope="col">商品名</th>
-                <th scope="col">🥚 卵</th>
-                <th scope="col">🥛 乳</th>
-                <th scope="col">🌾 小麦</th>
-                <th scope="col">🥜 ナッツ</th>
-                <th scope="col">🍓 果物</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!--
-              ✏️ 各行の ● / ー / △ を正確に書き換えてください。
-                 CSSクラスも合わせて変えてください：
-                   あり  → class="allergy--yes"
-                   なし  → class="allergy--no"
-                   要確認 → class="allergy--check"
-              -->
-
-              <!-- 商品1行 -->
-              <tr>
-                <td>本日のコーヒー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-              </tr>
-
-              <!-- 商品2行 -->
-              <tr>
-                <td>手作りガトーショコラ</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-              </tr>
-
-              <!-- 商品3行（牛乳） -->
-              <tr>
-                <td>スムージー（牛乳）</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
-              </tr>
-
-              <!-- 商品3行（豆乳） -->
-              <tr>
-                <td>スムージー（豆乳）</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
-              </tr>
-
-              <!-- 商品4行 -->
-              <tr>
-                <td>アイシングクッキー</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div><!-- /.table-scroll -->
-
+        <h2 class="page-section-title">Request — お願い</h2>
+        掲示物の破損等を発見した場合は受付までお知らせください
       </div>
     </section>
 
@@ -375,59 +238,11 @@
        ハイライト（目立たせる）にしたい項目には
        class="timeline__item--highlight" を追加してください。
     ======================================================== -->
-    <section class="section" id="hours" style="background-color: var(--color-bg-dark);">
+    <section class="section" id="hours" style="background-color: var(--color-bg);">
       <div class="container">
 
-        <h2 class="page-section-title">Hours — 営業時間</h2>
-
-        <div class="timeline">
-
-          <!-- ✏️ 以下の項目を営業スケジュールに書き換えてください -->
-
-          <div class="timeline__item timeline__item--highlight">
-            <!-- ✏️ 時刻 -->
-            <p class="timeline__time">10 : 00</p>
-            <div class="timeline__body">
-              <!-- ✏️ イベント名 -->
-              <strong>オープン</strong>
-              <!-- ✏️ 説明文（不要なら削除） -->
-              <p>本日のコーヒー提供スタート。午前中は比較的すいています。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <p class="timeline__time">11 : 00 — 13 : 00</p>
-            <div class="timeline__body">
-              <strong>混雑ピーク予想</strong>
-              <p>お昼前後は混み合います。早めまたは遅めのご来店がおすすめです。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <p class="timeline__time">13 : 30 — 14 : 00</p>
-            <div class="timeline__body">
-              <strong>一時準備中（クローズ）</strong>
-              <p>仕込みのため一時的に閉店します。再開時刻はSNSでお知らせします。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <p class="timeline__time">14 : 00 —</p>
-            <div class="timeline__body">
-              <strong>アフタヌーンタイム・限定クッキー発売</strong>
-              <p>アイシングクッキーの販売は午後からです。なくなり次第終了。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item timeline__item--highlight">
-            <p class="timeline__time">16 : 30</p>
-            <div class="timeline__body">
-              <strong>クローズ（予定）</strong>
-              <p>材料がなくなった時点で早めに閉店する場合があります。</p>
-            </div>
-          </div>
-
-        </div><!-- /.timeline -->
+        <h2 class="page-section-title">Hours — 展示時間</h2>
+        写真展示は常時ご覧いただけます
       </div>
     </section>
 
@@ -442,11 +257,11 @@
   <footer class="page-footer">
 
     <!-- ✏️ 企画名 -->
-    <strong>Campus Café — キャンフェス 2026</strong>
+    <strong>写真展示 — キャンフェス 2026</strong>
 
     <!-- ✏️ 担当チーム情報（不要なら削除してください） -->
     <p style="margin-bottom: 10px;">
-      担当：○○学部 △△科 3年A組<br>
+      部門長：松戸キャンパス週1生 末松優<br>
       ご不明な点は当日スタッフまでお声がけください。
     </p>
 

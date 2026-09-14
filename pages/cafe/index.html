@@ -8,13 +8,13 @@
      検索エンジンやSNSでシェアされたときに表示される説明文です。
      企画の内容・場所・見どころを110文字程度で書いてください。
   -->
-  <meta name="description" content="Campus Café — キャンフェス2026の企画紹介ページ。手作りドリンク＆スイーツをご用意してお待ちしています。3号館 204教室にてオープン。">
+  <meta name="description" content="Campus Café — キャンフェス2026の企画紹介ページ。手作りドリンク＆スイーツをご用意してお待ちしています。エリア51で営業中">
 
   <!--
   ✏️ 【編集ガイド】ページタイトル
      「企画名 | 文化祭名」の形式で書くと分かりやすいです。
   -->
-  <title>Campus Café | キャンフェス 2026</title>
+  <title>nocturne | キャンフェス 2026</title>
 
   <!--
   ✏️ 【編集ガイド】スタイルシートの読み込み
@@ -122,10 +122,10 @@
     <p class="page-hero__tag">Café</p>
 
     <!-- ✏️ 企画名（自分の企画名に変えてください） -->
-    <h1 class="page-hero__title">Campus Café</h1>
+    <h1 class="page-hero__title">nocturne</h1>
 
     <!-- ✏️ 開催場所 -->
-    <p class="page-hero__place">大トロ &ensp;—&ensp; 入口正面奥</p>
+    <p class="page-hero__place">松戸キャンパス &ensp;—&ensp; がり近辺の正面奥側</p>
 
   </header>
 
@@ -149,10 +149,14 @@
 
         <!-- ✏️ ここに紹介文を書いてください（100〜200文字程度） -->
         <p class="about-text">
-          「Campus Café」は、バリスタを目指す学生たちが本気で取り組む手作りカフェ企画です。
-          丁寧にハンドドリップしたコーヒーや、試作を重ねた自慢のスイーツをご用意してお待ちしています。
-          忙しい文化祭の中で、ほっと一息つける「静かな時間」をご提供できれば幸いです。
-          お友達との語らいに、一人でのんびりしたいときに、ぜひお立ち寄りください。
+         ようこそ、ちょっと特別なひとときが過ごせる館へ。
+
+         <br>今回の文化祭では、執事とメイドがおもてなしするコンセプトカフェを開催します。
+         <br>洋館をイメージした落ち着いた空間で、
+         <br>普段の教室とは少し違った雰囲気を楽しんでいただけます。
+         <br>お友達とゆっくり過ごすのも、文化祭の思い出を作るのも大歓迎です。
+         <br>執事・メイド一同、皆さまのお越しを心よりお待ちしております。
+
         </p>
         <!-- ✏️ ここまでが紹介文です -->
 
@@ -189,18 +193,20 @@
             <!-- 商品画像エリア
                  ✏️ 画像ができたら、下の絵文字テキストを
                     <img src="coffee.jpg" alt="本日のコーヒー"> に差し替えてください -->
-            <div class="menu-item__img-wrap" aria-hidden="true">☕</div>
+            <div class="menu-item__img-wrap" aria-hidden="true">
+              <img src="" width="10" height="10">
+            </div>
 
             <div class="menu-item__body">
               <!-- ✏️ 商品名 -->
-              <p class="menu-item__name">本日のコーヒー</p>
+              <p class="menu-item__name">紅茶レモン</p>
               <!-- ✏️ 商品説明（不要なら <p> ごと削除してください） -->
               <p class="menu-item__desc">
-                毎朝ハンドドリップで丁寧に淹れる本日のスペシャルティコーヒー。<br>
-                ホット・アイスどちらも対応可能です。
+                ここに説明を入力<br>
+                
               </p>
               <!-- ✏️ 値段（税込み表記を忘れずに） -->
-              <p class="menu-item__price">¥200 <small>（税込）</small></p>
+              <p class="menu-item__price">¥150 <small>（税込）</small></p>
             </div>
 
           </li>
@@ -208,45 +214,71 @@
 
           <!-- ============ 商品2 ============ -->
           <li class="menu-item" id="menu-item-cake">
-            <div class="menu-item__img-wrap" aria-hidden="true">🍰</div>
+            <div class="menu-item__img-wrap-1" aria-hidden="true">
+              <img src="" width="20" height="20">
+            </div>
+            
             <div class="menu-item__body">
-              <p class="menu-item__name">手作りガトーショコラ</p>
+              <p class="menu-item__name">ストレートティー</p>
               <p class="menu-item__desc">
-                試作を重ねた自慢のガトーショコラ。<br>
-                濃厚なチョコの風味としっとり食感が特徴です。
+                ここに説明を入力<br>
+                
               </p>
-              <p class="menu-item__price">¥300 <small>（税込）</small></p>
+              <p class="menu-item__price">¥150 <small> (税込) </small></p>
             </div>
           </li>
           <!-- ============ / 商品2 ============ -->
 
           <!-- ============ 商品3 ============ -->
           <li class="menu-item" id="menu-item-smoothie">
-            <div class="menu-item__img-wrap" aria-hidden="true">🥤</div>
+            <div class="menu-item__img-wrap-2" aria-hidden="true">
+              <img src="" width="10" height="10">
+            </div>
+            
             <div class="menu-item__body">
-              <p class="menu-item__name">季節のスムージー</p>
+              <p class="menu-item__name">ミルクティー</p>
               <p class="menu-item__desc">
-                旬のフルーツをたっぷり使ったヘルシースムージー。<br>
-                牛乳・豆乳からお選びいただけます。
+                ここに説明を入力<br>
+                
               </p>
-              <p class="menu-item__price">¥250 <small>（税込）</small></p>
+              <p class="menu-item__price">¥150 <small>（税込）</small></p>
             </div>
           </li>
           <!-- ============ / 商品3 ============ -->
 
           <!-- ============ 商品4 ============ -->
           <li class="menu-item" id="menu-item-cookie">
-            <div class="menu-item__img-wrap" aria-hidden="true">🍪</div>
+            <div class="menu-item__img-wrap-3" aria-hidden="true">
+              <img src="" width="10" height="10">
+            </div>
+            
             <div class="menu-item__body">
-              <p class="menu-item__name">アイシングクッキー（3枚セット）</p>
+              <p class="menu-item__name">烏龍茶</p>
               <p class="menu-item__desc">
-                手作りのオリジナルデザインクッキー。<br>
-                限定品のためなくなり次第終了です。
+                ここに説明を入力<br>
+                
               </p>
-              <p class="menu-item__price">¥350 <small>（税込）</small></p>
+              <p class="menu-item__price">¥150 <small>（税込）</small></p>
             </div>
           </li>
           <!-- ============ / 商品4 ============ -->
+
+          <!-- ============ 商品5 ============ -->
+          <li class="menu-item" id="menu-item-cookie">
+            <div class="menu-item__img-wrap-4" aria-hidden="true">
+              <img src="" width="10" height="10">
+            </div>
+            
+            <div class="menu-item__body">
+              <p class="menu-item__name">ワッフル</p>
+              <p class="menu-item__desc">
+                ここに説明を入力<br>
+                
+              </p>
+              <p class="menu-item__price">¥300 <small>（税込）</small></p>
+            </div>
+          </li>
+          <!-- ============ / 商品5 ============ -->
 
         </ul><!-- /.menu-list -->
       </div>
@@ -291,10 +323,9 @@
                 -->
                 <th scope="col">商品名</th>
                 <th scope="col">🥚 卵</th>
-                <th scope="col">🥛 乳</th>
+                <th scope="col">🥛 乳成分</th>
                 <th scope="col">🌾 小麦</th>
-                <th scope="col">🥜 ナッツ</th>
-                <th scope="col">🍓 果物</th>
+                <th scope="col">🥜 大豆</th>
               </tr>
             </thead>
             <tbody>
@@ -308,8 +339,7 @@
 
               <!-- 商品1行 -->
               <tr>
-                <td>本日のコーヒー</td>
-                <td class="allergy--no">ー</td>
+                <td>紅茶レモン</td>
                 <td class="allergy--no">ー</td>
                 <td class="allergy--no">ー</td>
                 <td class="allergy--no">ー</td>
@@ -318,38 +348,42 @@
 
               <!-- 商品2行 -->
               <tr>
-                <td>手作りガトーショコラ</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
+                <td>ストレートティー</td>
+                <td class="allergy--no">ー</td>
+                <td class="allergy--no">ー</td>
                 <td class="allergy--no">ー</td>
                 <td class="allergy--no">ー</td>
               </tr>
 
               <!-- 商品3行（牛乳） -->
               <tr>
-                <td>スムージー（牛乳）</td>
+                <td>ミルクティー</td>
                 <td class="allergy--no">ー</td>
                 <td class="allergy--yes">●</td>
                 <td class="allergy--no">ー</td>
                 <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
               </tr>
 
               <!-- 商品3行（豆乳） -->
               <tr>
-                <td>スムージー（豆乳）</td>
+                <td>烏龍茶</td>
                 <td class="allergy--no">ー</td>
                 <td class="allergy--no">ー</td>
                 <td class="allergy--no">ー</td>
                 <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
               </tr>
 
               <!-- 商品4行 -->
               <tr>
-                <td>アイシングクッキー</td>
+                <td>ワッフル</td>
                 <td class="allergy--yes">●</td>
+                <td class="allergy--yes">●</td>
+                <td class="allergy--yes">●</td>
+                <td class="allergy--yes">●</td>
+
+                <!-- 商品5行 -->
+              <tr>
+                <td>アイス</td>
                 <td class="allergy--yes">●</td>
                 <td class="allergy--yes">●</td>
                 <td class="allergy--no">ー</td>
@@ -389,41 +423,41 @@
             <p class="timeline__time">10 : 00</p>
             <div class="timeline__body">
               <!-- ✏️ イベント名 -->
-              <strong>オープン</strong>
+              <strong>未定義</strong>
               <!-- ✏️ 説明文（不要なら削除） -->
-              <p>本日のコーヒー提供スタート。午前中は比較的すいています。</p>
+              <p>未定義</p>
             </div>
           </div>
 
           <div class="timeline__item">
             <p class="timeline__time">11 : 00 — 13 : 00</p>
             <div class="timeline__body">
-              <strong>混雑ピーク予想</strong>
-              <p>お昼前後は混み合います。早めまたは遅めのご来店がおすすめです。</p>
+              <strong>未定義</strong>
+              <p>未定義</p>
             </div>
           </div>
 
           <div class="timeline__item">
             <p class="timeline__time">13 : 30 — 14 : 00</p>
             <div class="timeline__body">
-              <strong>一時準備中（クローズ）</strong>
-              <p>仕込みのため一時的に閉店します。再開時刻はSNSでお知らせします。</p>
+              <strong>未定義</strong>
+              <p>未定義</p>
             </div>
           </div>
 
           <div class="timeline__item">
             <p class="timeline__time">14 : 00 —</p>
             <div class="timeline__body">
-              <strong>アフタヌーンタイム・限定クッキー発売</strong>
-              <p>アイシングクッキーの販売は午後からです。なくなり次第終了。</p>
+              <strong>未定義</strong>
+              <p>未定義</p>
             </div>
           </div>
 
           <div class="timeline__item timeline__item--highlight">
             <p class="timeline__time">16 : 30</p>
             <div class="timeline__body">
-              <strong>クローズ（予定）</strong>
-              <p>材料がなくなった時点で早めに閉店する場合があります。</p>
+              <strong>未定義</strong>
+              <p>未定義</p>
             </div>
           </div>
 
@@ -442,11 +476,11 @@
   <footer class="page-footer">
 
     <!-- ✏️ 企画名 -->
-    <strong>Campus Café — キャンフェス 2026</strong>
+    <strong>nocturne — キャンフェス 2026</strong>
 
     <!-- ✏️ 担当チーム情報（不要なら削除してください） -->
     <p style="margin-bottom: 10px;">
-      担当：○○学部 △△科 3年A組<br>
+      担当：キャンパスフェスティバル実行委員会 コンセプトカフェ部門<br>
       ご不明な点は当日スタッフまでお声がけください。
     </p>
 

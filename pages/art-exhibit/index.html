@@ -8,13 +8,13 @@
      検索エンジンやSNSでシェアされたときに表示される説明文です。
      企画の内容・場所・見どころを110文字程度で書いてください。
   -->
-  <meta name="description" content="Campus Café — キャンフェス2026の企画紹介ページ。手作りドリンク＆スイーツをご用意してお待ちしています。3号館 204教室にてオープン。">
+  <meta name="description" content="Illustration Sales — キャンフェス2026の企画紹介ページ。様々なイラストをご用意してお待ちしています。2階 204教室にてオープン。">
 
   <!--
   ✏️ 【編集ガイド】ページタイトル
      「企画名 | 文化祭名」の形式で書くと分かりやすいです。
   -->
-  <title>Campus Café | キャンフェス 2026</title>
+  <title>Illustration Sales | キャンフェス 2026</title>
 
   <!--
   ✏️ 【編集ガイド】スタイルシートの読み込み
@@ -27,6 +27,49 @@
   -->
   <link rel="stylesheet" href="../../css/common.css">
   <link rel="stylesheet" href="style.css">
+
+  <!--
+  ✏️ 【編集ガイド】ヒーロー（タイトル部分）の背景動画
+     ① <source src="images/hero-bg.mp4" ...> の部分を、実際の動画ファイルのパスに書き換えてください。
+        （動画はこのHTMLと同じ階層に images フォルダを作って入れるのがおすすめです）
+     ② poster="images/hero-bg.jpg" は、動画が読み込まれるまでの間に表示される画像です。
+        （なくてもOKですが、あると読み込み中も自然に見えます）
+     ③ rgba(0, 0, 0, 0.5) の 0.5 の数値（0〜1）を変えると、暗さの濃さを調整できます。
+        数値を大きくするほど暗く、小さくするほど明るくなります。
+     ④ 動画ファイルは容量が大きくなりがちなので、10MB前後に収まるように
+        圧縮・トリミングしておくと表示がスムーズです。
+  -->
+  <style>
+    .page-hero {
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero__bg-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .page-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+    .page-hero__tag,
+    .page-hero__title,
+    .page-hero__place {
+      position: relative;
+      z-index: 2;
+    }
+  </style>
 </head>
 <body>
 
@@ -118,11 +161,20 @@
   ======================================================== -->
   <header class="page-hero" id="top">
 
+    <!-- ✏️ 背景動画（自動再生・音なし・ループ再生の設定です）
+         src の部分を実際の動画ファイルのパスに書き換えてください -->
+    <video class="page-hero__bg-video" autoplay muted loop playsinline poster="おもろ.png" aria-hidden="true">
+      <source src="84984_1280x720.mp4" type="video/mp4">
+    </video>
+
+    <!-- 動画を暗くするための半透明レイヤー -->
+    <div class="page-hero__overlay" aria-hidden="true"></div>
+
     <!-- ✏️ 企画の種類タグ（英語表記が映えます） -->
-    <p class="page-hero__tag">Café</p>
+    <p class="page-hero__tag">Illustration</p>
 
     <!-- ✏️ 企画名（自分の企画名に変えてください） -->
-    <h1 class="page-hero__title">Campus Café</h1>
+    <h1 class="page-hero__title">Illustration Sales</h1>
 
     <!-- ✏️ 開催場所 -->
     <p class="page-hero__place">3号館 2F &ensp;—&ensp; 204教室</p>
@@ -149,7 +201,7 @@
 
         <!-- ✏️ ここに紹介文を書いてください（100〜200文字程度） -->
         <p class="about-text">
-          「Campus Café」は、バリスタを目指す学生たちが本気で取り組む手作りカフェ企画です。
+          「Illustration Sales」は、学生たちが本気で取り組んだ手作りイラスト販売企画です。
           丁寧にハンドドリップしたコーヒーや、試作を重ねた自慢のスイーツをご用意してお待ちしています。
           忙しい文化祭の中で、ほっと一息つける「静かな時間」をご提供できれば幸いです。
           お友達との語らいに、一人でのんびりしたいときに、ぜひお立ち寄りください。
@@ -160,209 +212,90 @@
     </section>
 
     <!-- ========================================================
-         ② メニュー・サービス内容
+         ② メニュー・イラストショーケース
+            （左：大きい画像 / 右：選べるボタン一覧）
          ========================================================
-    ✏️ 【編集ガイド】メニューの追加・変更方法
-       .menu-item のブロックをコピーして商品を増やせます。
-       各商品の変更箇所：
-       1. .menu-item__img-wrap 内 → 商品画像（下の説明を参照）
-       2. .menu-item__name → 商品名
-       3. .menu-item__desc → 商品の説明（不要なら <p> ごと削除OK）
-       4. .menu-item__price → 値段
+    ✏️ 【編集ガイド】画像の入れ方
+       ① 画像ファイル（jpg / png / gif など）を用意して、
+          このHTMLファイルと同じ階層に置いてください。
+          （images フォルダを作ってその中に入れるのがおすすめです。
+            例：images/item1.jpg）
+       ② 右側の各ボタン（.illust-btn）の data-img="ここ" の部分を、
+          用意した画像のファイル名・パスに書き換えてください。
+          例）images フォルダに item1.jpg を入れた場合：
+              data-img="images/item1.jpg"
+       ③ data-alt="" の中は、画像が表示されないときに代わりに
+          読み上げ・表示される説明文です。画像の内容に合わせて変えてください。
 
-       【画像の差し替え方】
-       画像ファイルを準備したら、絵文字のプレースホルダーを削除して、
-       以下のように <img> タグを記述してください：
-       <img src="coffee.jpg" alt="本日のコーヒー">
+    ✏️ 【編集ガイド】ボタンの中身（商品名・説明・値段）
+       .illust-btn__name  → 商品名
+       .illust-btn__desc  → 説明文（不要なら削除OK）
+       .illust-btn__price → 値段（不要なら削除OK）
+
+    ✏️ 【編集ガイド】商品（ボタン）を増やしたいとき
+       .illust-btn のブロックをまるごとコピーして、
+       .illust-showcase__list の中に追加してください。
+       一番最初のボタンが、最初に表示される画像になります。
+
+       ボタンをクリック（タップ）すると、左側の大きい画像が
+       フワッと切り替わります。
     ======================================================== -->
     <section class="section menu-section" id="menu">
       <div class="container">
 
         <h2 class="page-section-title">Menu — メニュー</h2>
 
-        <ul class="menu-list" role="list">
+        <div class="illust-showcase" id="illustShowcase">
 
-          <!-- ============ 商品1 ============
-               ✏️ このブロックをコピーして商品を追加できます -->
-          <li class="menu-item" id="menu-item-coffee">
+          <!-- 左：選ばれている作品を大きく表示するエリア -->
+          <div class="illust-showcase__display">
+            <img id="illustShowcaseImg" src="c.gif" alt="商品1のイメージ写真">
+            <p class="illust-showcase__caption" id="illustShowcaseCaption">
+              手作りイラストを中心に、様々な作品をご用意してお待ちしています。
+            </p>
+          </div>
 
-            <!-- 商品画像エリア
-                 ✏️ 画像ができたら、下の絵文字テキストを
-                    <img src="coffee.jpg" alt="本日のコーヒー"> に差し替えてください -->
-            <div class="menu-item__img-wrap" aria-hidden="true">☕</div>
+          <!-- 右：作品を選ぶボタン一覧（クリックで左の画像が切り替わります） -->
+          <div class="illust-showcase__list">
 
-            <div class="menu-item__body">
-              <!-- ✏️ 商品名 -->
-              <p class="menu-item__name">本日のコーヒー</p>
-              <!-- ✏️ 商品説明（不要なら <p> ごと削除してください） -->
-              <p class="menu-item__desc">
-                毎朝ハンドドリップで丁寧に淹れる本日のスペシャルティコーヒー。<br>
-                ホット・アイスどちらも対応可能です。
-              </p>
-              <!-- ✏️ 値段（税込み表記を忘れずに） -->
-              <p class="menu-item__price">¥200 <small>（税込）</small></p>
-            </div>
+            <!-- ============ 商品1（最初に表示される画像） ============ -->
+            <button type="button" class="illust-btn is-active"
+                    data-img="c.gif"
+                    data-alt="商品1のイメージ写真"
+                    data-caption="手作りイラストを中心に、様々な作品をご用意してお待ちしています。">
+              <span class="illust-btn__name">イラストセット</span>
+              <span class="illust-btn__desc">気になる作品があれば、お気軽にスタッフまでお声がけください。</span>
+            </button>
+            <!-- ============ / 商品1 ============ -->
 
-          </li>
-          <!-- ============ / 商品1 ============ -->
+            <!-- ============ 商品2 ============ -->
+            <button type="button" class="illust-btn"
+                    data-img="fate UBW_upscaled.jpg"
+                    data-alt="商品2のイメージ写真"
+                    data-caption="人気作品のひとつです。自由に書き換えてOKです。">
+              <span class="illust-btn__name">イラスト１</span>
+              <span class="illust-btn__desc">自由に書き換えてOKです。</span>
+              <span class="illust-btn__price">¥300</span>
+            </button>
+            <!-- ============ / 商品2 ============ -->
 
-          <!-- ============ 商品2 ============ -->
-          <li class="menu-item" id="menu-item-cake">
-            <div class="menu-item__img-wrap" aria-hidden="true">🍰</div>
-            <div class="menu-item__body">
-              <p class="menu-item__name">手作りガトーショコラ</p>
-              <p class="menu-item__desc">
-                試作を重ねた自慢のガトーショコラ。<br>
-                濃厚なチョコの風味としっとり食感が特徴です。
-              </p>
-              <p class="menu-item__price">¥300 <small>（税込）</small></p>
-            </div>
-          </li>
-          <!-- ============ / 商品2 ============ -->
+            <!-- ============ 商品3 ============ -->
+            <button type="button" class="illust-btn"
+                    data-img="ﾄﾞﾊﾟｶﾞｷ.png"
+                    data-alt="商品3のイメージ写真"
+                    data-caption="こちらもおすすめの一枚です。自由に書き換えてOKです。">
+              <span class="illust-btn__name">イラスト2</span>
+              <span class="illust-btn__desc">自由に書き換えてOKです。</span>
+              <span class="illust-btn__price">¥500</span>
+            </button>
+            <!-- ============ / 商品3 ============ -->
 
-          <!-- ============ 商品3 ============ -->
-          <li class="menu-item" id="menu-item-smoothie">
-            <div class="menu-item__img-wrap" aria-hidden="true">🥤</div>
-            <div class="menu-item__body">
-              <p class="menu-item__name">季節のスムージー</p>
-              <p class="menu-item__desc">
-                旬のフルーツをたっぷり使ったヘルシースムージー。<br>
-                牛乳・豆乳からお選びいただけます。
-              </p>
-              <p class="menu-item__price">¥250 <small>（税込）</small></p>
-            </div>
-          </li>
-          <!-- ============ / 商品3 ============ -->
+          </div><!-- /.illust-showcase__list -->
 
-          <!-- ============ 商品4 ============ -->
-          <li class="menu-item" id="menu-item-cookie">
-            <div class="menu-item__img-wrap" aria-hidden="true">🍪</div>
-            <div class="menu-item__body">
-              <p class="menu-item__name">アイシングクッキー（3枚セット）</p>
-              <p class="menu-item__desc">
-                手作りのオリジナルデザインクッキー。<br>
-                限定品のためなくなり次第終了です。
-              </p>
-              <p class="menu-item__price">¥350 <small>（税込）</small></p>
-            </div>
-          </li>
-          <!-- ============ / 商品4 ============ -->
-
-        </ul><!-- /.menu-list -->
-      </div>
-    </section>
-
-    <!-- ========================================================
-         ③ アレルギー情報
-         ========================================================
-    ✏️ 【編集ガイド】アレルギー表の書き方
-       各セルの記号：
-         ● = 含む（アレルゲンあり）
-         ー = 含まない
-         △ = 要確認（製造ラインに注意が必要な場合）
-
-       商品が増えたら <tr>〜</tr> のブロックをコピーして行を追加。
-       アレルゲンの種類が変わったら <th> を増やして列を追加できます。
-
-       ⚠️ アレルギー情報は必ず正確に記載してください！
-          不明な場合は「要確認」または「△」と記載しましょう。
-    ======================================================== -->
-    <section class="section allergy-section" id="allergy">
-      <div class="container">
-
-        <h2 class="page-section-title">Allergy — アレルギー情報</h2>
-
-        <!-- 注意書き（✏️ 内容を変えてください） -->
-        <div class="allergy-note">
-          ⚠️ アレルギーをお持ちの方は、注文前にスタッフへお声がけください。<br>
-          当企画のキッチンでは、卵・乳・小麦を使用した商品を調理しています。<br>
-          交差汚染の可能性があることをご了承ください。<br>
-          <strong style="font-size:0.78rem;">●＝含む &ensp;｜&ensp; ー＝含まない &ensp;｜&ensp; △＝要確認</strong>
-        </div>
-
-        <!-- スマホでは横スクロールして見られます -->
-        <div class="table-scroll">
-          <table class="allergy-table" aria-label="アレルギー情報一覧">
-            <thead>
-              <tr>
-                <!--
-                ✏️ 列の見出しを変えてください。
-                   アレルゲンの種類を追加・変更できます。
-                -->
-                <th scope="col">商品名</th>
-                <th scope="col">🥚 卵</th>
-                <th scope="col">🥛 乳</th>
-                <th scope="col">🌾 小麦</th>
-                <th scope="col">🥜 ナッツ</th>
-                <th scope="col">🍓 果物</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!--
-              ✏️ 各行の ● / ー / △ を正確に書き換えてください。
-                 CSSクラスも合わせて変えてください：
-                   あり  → class="allergy--yes"
-                   なし  → class="allergy--no"
-                   要確認 → class="allergy--check"
-              -->
-
-              <!-- 商品1行 -->
-              <tr>
-                <td>本日のコーヒー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-              </tr>
-
-              <!-- 商品2行 -->
-              <tr>
-                <td>手作りガトーショコラ</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-              </tr>
-
-              <!-- 商品3行（牛乳） -->
-              <tr>
-                <td>スムージー（牛乳）</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
-              </tr>
-
-              <!-- 商品3行（豆乳） -->
-              <tr>
-                <td>スムージー（豆乳）</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--yes">●</td>
-              </tr>
-
-              <!-- 商品4行 -->
-              <tr>
-                <td>アイシングクッキー</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--yes">●</td>
-                <td class="allergy--no">ー</td>
-                <td class="allergy--no">ー</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div><!-- /.table-scroll -->
+        </div><!-- /.illust-showcase -->
 
       </div>
     </section>
-
     <!-- ========================================================
          ④ 営業タイムスケジュール
          ========================================================
@@ -442,7 +375,7 @@
   <footer class="page-footer">
 
     <!-- ✏️ 企画名 -->
-    <strong>Campus Café — キャンフェス 2026</strong>
+    <strong>Illustration Sales — キャンフェス 2026</strong>
 
     <!-- ✏️ 担当チーム情報（不要なら削除してください） -->
     <p style="margin-bottom: 10px;">
@@ -457,6 +390,40 @@
     </p>
 
   </footer>
+
+  <!--
+  ✏️ イラストショーケースの動作用スクリプト
+     右側のボタン（.illust-btn）をクリックすると、左側の
+     大きい画像・キャプションが切り替わります。基本的に触らなくてOKです。
+  -->
+  <script>
+    (function () {
+      const display = document.getElementById('illustShowcaseImg');
+      const caption = document.getElementById('illustShowcaseCaption');
+      const buttons = document.querySelectorAll('.illust-btn');
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const img = btn.getAttribute('data-img');
+          const alt = btn.getAttribute('data-alt') || '';
+          const cap = btn.getAttribute('data-caption') || '';
+
+          // ボタンの見た目（選択中の状態）を切り替え
+          buttons.forEach(function (b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+
+          // 左側の画像・キャプションを切り替え（CSS側でフワッと表示されます）
+          if (img) {
+            display.src = img;
+            display.alt = alt;
+          }
+          if (caption) {
+            caption.textContent = cap;
+          }
+        });
+      });
+    })();
+  </script>
 
   <!--
   メニュー自動クローズ JS の読み込み
