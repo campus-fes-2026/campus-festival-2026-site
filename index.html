@@ -52,31 +52,12 @@
         <a href="index.html">Campus Festival</a>
       </div>
 
-      <!-- ========================================================
-           🔒 触らないでください（全ページ共通・謎解き機能）
-           🔍 謎解き手紙アイコン + ハンバーガー（右端グループ）
-           .site-nav__right でまとめて横並びにします
-      ======================================================== -->
-      <div class="site-nav__right">
-
-        <!-- 🔍 封筒アイコン -->
-        <button class="header-letter-icon" id="header-letter-btn" aria-label="謎解きゲームへの挑戦状を開く" type="button">
-          <svg class="header-letter-icon__svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true">
-            <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.6" />
-            <polyline points="2,5 12,14 22,5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-          </svg>
-          <span class="header-letter-icon__badge" aria-hidden="true">!</span>
-        </button>
-
-        <!-- ハンバーガーアイコン（<label> で checkbox と連動） -->
-        <label for="nav-toggle" class="site-nav__hamburger" aria-label="メニューを開く">
-          <span></span>
-          <span></span>
-          <span></span>
-        </label>
-
-      </div><!-- /.site-nav__right -->
+      <!-- ハンバーガーアイコン（<label> で checkbox と連動） -->
+      <label for="nav-toggle" class="site-nav__hamburger" aria-label="メニューを開く">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
 
     </div>
   </nav>
@@ -685,57 +666,8 @@
   <!-- 追従バナー制御JS -->
   <script src="js/banner.js"></script>
 
-  <!-- 🔒 触らないでください（全ページ共通・謎解き機能）：封筒モーダル JS -->
+  <!-- 🔒 触らないでください（全ページ共通・謎解き機能）：封筒モーダル JS（アイコン・モーダルもこのJSが自動生成します） -->
   <script src="js/letter-modal.js"></script>
-
-  <!-- ========================================================
-       🔒 触らないでください（全ページ共通・謎解き機能）
-       🔍 謎解き：封筒モーダル HTML
-       ✏️ 【編集ガイド】挑戦状の文面はここで変更できます。
-  ======================================================== -->
-  <div class="letter-overlay" id="letter-overlay" role="dialog" aria-modal="true" aria-label="謎解きゲームへの挑戦状"
-    aria-hidden="true">
-    <div class="letter-envelope" id="letter-envelope">
-
-      <!-- 閉じるボタン（右上） -->
-      <button class="letter-overlay__close" id="letter-close" aria-label="挑戦状を閉じる" type="button">&times;</button>
-
-      <!-- 封筒ボディ -->
-      <div class="letter-envelope__body">
-
-        <!-- フタ（3D回転で開く） -->
-        <div class="letter-envelope__flap" aria-hidden="true">
-          <div class="letter-envelope__flap-inner"></div>
-        </div>
-
-        <!-- 手紙カード（競り出てくる） -->
-        <div class="letter-card" role="document">
-
-          <!-- ✏️ 差出人ラベル（変更可） -->
-          <p class="letter-card__from">— FROM: UNKNOWN X —</p>
-
-          <!-- ✏️ 挑戦状タイトル（変更可） -->
-          <h2 class="letter-card__title">
-            🔍 キャンフェススタッフへの挑戦状
-          </h2>
-
-          <!-- ✏️ 挑戦状本文（変更可） -->
-          <p class="letter-card__body">
-            先ほど、私がキャンフェスに関するさまざまなデマをSNSに流した。<br>
-            止めたければ、キャンフェス会場に仕掛けた謎をすべて解き明かして、<br>
-            導かれた言葉を専用サイトに入力し、私の元へたどりついてみたまえ。
-          </p>
-
-          <!-- ✏️ 遷移先（変更可） -->
-          <a href="pages/mystery-quest-game/index.html" class="letter-card__btn" id="letter-start-btn">
-            🔍 捜査を開始する
-          </a>
-        </div>
-      </div>
-    </div>
-  </div><!-- /.letter-overlay -->
-
-
 
 </body>
 
