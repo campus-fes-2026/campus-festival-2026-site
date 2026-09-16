@@ -212,11 +212,13 @@ function handleStage1Fail() {
 function handleFinalSuccess() {
   state.finalCleared = true;
 
-  const inputEl        = document.getElementById('final-input');
-  const submitEl       = document.getElementById('final-submit');
-  const errorEl        = document.getElementById('final-error');
-  const dmMsg3         = document.getElementById('dm-msg-3');
+  const inputEl         = document.getElementById('final-input');
+  const submitEl        = document.getElementById('final-submit');
+  const errorEl         = document.getElementById('final-error');
+  const dmMsg3          = document.getElementById('dm-msg-3');
   const revealPostsSlot = document.getElementById('reveal-posts-slot');
+  const dmContactCulprit = document.getElementById('dm-contact-culprit');
+  const dmTabBadge       = document.getElementById('dm-tab-badge');
 
   if (inputEl)  inputEl.classList.add('is-correct');
   if (submitEl) submitEl.disabled = true;
@@ -230,6 +232,10 @@ function handleFinalSuccess() {
 
   // タイムライン側：事件解決後の種明かし投稿（種別=reveal）を表示
   if (revealPostsSlot) revealElement(revealPostsSlot);
+
+  // DM側：トーク一覧に犯人を出現させ、DMタブに新着通知バッジを表示
+  if (dmContactCulprit) dmContactCulprit.hidden = false;
+  if (dmTabBadge)        dmTabBadge.hidden = false;
 }
 
 /**
@@ -537,6 +543,68 @@ function initTabBar() {
 }
 
 /* ===========================================================
+   ⑧-2 DM画面：トーク一覧 ⇄ 個別チャットの切り替え
+   =========================================================== */
+
+/**
+ * DMタブの「未読」表示（トーク行の赤丸バッジ・下部タブの通知バッジ）を消す
+ */
+function markCulpritRead() {
+  const badge = document.getElementById('dm-tab-badge');
+  if (badge) badge.hidden = true;
+
+  const contact = document.getElementById('dm-contact-culprit');
+  const unread  = contact ? contact.querySelector('.dm-contact__unread') : null;
+  if (unread) unread.hidden = true;
+}
+
+/**
+ * DM画面の「トーク一覧 ⇄ 個別チャット」切り替えを初期化する
+ * （タブバー全体の切り替え＝initTabBar とは別の、DM画面内部だけの状態）
+ */
+function initDmInbox() {
+  const inbox = document.getElementById('dm-inbox');
+  if (!inbox) return;
+
+  const conversations = {
+    staff:   document.getElementById('dm-conversation-staff'),
+    culprit: document.getElementById('dm-conversation-culprit'),
+  };
+
+  function backToInbox() {
+    Object.keys(conversations).forEach((key) => {
+      const el = conversations[key];
+      if (el) el.hidden = true;
+    });
+    inbox.hidden = false;
+  }
+
+  function openConversation(name) {
+    const target = conversations[name];
+    if (!target) return;
+
+    inbox.hidden = true;
+    target.hidden = false;
+
+    if (name === 'culprit') {
+      markCulpritRead();
+      initCulpritConversation(); // 初回のみ会話を開始（2回目以降は何もしない）
+    }
+  }
+
+  inbox.querySelectorAll('.dm-contact[data-contact]').forEach((btn) => {
+    btn.addEventListener('click', () => openConversation(btn.dataset.contact));
+  });
+
+  document.querySelectorAll('[data-back-to-inbox]').forEach((btn) => {
+    btn.addEventListener('click', backToInbox);
+  });
+
+  // DM画面を開いたときの初期状態は常にトーク一覧
+  backToInbox();
+}
+
+/* ===========================================================
    ⑨ 検索ビュー：ヒント投稿のリアルタイム絞り込み
    =========================================================== */
 
@@ -594,6 +662,7 @@ function initSearch() {
 document.addEventListener('DOMContentLoaded', async () => {
 
   initTabBar();
+  initDmInbox();
 
   /* --- 入力フォームのバインド ---
      ゲーム核心の入力欄はスプレッドシート取得を待たずに先に有効化する。 */
@@ -644,6 +713,142 @@ document.addEventListener('DOMContentLoaded', async () => {
        handleFinalSuccess();   // finalをクリア
   */
 });
+
+/* ===========================================================
+   ⑩-2 犯人とのDM会話スクリプト（エンディングの会話パート）
+   ===========================================================
+   ✏️ 【編集ガイド】
+      犯人との個別チャットで表示するセリフを、上から順番に定義します。
+
+      { type: 'text', text: '犯人のセリフ' }
+        → 1通のメッセージとして表示。画面をタップすると次に進む。
+
+      { type: 'choice', options: ['選択肢A', '選択肢B', '選択肢C'] }
+        → プレイヤーが選ぶボタンを表示。選んだ文言がプレイヤー自身の
+          発言として吹き出しに追加されたあと、自動的に次に進む。
+          ※ どれを選んでも次のセリフは変わりません（結末は一本道）。
+
+      内容はすべて仮テキストです。実際のセリフ・選択肢が決まったら、
+      この配列の中身を書き換えるだけで反映されます。
+   =========================================================== */
+const CULPRIT_DM_SCRIPT = [
+  { type: 'text', text: '（仮テキスト）……見つかっちゃったか。' },
+  { type: 'text', text: '（仮テキスト）少しだけ、話を聞いてくれる？' },
+  { type: 'choice', options: ['（仮・選択肢A）', '（仮・選択肢B）', '（仮・選択肢C）'] },
+  { type: 'text', text: '（仮テキスト・選択肢のあとに続くセリフ）' },
+];
+
+/** 犯人の個別チャットで、いま「タップで次へ進める」状態かどうか */
+let culpritWaitingForTap = false;
+/** CULPRIT_DM_SCRIPT のうち、次に処理するノードのインデックス */
+let culpritStep = 0;
+/** 会話を開始済みか（2回目以降に開いたときは最初から作り直さない） */
+let culpritConversationStarted = false;
+
+/**
+ * 犯人側のメッセージ（相手側の吹き出し）を #culprit-dm-thread に1件追加する
+ * @param {string} text
+ */
+function renderCulpritTextNode(text) {
+  const thread = document.getElementById('culprit-dm-thread');
+  if (!thread) return;
+  const el = document.createElement('div');
+  el.className = 'dm-msg';
+  el.innerHTML =
+    '<span class="dm-msg__avatar" aria-hidden="true">' + iconSvg('circle-help') + '</span>' +
+    '<div class="dm-msg__bubble"><p>' + escapeHtml(text) + '</p></div>';
+  thread.appendChild(el);
+  scrollToElement(el);
+}
+
+/**
+ * プレイヤー自身の発言（右寄せの自分側吹き出し）を #culprit-dm-thread に1件追加する
+ * @param {string} text
+ */
+function renderCulpritSelfNode(text) {
+  const thread = document.getElementById('culprit-dm-thread');
+  if (!thread) return;
+  const el = document.createElement('div');
+  el.className = 'dm-msg dm-msg--self';
+  el.innerHTML = '<div class="dm-msg__bubble dm-msg__bubble--self"><p>' + escapeHtml(text) + '</p></div>';
+  thread.appendChild(el);
+  scrollToElement(el);
+}
+
+/**
+ * 選択肢ボタン群を #culprit-dm-thread に追加する。
+ * いずれかがクリックされたら、ボタン群を消してプレイヤーの発言として表示し、
+ * onDone() を呼んで自動的に次のノードへ進む（タップ待ちにしない）。
+ * @param {{options: string[]}} node
+ * @param {Function} onDone
+ */
+function renderCulpritChoiceNode(node, onDone) {
+  const thread = document.getElementById('culprit-dm-thread');
+  if (!thread) { onDone(); return; }
+
+  const group = document.createElement('div');
+  group.className = 'dm-choice-group';
+
+  node.options.forEach((optionText) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'dm-choice-btn';
+    btn.textContent = optionText;
+    btn.addEventListener('click', (e) => {
+      // タップ進行用のスレッドクリックリスナーへ伝播させない（二重進行を防ぐ）
+      e.stopPropagation();
+      group.remove();
+      renderCulpritSelfNode(optionText);
+      onDone();
+    });
+    group.appendChild(btn);
+  });
+
+  thread.appendChild(group);
+  scrollToElement(group);
+}
+
+/**
+ * CULPRIT_DM_SCRIPT の次のノードを処理する。
+ * text ノードは表示してタップ待ちに、choice ノードは選択待ちにし、
+ * 選択後は自動的にこの関数を再度呼んで次に進む。
+ */
+function culpritRenderNext() {
+  if (culpritStep >= CULPRIT_DM_SCRIPT.length) {
+    culpritWaitingForTap = false;
+    return;
+  }
+  const node = CULPRIT_DM_SCRIPT[culpritStep];
+  culpritStep++;
+
+  if (node.type === 'choice') {
+    culpritWaitingForTap = false; // 選択待ちの間はタップでは進めない
+    renderCulpritChoiceNode(node, () => {
+      culpritRenderNext(); // 選択後は自動的に次へ
+    });
+  } else {
+    renderCulpritTextNode(node.text);
+    culpritWaitingForTap = true; // 次のタップで続きへ
+  }
+}
+
+/**
+ * 犯人との個別チャットを初期化する（初回に開いたときだけ会話を開始する）。
+ * チャット領域をタップすると、タップ待ち状態のときだけ次のセリフに進む。
+ */
+function initCulpritConversation() {
+  const thread = document.getElementById('culprit-dm-thread');
+  if (!thread || culpritConversationStarted) return;
+  culpritConversationStarted = true;
+
+  thread.addEventListener('click', () => {
+    if (!culpritWaitingForTap) return;
+    culpritWaitingForTap = false;
+    culpritRenderNext();
+  });
+
+  culpritRenderNext(); // 最初のノードを表示
+}
 
 /* ===========================================================
    ⑪ オフライン用フォールバックデータ（DEFAULT_CSV）

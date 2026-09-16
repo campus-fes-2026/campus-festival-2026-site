@@ -626,8 +626,104 @@ img {
 }
 
 /* ============================================================
-   8. DM ビュー（捜査本部とのチャット）
+   8. DM ビュー（トーク一覧 → 個別チャット）
    ============================================================ */
+
+/* --- トーク一覧（LINEのような相手一覧） --- */
+.dm-inbox {
+  display: flex;
+  flex-direction: column;
+}
+
+.dm-contact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  border-bottom: 1px solid var(--border-base);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-sans);
+  transition: background-color 0.15s ease;
+  position: relative;
+}
+
+.dm-contact:hover,
+.dm-contact:active {
+  background-color: rgba(74, 59, 50, 0.03);
+}
+
+.dm-contact__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: rgba(154, 122, 82, 0.12);
+  border: 1px solid var(--border-accent);
+  color: var(--accent-blue);
+}
+
+.dm-contact__avatar svg {
+  width: 20px;
+  height: 20px;
+}
+
+.dm-contact__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.dm-contact__name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.dm-contact__preview {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 未読バッジ（小さな赤丸） */
+.dm-contact__unread {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--accent-red);
+}
+
+/* --- 個別チャット共通 --- */
+.dm-conversation__back {
+  display: inline-block;
+  margin: 10px 16px 0;
+  border: none;
+  background: transparent;
+  color: var(--accent-blue);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.dm-conversation__back:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
 .dm-header {
   display: flex;
   align-items: center;
@@ -740,6 +836,55 @@ img {
   color: var(--text-secondary);
 }
 
+/* 自分（プレイヤー）側の発言：右寄せの吹き出し */
+.dm-msg--self {
+  flex-direction: row-reverse;
+  margin-left: auto;
+}
+
+.dm-msg__bubble--self {
+  background-color: rgba(154, 122, 82, 0.14);
+  border: 1px solid var(--border-accent);
+  border-radius: 16px 4px 16px 16px;
+  padding: 12px 14px;
+}
+
+.dm-msg__bubble--self p {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--text-primary);
+}
+
+/* 選択肢ボタン群（縦並び） */
+.dm-choice-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 38px; /* .dm-msg__avatar 分のインデントに揃える */
+}
+
+.dm-choice-btn {
+  background-color: var(--bg-card);
+  color: var(--accent-blue);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dm-choice-btn:hover {
+  background-color: rgba(154, 122, 82, 0.12);
+  color: var(--text-primary);
+}
+
+.dm-choice-btn:active {
+  background-color: rgba(154, 122, 82, 0.2);
+}
+
 /* 入力ゾーンは吹き出し幅に合わせて左右マージンを詰める */
 .dm-thread .input-zone,
 .dm-thread .input-zone--inline {
@@ -830,11 +975,24 @@ img {
 
 .tabbar__icon {
   display: flex;
+  position: relative;
 }
 
 .tabbar__icon svg {
   width: 22px;
   height: 22px;
+}
+
+/* タブアイコン右上の新着通知バッジ（小さな赤丸） */
+.tabbar__badge {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--accent-red);
+  border: 1.5px solid var(--bg-card);
 }
 
 .tabbar__label {

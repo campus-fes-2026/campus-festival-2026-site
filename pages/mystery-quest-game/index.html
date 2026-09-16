@@ -168,121 +168,184 @@
     <!-- /#view-search -->
 
     <!-- ====================================================
-         VIEW 3 : DM（キャンフェススタッフとのやり取り＝ゲーム操作）
+         VIEW 3 : DM（トーク一覧 → 個別チャットの2階層構成）
     ==================================================== -->
     <section class="app-view" id="view-dm" aria-label="ダイレクトメッセージ" hidden>
 
-      <div class="dm-header">
-        <span class="dm-header__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
-        <div class="dm-header__meta">
-          <span class="dm-header__name">キャンフェススタッフR</span>
-          <span class="dm-header__handle">@campfes_hq</span>
-        </div>
-      </div>
+      <!-- ============================================================
+           トーク一覧（LINEのような相手一覧。DMを開いたときの初期表示）
+      ============================================================ -->
+      <div class="dm-inbox" id="dm-inbox">
 
-      <div class="dm-thread">
+        <!-- キャンフェススタッフR（常時表示） -->
+        <button type="button" class="dm-contact" data-contact="staff" aria-label="キャンフェススタッフRとのトークを開く">
+          <span class="dm-contact__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
+          <span class="dm-contact__body">
+            <span class="dm-contact__name">キャンフェススタッフR</span>
+            <span class="dm-contact__preview">【捜査について】キーワードがわかったら、こちらに送信してください！</span>
+          </span>
+        </button>
 
-        <!-- 1通目（常時表示） -->
-        <div class="dm-msg">
-          <span class="dm-msg__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
-          <div class="dm-msg__bubble">
-            <p>【捜査について】キーワードがわかったら、こちらに送信してください！</p>
-          </div>
-        </div>
-
-        <!-- キーワード入力フォーム（常時表示 / 旧 input-zone-stage1 を移設・中身不変） -->
-        <div class="input-zone" id="input-zone-stage1">
-          <div class="input-zone__inner">
-            <p class="input-zone__label">🔐 キーワードを入力</p>
-            <!--
-            ✏️ 問題の指示文（変更可）
-            -->
-            <p class="input-zone__question">
-              キャンフェス会場に散らばった6問の謎を解き、答えを手元のクロスワード表に埋めて、導かれたキーワードを入力してください。
-            </p>
-            <div class="input-zone__form" role="form" aria-label="キーワード入力フォーム">
-              <input
-                type="text"
-                id="stage1-input"
-                class="input-zone__field"
-                placeholder="キーワードを入力…"
-                autocomplete="off"
-                autocorrect="off"
-                autocapitalize="off"
-                spellcheck="false"
-                aria-label="キーワード入力欄"
-              >
-              <button
-                type="button"
-                id="stage1-submit"
-                class="input-zone__btn"
-                aria-label="キーワードを送信"
-              >
-                送信 ▶
-              </button>
-            </div>
-            <p class="input-zone__error" id="stage1-error" role="alert" aria-live="assertive" hidden>
-              ❌ キーワードが違います。もう一度確認してください。
-            </p>
-          </div>
-        </div>
-
-        <!-- 2通目（キーワード正解後にJSで出現 / 犯人の最終問題投稿を引用表示） -->
-        <div class="dm-msg" id="dm-msg-2" hidden aria-live="polite">
-          <span class="dm-msg__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
-          <div class="dm-msg__bubble">
-            <p>🔓 キーワード認証完了。ちょうど今、怪しいアカウントからタイムラインに新しい投稿が流れてきました。</p>
-            <p class="dm-msg__quote" id="dm-msg-2-quote"></p>
-            <p>この投稿の中に、最後の謎の答えが隠されているかもしれません。わかったらここに送信してください。</p>
-          </div>
-        </div>
-
-        <!-- 最終回答入力フォーム（キーワード正解後にJSで出現） -->
-        <div class="input-zone input-zone--inline" id="input-zone-final" hidden aria-live="polite">
-          <div class="input-zone__inner">
-            <p class="input-zone__label">🚨 最終回答を入力</p>
-            <div class="input-zone__form" role="form" aria-label="最終回答フォーム">
-              <input
-                type="text"
-                id="final-input"
-                class="input-zone__field"
-                placeholder="最終問題の答えを入力…"
-                autocomplete="off"
-                autocorrect="off"
-                autocapitalize="off"
-                spellcheck="false"
-                aria-label="最終回答入力欄"
-              >
-              <button
-                type="button"
-                id="final-submit"
-                class="input-zone__btn input-zone__btn--red"
-                aria-label="最終回答を送信"
-              >
-                解決 ▶
-              </button>
-            </div>
-            <p class="input-zone__error" id="final-error" role="alert" aria-live="assertive" hidden>
-              ❌ 違います。もう一度考えてみてください。
-            </p>
-          </div>
-        </div>
-
-        <!-- 3通目（最終回答正解後にJSで出現 / 旧 #ending の内容を統合） -->
-        <div class="dm-msg" id="dm-msg-3" hidden aria-live="polite">
-          <span class="dm-msg__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
-          <div class="dm-msg__bubble dm-msg__bubble--success">
-            <p>🎉 事件解決、お疲れ様でした！ あなたの捜査により、デマ投稿の犯人が特定されました。この画面を<strong>「のり」</strong>の前の受付スタッフに見せて、景品を受け取ってください！</p>
-            <div class="dm-clear-badge" aria-label="クリア達成バッジ">
-              <span class="dm-clear-badge__icon" aria-hidden="true">🔓</span>
-              <span class="dm-clear-badge__label">CASE CLOSED</span>
-              <span class="dm-clear-badge__sub">キャンフェス2026 謎解き完全クリア</span>
-            </div>
-          </div>
-        </div>
+        <!-- 犯人（最終問題正解後にJSで表示、初期状態は hidden） -->
+        <button type="button" class="dm-contact" id="dm-contact-culprit" data-contact="culprit" hidden aria-label="???とのトークを開く">
+          <span class="dm-contact__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
+          <span class="dm-contact__body">
+            <span class="dm-contact__name">???</span>
+            <span class="dm-contact__preview">新着メッセージがあります</span>
+          </span>
+          <span class="dm-contact__unread" aria-hidden="true"></span>
+        </button>
 
       </div>
-      <!-- /.dm-thread -->
+      <!-- /#dm-inbox -->
+
+      <!-- ============================================================
+           個別チャット：キャンフェススタッフR
+           ✏️ この中の .dm-header / .dm-thread は既存の内容から一切変更していません。
+              新しいラッパー（#dm-conversation-staff）と「← トーク一覧」ボタンを追加しただけです。
+      ============================================================ -->
+      <div class="dm-conversation" id="dm-conversation-staff" hidden>
+
+        <button type="button" class="dm-conversation__back" data-back-to-inbox>← トーク一覧</button>
+
+        <div class="dm-header">
+          <span class="dm-header__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
+          <div class="dm-header__meta">
+            <span class="dm-header__name">キャンフェススタッフR</span>
+            <span class="dm-header__handle">@campfes_hq</span>
+          </div>
+        </div>
+
+        <div class="dm-thread">
+
+          <!-- 1通目（常時表示） -->
+          <div class="dm-msg">
+            <span class="dm-msg__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
+            <div class="dm-msg__bubble">
+              <p>【捜査について】キーワードがわかったら、こちらに送信してください！</p>
+            </div>
+          </div>
+
+          <!-- キーワード入力フォーム（常時表示 / 旧 input-zone-stage1 を移設・中身不変） -->
+          <div class="input-zone" id="input-zone-stage1">
+            <div class="input-zone__inner">
+              <p class="input-zone__label">🔐 キーワードを入力</p>
+              <!--
+              ✏️ 問題の指示文（変更可）
+              -->
+              <p class="input-zone__question">
+                キャンフェス会場に散らばった6問の謎を解き、答えを手元のクロスワード表に埋めて、導かれたキーワードを入力してください。
+              </p>
+              <div class="input-zone__form" role="form" aria-label="キーワード入力フォーム">
+                <input
+                  type="text"
+                  id="stage1-input"
+                  class="input-zone__field"
+                  placeholder="キーワードを入力…"
+                  autocomplete="off"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  aria-label="キーワード入力欄"
+                >
+                <button
+                  type="button"
+                  id="stage1-submit"
+                  class="input-zone__btn"
+                  aria-label="キーワードを送信"
+                >
+                  送信 ▶
+                </button>
+              </div>
+              <p class="input-zone__error" id="stage1-error" role="alert" aria-live="assertive" hidden>
+                ❌ キーワードが違います。もう一度確認してください。
+              </p>
+            </div>
+          </div>
+
+          <!-- 2通目（キーワード正解後にJSで出現 / 犯人の最終問題投稿を引用表示） -->
+          <div class="dm-msg" id="dm-msg-2" hidden aria-live="polite">
+            <span class="dm-msg__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
+            <div class="dm-msg__bubble">
+              <p>🔓 キーワード認証完了。ちょうど今、怪しいアカウントからタイムラインに新しい投稿が流れてきました。</p>
+              <p class="dm-msg__quote" id="dm-msg-2-quote"></p>
+              <p>この投稿の中に、最後の謎の答えが隠されているかもしれません。わかったらここに送信してください。</p>
+            </div>
+          </div>
+
+          <!-- 最終回答入力フォーム（キーワード正解後にJSで出現） -->
+          <div class="input-zone input-zone--inline" id="input-zone-final" hidden aria-live="polite">
+            <div class="input-zone__inner">
+              <p class="input-zone__label">🚨 最終回答を入力</p>
+              <div class="input-zone__form" role="form" aria-label="最終回答フォーム">
+                <input
+                  type="text"
+                  id="final-input"
+                  class="input-zone__field"
+                  placeholder="最終問題の答えを入力…"
+                  autocomplete="off"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  aria-label="最終回答入力欄"
+                >
+                <button
+                  type="button"
+                  id="final-submit"
+                  class="input-zone__btn input-zone__btn--red"
+                  aria-label="最終回答を送信"
+                >
+                  解決 ▶
+                </button>
+              </div>
+              <p class="input-zone__error" id="final-error" role="alert" aria-live="assertive" hidden>
+                ❌ 違います。もう一度考えてみてください。
+              </p>
+            </div>
+          </div>
+
+          <!-- 3通目（最終回答正解後にJSで出現 / 旧 #ending の内容を統合） -->
+          <div class="dm-msg" id="dm-msg-3" hidden aria-live="polite">
+            <span class="dm-msg__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
+            <div class="dm-msg__bubble dm-msg__bubble--success">
+              <p>🎉 事件解決、お疲れ様でした！ あなたの捜査により、デマ投稿の犯人が特定されました。この画面を<strong>「のり」</strong>の前の受付スタッフに見せて、景品を受け取ってください！</p>
+              <div class="dm-clear-badge" aria-label="クリア達成バッジ">
+                <span class="dm-clear-badge__icon" aria-hidden="true">🔓</span>
+                <span class="dm-clear-badge__label">CASE CLOSED</span>
+                <span class="dm-clear-badge__sub">キャンフェス2026 謎解き完全クリア</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.dm-thread -->
+
+      </div>
+      <!-- /#dm-conversation-staff -->
+
+      <!-- ============================================================
+           個別チャット：犯人（エンディングの会話パート）
+           ✏️ セリフ・選択肢の中身は script.js の CULPRIT_DM_SCRIPT で
+              管理しています（このHTMLは触らなくてOK）。
+              #culprit-dm-thread はJSが動的にメッセージを描画する空スロットです。
+      ============================================================ -->
+      <div class="dm-conversation" id="dm-conversation-culprit" hidden>
+
+        <button type="button" class="dm-conversation__back" data-back-to-inbox>← トーク一覧</button>
+
+        <div class="dm-header">
+          <span class="dm-header__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
+          <div class="dm-header__meta">
+            <span class="dm-header__name">???</span>
+            <span class="dm-header__handle">@unknown</span>
+          </div>
+        </div>
+
+        <div class="dm-thread" id="culprit-dm-thread"></div>
+        <!-- /#culprit-dm-thread -->
+
+      </div>
+      <!-- /#dm-conversation-culprit -->
 
     </section>
     <!-- /#view-dm -->
@@ -307,7 +370,10 @@
       <span class="tabbar__label">検索</span>
     </button>
     <button type="button" class="tabbar__btn" data-view="view-dm" aria-label="DM">
-      <span class="tabbar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></span>
+      <span class="tabbar__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+        <span class="tabbar__badge" id="dm-tab-badge" hidden aria-hidden="true"></span>
+      </span>
       <span class="tabbar__label">DM</span>
     </button>
   </nav>
