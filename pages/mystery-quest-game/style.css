@@ -729,6 +729,17 @@ img {
   border-color: var(--border-green);
 }
 
+/* 犯人の投稿本文を引用表示するブロック（DM2通目内） */
+.dm-msg__quote {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-left: 3px solid var(--border-accent);
+  background-color: var(--bg-card-alt);
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
 /* 入力ゾーンは吹き出し幅に合わせて左右マージンを詰める */
 .dm-thread .input-zone,
 .dm-thread .input-zone--inline {

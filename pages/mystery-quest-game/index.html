@@ -111,26 +111,18 @@
       <div id="ambient-posts-slot"></div>
 
       <!-- ============================================================
-           事件解決後にタイムラインへ追加表示される投稿
-           （最終回答が正解した時点で JS が hidden を解除）
+           犯人の最終問題投稿（種別=final_puzzle の行）
+           ✏️ 内容はGoogleスプレッドシートからCSV取得して script.js が描画する。
+              キーワード（Stage1）正解後にJSが hidden を解除する。
       ============================================================ -->
-      <article class="post post--witness" id="post-reveal-followup" data-post="followup" hidden aria-live="polite">
-        <div class="post__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10V9"/><path d="M16.472 15a6 6 0 0 1-8.943 0"/><path d="M9 10V9"/><circle cx="12" cy="12" r="10"/></svg></div>
-        <div class="post__body">
-          <div class="post__header">
-            <span class="post__name">ももこ</span>
-            <span class="post__handle">@momo_camp26</span>
-            <span class="post__time">たった今</span>
-          </div>
-          <p class="post__text">
-            さっきの中止デマの件、実行委員に聞いたら「この投稿、地味に画像加工が凝ってて逆に手間かかってたと思う」って言ってた(笑) 犯人ちゃんと捕まったみたいで安心した〜
-          </p>
-          <div class="post__footer">
-            <span class="post__stat">🔁 128</span>
-            <span class="post__stat">❤️ 402</span>
-          </div>
-        </div>
-      </article>
+      <div id="final-puzzle-slot" hidden aria-live="polite"></div>
+
+      <!-- ============================================================
+           種明かし投稿（種別=reveal の行、複数件）
+           ✏️ 内容はGoogleスプレッドシートからCSV取得して script.js が描画する。
+              最終問題正解後にJSが hidden を解除する。
+      ============================================================ -->
+      <div id="reveal-posts-slot" hidden aria-live="polite"></div>
 
     </section>
     <!-- /#view-timeline -->
@@ -235,15 +227,17 @@
           </div>
         </div>
 
-        <!-- 2通目（キーワード正解後にJSで出現 / 旧・最終問題ポストの出題文をここに統合） -->
+        <!-- 2通目（キーワード正解後にJSで出現 / 犯人の最終問題投稿を引用表示） -->
         <div class="dm-msg" id="dm-msg-2" hidden aria-live="polite">
           <span class="dm-msg__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
           <div class="dm-msg__bubble">
-            <p>🔓 キーワード認証完了。最後にもう一問だけ答えてください。<br><br>❓ 最終問題：私の本当の名前（フルネーム）は何か？<br><small>（ヒント：投稿を全部読み返すと答えが見えてくる）</small></p>
+            <p>🔓 キーワード認証完了。ちょうど今、怪しいアカウントからタイムラインに新しい投稿が流れてきました。</p>
+            <p class="dm-msg__quote" id="dm-msg-2-quote"></p>
+            <p>この投稿の中に、最後の謎の答えが隠されているかもしれません。わかったらここに送信してください。</p>
           </div>
         </div>
 
-        <!-- 最終回答入力フォーム（キーワード正解後にJSで出現 / 旧 #final-post 内から分離・中身不変） -->
+        <!-- 最終回答入力フォーム（キーワード正解後にJSで出現） -->
         <div class="input-zone input-zone--inline" id="input-zone-final" hidden aria-live="polite">
           <div class="input-zone__inner">
             <p class="input-zone__label">🚨 最終回答を入力</p>
@@ -252,7 +246,7 @@
                 type="text"
                 id="final-input"
                 class="input-zone__field"
-                placeholder="犯人の名前を入力…"
+                placeholder="最終問題の答えを入力…"
                 autocomplete="off"
                 autocorrect="off"
                 autocapitalize="off"

@@ -6,7 +6,8 @@
  *   このファイルで変更する箇所は主に2つです：
  *
  *   1. STAGE_ANSWER  : 1〜6問クリア用の「捜査コード」（正解キーワード）
- *   2. FINAL_ANSWER  : 最終問題の正解（犯人の名前など）
+ *   2. FINAL_ANSWER  : 最終問題（犯人がタイムラインに新たに投稿する謎、
+ *                       種別=final_puzzle の投稿）の答え
  *
  *   正解はすべて「半角英数字小文字に統一して比較」します。
  *   大文字・スペース・全角は自動的に正規化されます。
@@ -21,7 +22,8 @@
    ===========================================================
    ✏️ 【編集ガイド】
       STAGE_ANSWER  : 捜査コード（1〜6問目をまとめたキーワード）
-      FINAL_ANSWER  : 最終問題の正解（犯人名など）
+      FINAL_ANSWER  : 最終問題（犯人が新たにタイムラインへ投稿する謎、
+                      種別=final_puzzle の投稿）の答え
 
       例えば正解を「matsuda」にしたい場合：
         const STAGE_ANSWER = 'matsuda';
@@ -33,7 +35,8 @@
 /** 捜査コード（1〜6問クリア用）正解キーワード */
 const STAGE_ANSWER = ['クイーン', 'くいーん', 'ｸｲｰﾝ'];   // ← 正式な正解キーワードに更新
 
-/** 最終問題の正解 */
+/** 最終問題（犯人が新たにタイムラインに投稿する謎、種別=final_puzzle の投稿）の答え。
+ *  内容は未定。なぞとき班から実際の問題文・正解の共有待ち。 */
 const FINAL_ANSWER = 'clear';     // ← ✏️ ここを実際の正解に変更してください
 
 /* ===========================================================
@@ -57,6 +60,7 @@ const CACHE_KEY = 'matsutter_posts_csv_v1';
 const state = {
   stage1Cleared: false,
   finalCleared: false,
+  posts: [], // fetchPostsCSV → csvToObjects の結果。各ハンドラーから参照できるよう保持
 };
 
 /* ===========================================================
@@ -149,12 +153,13 @@ function showError(errorEl) {
 function handleStage1Success() {
   state.stage1Cleared = true;
 
-  const inputEl   = document.getElementById('stage1-input');
-  const submitEl  = document.getElementById('stage1-submit');
-  const errorEl   = document.getElementById('stage1-error');
-  const finalPost = document.getElementById('final-post');
-  const dmMsg2    = document.getElementById('dm-msg-2');
-  const finalZone = document.getElementById('input-zone-final');
+  const inputEl        = document.getElementById('stage1-input');
+  const submitEl       = document.getElementById('stage1-submit');
+  const errorEl        = document.getElementById('stage1-error');
+  const finalPuzzleSlot = document.getElementById('final-puzzle-slot');
+  const dmMsg2         = document.getElementById('dm-msg-2');
+  const dmMsg2Quote    = document.getElementById('dm-msg-2-quote');
+  const finalZone      = document.getElementById('input-zone-final');
 
   // 入力欄をクリア状態に
   if (inputEl)  inputEl.classList.add('is-correct');
@@ -162,12 +167,17 @@ function handleStage1Success() {
   // エラーを必ず非表示（直前まで表示されていた場合も含む）
   if (errorEl) { errorEl.hidden = true; errorEl.style.animation = 'none'; }
 
-  // タイムライン側：犯人の挑発投稿（メッセージのみ）を表示
+  // タイムライン側：犯人の最終問題投稿（種別=final_puzzle）を表示
   // ※ DMタブを見ている場合もあるので、強制的なタブ切り替え・スクロールはしない
-  if (finalPost) revealElement(finalPost);
+  if (finalPuzzleSlot) revealElement(finalPuzzleSlot);
 
-  // DM側：2通目メッセージ（旧「🔓 捜査コード認証完了…」の置き換え）と
-  //        最終回答入力フォームを表示
+  // DM側：2通目メッセージに、犯人の最終問題投稿の本文を引用として差し込む
+  if (dmMsg2Quote) {
+    const finalPuzzlePost = state.posts.find((p) => p['種別'] === 'final_puzzle');
+    if (finalPuzzlePost) dmMsg2Quote.textContent = finalPuzzlePost['本文'];
+  }
+
+  // DM側：2通目メッセージと最終回答入力フォームを表示
   if (dmMsg2)    revealElement(dmMsg2);
   if (finalZone) {
     revealElement(finalZone);
@@ -202,11 +212,11 @@ function handleStage1Fail() {
 function handleFinalSuccess() {
   state.finalCleared = true;
 
-  const inputEl  = document.getElementById('final-input');
-  const submitEl = document.getElementById('final-submit');
-  const errorEl  = document.getElementById('final-error');
-  const dmMsg3   = document.getElementById('dm-msg-3');
-  const followup = document.getElementById('post-reveal-followup');
+  const inputEl        = document.getElementById('final-input');
+  const submitEl       = document.getElementById('final-submit');
+  const errorEl        = document.getElementById('final-error');
+  const dmMsg3         = document.getElementById('dm-msg-3');
+  const revealPostsSlot = document.getElementById('reveal-posts-slot');
 
   if (inputEl)  inputEl.classList.add('is-correct');
   if (submitEl) submitEl.disabled = true;
@@ -218,8 +228,8 @@ function handleFinalSuccess() {
     scrollToElement(dmMsg3);
   }
 
-  // タイムライン側：事件解決後の続報投稿（ももこ）を表示
-  if (followup) revealElement(followup);
+  // タイムライン側：事件解決後の種明かし投稿（種別=reveal）を表示
+  if (revealPostsSlot) revealElement(revealPostsSlot);
 }
 
 /**
@@ -453,6 +463,30 @@ function renderHintPosts(rows) {
   }).join('');
 }
 
+/** 犯人の最終問題投稿（種別=final_puzzle）を #final-puzzle-slot に描画する */
+function renderFinalPuzzlePost(rows) {
+  const slot = document.getElementById('final-puzzle-slot');
+  if (!slot) return;
+  slot.innerHTML = sortByOrder(rows).map((obj) =>
+    '<article class="post post--witness" data-post="final-puzzle">' +
+      '<div class="post__avatar" aria-hidden="true">' + iconSvg(obj['アイコン']) + '</div>' +
+      '<div class="post__body">' + postBodyInner(obj) + postFooter(obj) + '</div>' +
+    '</article>'
+  ).join('');
+}
+
+/** 事件解決後の種明かし投稿（種別=reveal）を #reveal-posts-slot に描画する */
+function renderRevealPosts(rows) {
+  const slot = document.getElementById('reveal-posts-slot');
+  if (!slot) return;
+  slot.innerHTML = sortByOrder(rows).map((obj) =>
+    '<article class="post post--witness" data-post="reveal">' +
+      '<div class="post__avatar" aria-hidden="true">' + iconSvg(obj['アイコン']) + '</div>' +
+      '<div class="post__body">' + postBodyInner(obj) + postFooter(obj) + '</div>' +
+    '</article>'
+  ).join('');
+}
+
 /** ヒント投稿に出てくるハッシュタグから検索チップ（#search-chips）を生成する */
 function renderSearchChips() {
   const container = document.getElementById('search-chips');
@@ -594,8 +628,11 @@ document.addEventListener('DOMContentLoaded', async () => {
      描画（renderHintPosts / renderSearchChips）が終わってから呼ぶ。 */
   const csvText = await fetchPostsCSV();
   const posts = csvToObjects(csvText);
+  state.posts = posts; // handleStage1Success 等、他のハンドラーからも参照できるよう保持
   renderAmbientPosts(posts.filter((p) => p['種別'] === 'timeline'));
   renderHintPosts(posts.filter((p) => p['種別'] === 'hint'));
+  renderFinalPuzzlePost(posts.filter((p) => p['種別'] === 'final_puzzle'));
+  renderRevealPosts(posts.filter((p) => p['種別'] === 'reveal'));
   renderSearchChips();
 
   initSearch();
@@ -627,4 +664,6 @@ hint,3,松田 捜査官,@matsuda_detective,fingerprint,09:45,目撃情報：投�
 hint,4,写真部 ゆい,@yui_photo_club,camera,10:02,写真整理してたら偶然写ってた！9時10分ごろ、A棟3階の窓から外を覗いてる人物。 名札に「T・S」って書いてあるっぽい…？,#証拠写真,310,521,4
 hint,5,情報部 けんた,@kenta_itclub,laptop,10:15,アカウント @unknown_x_2026 を解析したら プロフィール画像のメタデータに「Matsuda_2026」という文字列が残ってた。 これ、本名じゃないか？,#デジタル捜査,178,399,5
 hint,6,実行委員長 あおい,@aoi_committee,megaphone,10:29,みなさん、落ち着いてください。キャンフェスは予定通り開催です！ デマを流した人物の特定を進めています。 心当たりのある方はDMを。,#キャンフェス開催,892,1.2K,6
+final_puzzle,1,（未定）,@unknown,circle-help,たった今,（なぞとき班が最終問題の内容を追加予定。それまでの仮テキストです）,,0,0,
+reveal,1,ももこ,@momo_camp26,smile,たった今,さっきの中止デマの件、実行委員に聞いたら「この投稿、地味に画像加工が凝ってて逆に手間かかってたと思う」って言ってた(笑) 犯人ちゃんと捕まったみたいで安心した〜,,128,402,
 `;
