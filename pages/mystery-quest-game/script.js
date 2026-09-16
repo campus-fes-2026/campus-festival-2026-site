@@ -171,10 +171,12 @@ function handleStage1Success() {
   // ※ DMタブを見ている場合もあるので、強制的なタブ切り替え・スクロールはしない
   if (finalPuzzleSlot) revealElement(finalPuzzleSlot);
 
-  // DM側：2通目メッセージに、犯人の最終問題投稿の本文を引用として差し込む
+  // DM側：2通目メッセージに、犯人の最終問題投稿の本文（＋画像があれば画像も）を引用として差し込む
   if (dmMsg2Quote) {
     const finalPuzzlePost = state.posts.find((p) => p['種別'] === 'final_puzzle');
-    if (finalPuzzlePost) dmMsg2Quote.textContent = finalPuzzlePost['本文'];
+    if (finalPuzzlePost) {
+      dmMsg2Quote.innerHTML = escapeHtml(finalPuzzlePost['本文']) + postImageHtml(finalPuzzlePost);
+    }
   }
 
   // DM側：2通目メッセージと最終回答入力フォームを表示

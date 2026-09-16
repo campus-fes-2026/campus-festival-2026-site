@@ -846,6 +846,12 @@ img {
   color: var(--text-secondary);
 }
 
+/* 引用内に画像が入る場合、本文テキストとの間に余白を持たせる */
+.dm-msg__quote .post__image {
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
 /* 自分（プレイヤー）側の発言：右寄せの吹き出し */
 .dm-msg--self {
   flex-direction: row-reverse;

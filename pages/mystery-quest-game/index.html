@@ -104,11 +104,11 @@
       <h1 class="mt-view-title">キャンフェスデマ事件 — 捜査ファイル</h1>
 
       <!-- ============================================================
-           噂が広がる一般人の反応（雰囲気づくり・ヒント要素なし）
-           ✏️ 内容はGoogleスプレッドシートからCSV取得して script.js が描画する
-              （種別=timeline の行）。ここは差し込み先の空スロット。
+           種明かし投稿（種別=reveal の行、複数件）
+           ✏️ 内容はGoogleスプレッドシートからCSV取得して script.js が描画する。
+              最終問題正解後にJSが hidden を解除する。
       ============================================================ -->
-      <div id="ambient-posts-slot"></div>
+      <div id="reveal-posts-slot" hidden aria-live="polite"></div>
 
       <!-- ============================================================
            犯人の最終問題投稿（種別=final_puzzle の行）
@@ -118,11 +118,11 @@
       <div id="final-puzzle-slot" hidden aria-live="polite"></div>
 
       <!-- ============================================================
-           種明かし投稿（種別=reveal の行、複数件）
-           ✏️ 内容はGoogleスプレッドシートからCSV取得して script.js が描画する。
-              最終問題正解後にJSが hidden を解除する。
+           噂が広がる一般人の反応（雰囲気づくり・ヒント要素なし）
+           ✏️ 内容はGoogleスプレッドシートからCSV取得して script.js が描画する
+              （種別=timeline の行）。ここは差し込み先の空スロット。
       ============================================================ -->
-      <div id="reveal-posts-slot" hidden aria-live="polite"></div>
+      <div id="ambient-posts-slot"></div>
 
     </section>
     <!-- /#view-timeline -->
