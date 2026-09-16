@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--
+  <!--　
   ✏️ 【編集ガイド】meta description
      検索エンジンやSNSでシェアされたときに表示される説明文です。
      企画の内容・場所・見どころを110文字程度で書いてください。
   -->
-  <meta name="description" content="Illustration Sales — キャンフェス2026の企画紹介ページ。様々なイラストをご用意してお待ちしています。2階 204教室にてオープン。">
+  <meta name="description" content="Illustration Sales — キャンフェス2026の企画紹介ページ。様々なイラストをご用意してお待ちしています。2階 カマトロ扉前にてオープン。">
 
   <!--
-  ✏️ 【編集ガイド】ページタイトル
+  ✏️ 【編集ガイド】ページタイトル　
      「企画名 | 文化祭名」の形式で書くと分かりやすいです。
   -->
   <title>Illustration Sales | キャンフェス 2026</title>
@@ -93,7 +93,6 @@
       <div class="site-nav__logo">
         <a href="../../index.html">Campus Festival</a>
       </div>
-
       <!-- ハンバーガーアイコン（<label> で checkbox と連動） -->
       <label for="nav-toggle" class="site-nav__hamburger" aria-label="メニューを開く">
         <span></span>
@@ -106,7 +105,7 @@
   <!-- メニューパネル（右側からスライドイン） -->
   <div class="nav-menu" role="dialog" aria-modal="true" aria-label="サイトメニュー">
     <!-- ✕ 閉じるボタン -->
-    <label for="nav-toggle" class="nav-menu__close" aria-label="メニューを閉じる">×</label>
+    <label for="nav-toggle" class="nav-menu__close" aria-label="メニューを閉じる"></label>
     <!-- メニュー内のサイト名 -->
     <p class="nav-menu__logo">Campus Festival</p>
     <nav aria-label="バーガーメニュー">
@@ -167,7 +166,7 @@
     <!-- ✏️ 背景動画（自動再生・音なし・ループ再生の設定です）
          src の部分を実際の動画ファイルのパスに書き換えてください -->
     <video class="page-hero__bg-video" autoplay muted loop playsinline poster="おもろ.png" aria-hidden="true">
-      <source src="84984_1280x720.mp4" type="video/mp4">
+      <source src=".png" type="video/mp4">
     </video>
 
     <!-- 動画を暗くするための半透明レイヤー -->
@@ -180,7 +179,7 @@
     <h1 class="page-hero__title">Illustration Sales</h1>
 
     <!-- ✏️ 開催場所 -->
-    <p class="page-hero__place">3号館 2F &ensp;—&ensp; 204教室</p>
+    <p class="page-hero__place">松戸キャンパス 2F &ensp;—&ensp; カマトロ扉前</p>
 
   </header>
 
@@ -204,10 +203,8 @@
 
         <!-- ✏️ ここに紹介文を書いてください（100〜200文字程度） -->
         <p class="about-text">
-          「Illustration Sales」は、学生たちが本気で取り組んだ手作りイラスト販売企画です。
-          丁寧にハンドドリップしたコーヒーや、試作を重ねた自慢のスイーツをご用意してお待ちしています。
-          忙しい文化祭の中で、ほっと一息つける「静かな時間」をご提供できれば幸いです。
-          お友達との語らいに、一人でのんびりしたいときに、ぜひお立ち寄りください。
+          学生たちが本気で取り組んだ手作りイラスト販売企画です。
+          普段イラストを描かない人や、試行錯誤を重ねて作成したイラストをぜひご購入し、楽しんでいただけると嬉しいです。
         </p>
         <!-- ✏️ ここまでが紹介文です -->
 
@@ -252,7 +249,7 @@
 
           <!-- 左：選ばれている作品を大きく表示するエリア -->
           <div class="illust-showcase__display">
-            <img id="illustShowcaseImg" src="c.gif" alt="商品1のイメージ写真">
+            <img id="illustShowcaseImg" src="" alt="商品1のイメージ写真">
             <p class="illust-showcase__caption" id="illustShowcaseCaption">
               手作りイラストを中心に、様々な作品をご用意してお待ちしています。
             </p>
@@ -260,36 +257,25 @@
 
           <!-- 右：作品を選ぶボタン一覧（クリックで左の画像が切り替わります） -->
           <div class="illust-showcase__list">
-
-            <!-- ============ 商品1（最初に表示される画像） ============ -->
-            <button type="button" class="illust-btn is-active"
-                    data-img="c.gif"
-                    data-alt="商品1のイメージ写真"
-                    data-caption="手作りイラストを中心に、様々な作品をご用意してお待ちしています。">
-              <span class="illust-btn__name">イラストセット</span>
-              <span class="illust-btn__desc">気になる作品があれば、お気軽にスタッフまでお声がけください。</span>
-            </button>
-            <!-- ============ / 商品1 ============ -->
-
             <!-- ============ 商品2 ============ -->
             <button type="button" class="illust-btn"
-                    data-img="fate UBW_upscaled.jpg"
+                    data-img="comingsoon.jpeg"
                     data-alt="商品2のイメージ写真"
-                    data-caption="人気作品のひとつです。自由に書き換えてOKです。">
-              <span class="illust-btn__name">イラスト１</span>
-              <span class="illust-btn__desc">自由に書き換えてOKです。</span>
+                    data-caption="さまざまなイラストのチェキが34種からランダムで登場！">
+              <span class="illust-btn__name">ランダムチェキ</span>
+              <span class="illust-btn__desc">さまざまなイラストのチェキが34種からランダムで登場！</span>
               <span class="illust-btn__price">¥300</span>
             </button>
             <!-- ============ / 商品2 ============ -->
 
             <!-- ============ 商品3 ============ -->
             <button type="button" class="illust-btn"
-                    data-img="ﾄﾞﾊﾟｶﾞｷ.png"
+                    data-img="comingsoon.jpeg"
                     data-alt="商品3のイメージ写真"
-                    data-caption="こちらもおすすめの一枚です。自由に書き換えてOKです。">
-              <span class="illust-btn__name">イラスト2</span>
-              <span class="illust-btn__desc">自由に書き換えてOKです。</span>
-              <span class="illust-btn__price">¥500</span>
+                    data-caption="ランダムチェキの中から選んで購入することができます。">
+              <span class="illust-btn__name">固定チェキ</span>
+              <span class="illust-btn__desc">※完全予約制です。ランダムチェキの中から選んで購入することができます。</span>
+              <span class="illust-btn__price">¥400</span>
             </button>
             <!-- ============ / 商品3 ============ -->
 
@@ -322,47 +308,14 @@
 
           <div class="timeline__item timeline__item--highlight">
             <!-- ✏️ 時刻 -->
-            <p class="timeline__time">10 : 00</p>
+            <p class="timeline__time">10 : 00 ~</p>
             <div class="timeline__body">
               <!-- ✏️ イベント名 -->
               <strong>オープン</strong>
               <!-- ✏️ 説明文（不要なら削除） -->
-              <p>本日のコーヒー提供スタート。午前中は比較的すいています。</p>
+              <p>イラスト販売を行います。イラストがなくなり次第、終了します。</p>
             </div>
           </div>
-
-          <div class="timeline__item">
-            <p class="timeline__time">11 : 00 — 13 : 00</p>
-            <div class="timeline__body">
-              <strong>混雑ピーク予想</strong>
-              <p>お昼前後は混み合います。早めまたは遅めのご来店がおすすめです。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <p class="timeline__time">13 : 30 — 14 : 00</p>
-            <div class="timeline__body">
-              <strong>一時準備中（クローズ）</strong>
-              <p>仕込みのため一時的に閉店します。再開時刻はSNSでお知らせします。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <p class="timeline__time">14 : 00 —</p>
-            <div class="timeline__body">
-              <strong>アフタヌーンタイム・限定クッキー発売</strong>
-              <p>アイシングクッキーの販売は午後からです。なくなり次第終了。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item timeline__item--highlight">
-            <p class="timeline__time">16 : 30</p>
-            <div class="timeline__body">
-              <strong>クローズ（予定）</strong>
-              <p>材料がなくなった時点で早めに閉店する場合があります。</p>
-            </div>
-          </div>
-
         </div><!-- /.timeline -->
       </div>
     </section>
@@ -382,7 +335,7 @@
 
     <!-- ✏️ 担当チーム情報（不要なら削除してください） -->
     <p style="margin-bottom: 10px;">
-      担当：○○学部 △△科 3年A組<br>
+      担当：キャンパスフェスティバル実行委員会 イラストレーション部門<br>
       ご不明な点は当日スタッフまでお声がけください。
     </p>
 

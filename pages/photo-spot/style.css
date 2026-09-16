@@ -354,3 +354,194 @@
 .page-footer a {
   color: var(--page-accent);
 }
+
+/* ============================================================
+   9. ページを開いたときの登場アニメーション
+   ============================================================
+   ✏️ 【カスタマイズガイド】
+      ヒーローヘッダーの各要素が、少しずつ時間差（delay）で
+      フワッと下から浮き上がるように表示されます。
+      ・動きの速さを変えたい → animation の秒数（例: .8s）を調整
+      ・出てくるタイミングをずらしたい → animation-delay の秒数を調整
+      ・動きの向きを変えたい → @keyframes 内の translateY の数値を調整
+   ============================================================ */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-hero__tag {
+  animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.1s;
+}
+.page-hero__title {
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.25s;
+}
+.page-hero__place {
+  animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.45s;
+}
+/* 背景動画もふわっと明るくなりながら登場 */
+.page-hero__bg-video {
+  animation: heroBgReveal 1.4s ease both;
+}
+@keyframes heroBgReveal {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* 動きを苦手とするユーザー向けの配慮（OS設定でアニメーション抑制がONの場合） */
+@media (prefers-reduced-motion: reduce) {
+  .page-hero__tag,
+  .page-hero__title,
+  .page-hero__place,
+  .page-hero__bg-video {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================================
+   10. イラストショーケース（左：大きい画像 / 右：選択ボタン）
+   ============================================================
+   ✏️ 【カスタマイズガイド】
+      右側のボタン（.illust-btn）をクリックすると、左側の
+      大きい画像（.illust-showcase__display 内の img）が
+      切り替わります。
+      ・ボタンを増やしたい → index.html 側で .illust-btn を
+        コピーして追加してください（data-img属性に画像パスを指定）。
+      ・選ばれているボタンの色を変えたい → .illust-btn.is-active
+        の background-color / border-color を調整してください。
+   ============================================================ */
+.illust-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(200px, 1fr);
+  gap: var(--space-sm);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.illust-showcase__display {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--page-accent-pale);
+  background-color: var(--color-bg-dark);
+}
+.illust-showcase__display img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  animation: illustFadeIn 0.5s ease;
+}
+@keyframes illustFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.illust-showcase__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+  color: #fff;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.illust-showcase__list {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.illust-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--page-accent-pale);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+.illust-btn:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+.illust-btn.is-active {
+  border-color: var(--page-accent);
+  background-color: var(--page-accent-pale);
+}
+.illust-btn__name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.illust-btn__desc {
+  font-size: 0.74rem;
+  color: var(--color-text-sub);
+  line-height: 1.6;
+}
+.illust-btn__price {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--page-accent-dark);
+  margin-top: 2px;
+}
+
+/* スマホでは画像を上・ボタンを横スクロールの列にする */
+@media (max-width: 700px) {
+  .illust-showcase {
+    grid-template-columns: 1fr;
+  }
+  .illust-showcase__display {
+    aspect-ratio: 3 / 2;
+  }
+  .illust-showcase__list {
+    flex-direction: row;
+    align-self: auto;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding-right: 0;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .illust-btn {
+    flex: 0 0 190px;
+  }
+}
