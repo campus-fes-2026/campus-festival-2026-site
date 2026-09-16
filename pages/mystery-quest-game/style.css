@@ -306,6 +306,16 @@ img {
   padding: 0 4px;
 }
 
+/* 投稿画像（「画像」列が指定されている投稿のみ表示） */
+.post__image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-base);
+  margin-bottom: 10px;
+}
+
 /* ハッシュタグ */
 .post__hashtag {
   color: var(--accent-blue);

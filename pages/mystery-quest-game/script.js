@@ -416,7 +416,19 @@ function hashtagSpans(raw) {
   return tags.map((t) => ' <span class="post__hashtag">' + escapeHtml(t) + '</span>').join('');
 }
 
-/** 1投稿ぶんの共通パーツ（ヘッダー行 + 本文） */
+/**
+ * 「画像」列 → <img class="post__image"> のHTML（値が無ければ空文字）
+ * ファイル名は pages/mystery-quest-game/images/posts/ 内のファイル名のみを想定
+ * （例：final-puzzle-16.jpg）。属性値として問題ないファイル名のみを想定しているため
+ * escapeHtml ではなく encodeURIComponent でURLエンコードする。
+ */
+function postImageHtml(obj) {
+  const filename = obj['画像'];
+  if (!filename) return '';
+  return '<img class="post__image" src="images/posts/' + encodeURIComponent(filename) + '" alt="投稿画像" loading="lazy">';
+}
+
+/** 1投稿ぶんの共通パーツ（ヘッダー行 + 本文 + 画像） */
 function postBodyInner(obj) {
   return (
     '<div class="post__header">' +
@@ -424,7 +436,8 @@ function postBodyInner(obj) {
       '<span class="post__handle">' + escapeHtml(obj['ID']) + '</span>' +
       '<span class="post__time">' + escapeHtml(obj['時刻']) + '</span>' +
     '</div>' +
-    '<p class="post__text">' + escapeHtml(obj['本文']) + hashtagSpans(obj['ハッシュタグ']) + '</p>'
+    '<p class="post__text">' + escapeHtml(obj['本文']) + hashtagSpans(obj['ハッシュタグ']) + '</p>' +
+    postImageHtml(obj)
   );
 }
 
@@ -858,17 +871,17 @@ function initCulpritConversation() {
    HTML直書きと一致させること（デグレ防止）。
    ※ 本文は書式なしのプレーンテキスト（<strong> 等の装飾は入らない）。
    =========================================================== */
-const DEFAULT_CSV = `種別,表示順,名前,ID,アイコン,時刻,本文,ハッシュタグ,リツイート数,いいね数,ヒント番号
-timeline,1,ももこ,@momo_camp26,smile,09:14,うそやばい、まじで中止なの!? 出店の準備めっちゃしたのに…😭 誰か本当か教えて,#キャンフェス2026,46,73,
-timeline,2,りく（3年A組）,@riku_3a,user,09:22,え待って中止の話拡散されすぎてて草。てかソースどこ？公式そんなアナウンス出してなくない？,,88,154,
-timeline,3,だいすけ先輩,@daisuke_senpai,user,09:40,後輩から中止って聞いて焦って先生に聞きに行ったら『そんな話聞いてない』って言われた。これデマだ,,205,367,
-timeline,4,匿名希望,@anon_student2026,user,09:58,なんか変な投稿からめっちゃ広まってるらしい。RTする前に一回確認した方がいいと思うよ〜,,132,219,
-hint,1,たろちゃん,@taro_campfes,graduation-cap,09:18,え、中止？！さっき正門で「M」と書かれたステッカーが貼られた看板を見たけど… あれが怪しいのかな。,#キャンフェスデマ事件,23,87,1
-hint,2,花子 探偵,@hanako_detective,search,09:31,不審な投稿のIPログを辿ったら…発信場所は「A棟 3階」の端末から。 あの場所には誰がいたんだろう。,#調査中,61,112,2
-hint,3,松田 捜査官,@matsuda_detective,fingerprint,09:45,目撃情報：投稿直前、黒いパーカーの人物が図書館前のベンチに座ってスマホを操作していた。 手元には「5」と書かれたメモが…,#目撃者募集,89,204,3
-hint,4,写真部 ゆい,@yui_photo_club,camera,10:02,写真整理してたら偶然写ってた！9時10分ごろ、A棟3階の窓から外を覗いてる人物。 名札に「T・S」って書いてあるっぽい…？,#証拠写真,310,521,4
-hint,5,情報部 けんた,@kenta_itclub,laptop,10:15,アカウント @unknown_x_2026 を解析したら プロフィール画像のメタデータに「Matsuda_2026」という文字列が残ってた。 これ、本名じゃないか？,#デジタル捜査,178,399,5
-hint,6,実行委員長 あおい,@aoi_committee,megaphone,10:29,みなさん、落ち着いてください。キャンフェスは予定通り開催です！ デマを流した人物の特定を進めています。 心当たりのある方はDMを。,#キャンフェス開催,892,1.2K,6
-final_puzzle,1,（未定）,@unknown,circle-help,たった今,（なぞとき班が最終問題の内容を追加予定。それまでの仮テキストです）,,0,0,
-reveal,1,ももこ,@momo_camp26,smile,たった今,さっきの中止デマの件、実行委員に聞いたら「この投稿、地味に画像加工が凝ってて逆に手間かかってたと思う」って言ってた(笑) 犯人ちゃんと捕まったみたいで安心した〜,,128,402,
+const DEFAULT_CSV = `種別,表示順,名前,ID,アイコン,時刻,本文,ハッシュタグ,リツイート数,いいね数,ヒント番号,画像
+timeline,1,ももこ,@momo_camp26,smile,09:14,うそやばい、まじで中止なの!? 出店の準備めっちゃしたのに…😭 誰か本当か教えて,#キャンフェス2026,46,73,,
+timeline,2,りく（3年A組）,@riku_3a,user,09:22,え待って中止の話拡散されすぎてて草。てかソースどこ？公式そんなアナウンス出してなくない？,,88,154,,
+timeline,3,だいすけ先輩,@daisuke_senpai,user,09:40,後輩から中止って聞いて焦って先生に聞きに行ったら『そんな話聞いてない』って言われた。これデマだ,,205,367,,
+timeline,4,匿名希望,@anon_student2026,user,09:58,なんか変な投稿からめっちゃ広まってるらしい。RTする前に一回確認した方がいいと思うよ〜,,132,219,,
+hint,1,たろちゃん,@taro_campfes,graduation-cap,09:18,え、中止？！さっき正門で「M」と書かれたステッカーが貼られた看板を見たけど… あれが怪しいのかな。,#キャンフェスデマ事件,23,87,1,
+hint,2,花子 探偵,@hanako_detective,search,09:31,不審な投稿のIPログを辿ったら…発信場所は「A棟 3階」の端末から。 あの場所には誰がいたんだろう。,#調査中,61,112,2,
+hint,3,松田 捜査官,@matsuda_detective,fingerprint,09:45,目撃情報：投稿直前、黒いパーカーの人物が図書館前のベンチに座ってスマホを操作していた。 手元には「5」と書かれたメモが…,#目撃者募集,89,204,3,
+hint,4,写真部 ゆい,@yui_photo_club,camera,10:02,写真整理してたら偶然写ってた！9時10分ごろ、A棟3階の窓から外を覗いてる人物。 名札に「T・S」って書いてあるっぽい…？,#証拠写真,310,521,4,
+hint,5,情報部 けんた,@kenta_itclub,laptop,10:15,アカウント @unknown_x_2026 を解析したら プロフィール画像のメタデータに「Matsuda_2026」という文字列が残ってた。 これ、本名じゃないか？,#デジタル捜査,178,399,5,
+hint,6,実行委員長 あおい,@aoi_committee,megaphone,10:29,みなさん、落ち着いてください。キャンフェスは予定通り開催です！ デマを流した人物の特定を進めています。 心当たりのある方はDMを。,#キャンフェス開催,892,1.2K,6,
+final_puzzle,1,（未定）,@unknown,circle-help,たった今,（なぞとき班が最終問題の内容を追加予定。それまでの仮テキストです）,,0,0,,final-puzzle-16.jpg
+reveal,1,ももこ,@momo_camp26,smile,たった今,さっきの中止デマの件、実行委員に聞いたら「この投稿、地味に画像加工が凝ってて逆に手間かかってたと思う」って言ってた(笑) 犯人ちゃんと捕まったみたいで安心した〜,,128,402,,
 `;
