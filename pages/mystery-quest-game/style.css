@@ -93,6 +93,11 @@ body {
   padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px));
   word-break: break-word;
   -webkit-font-smoothing: antialiased;
+  /* フッターを常に下部タブバーのすぐ上に固定するためのsticky footerレイアウト */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 a {
@@ -130,11 +135,7 @@ img {
 .mt-app {
   max-width: 640px;
   margin: 0 auto;
-}
-
-/* 各ビュー（タブで1つだけ表示） */
-.app-view {
-  min-height: 40vh;
+  flex: 1 0 auto;
 }
 
 /* ビュー先頭の小見出し（旧オープニングバナーの h1 を継承） */
