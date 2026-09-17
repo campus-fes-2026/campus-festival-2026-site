@@ -27,14 +27,6 @@
   --page-accent-dark:  #ffffff;
   --page-accent-pale:  #b53aa3;
 
-.page-hero {
-  background-image: url('images/hero-bg.png');
-  background-size: cover;       /* 画像をエリア全体に隙間なく広げる */
-  background-position: center;  /* 画像の中心を基準に表示する */
-  background-color: rgba(160, 111, 194, 0.6);
-  background-blend-mode: multiply;
-}
-
   /* 企画ヘッダーの背景色
      ✏️ ここを変えると企画ページのヘッダー背景色が変わります */
   --page-hero-bg:      #6f3978;  /* 深いチョコレートブラウン */
@@ -54,6 +46,14 @@
   background-position: 0 0, 30px 30px;
   padding: var(--space-xl) var(--space-sm) var(--space-lg);
   text-align: center;
+}
+
+.page-hero {
+  background-image: url('images/hero-bg.png');
+  background-size: cover;       /* 画像をエリア全体に隙間なく広げる */
+  background-position: center;  /* 画像の中心を基準に表示する */
+  background-color: rgba(160, 111, 194, 0.6);
+  background-blend-mode: multiply;
 }
 
 /* ヘッダー内の「企画種別」タグ（例：Café / Exhibition） */
