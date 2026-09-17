@@ -24,13 +24,21 @@
      → common.css の --color-accent と同じブロンズゴールドですが、
         変えればこのページだけ違う色にできます */
   --page-accent:       #a06fc2;
-  --page-accent-dark:  #9A7A52;
+  --page-accent-dark:  #ffffff;
   --page-accent-pale:  #b53aa3;
+
+.page-hero {
+  background-image: url('images/hero-bg.png');
+  background-size: cover;       /* 画像をエリア全体に隙間なく広げる */
+  background-position: center;  /* 画像の中心を基準に表示する */
+  background-color: rgba(160, 111, 194, 0.6);
+  background-blend-mode: multiply;
+}
 
   /* 企画ヘッダーの背景色
      ✏️ ここを変えると企画ページのヘッダー背景色が変わります */
   --page-hero-bg:      #6f3978;  /* 深いチョコレートブラウン */
-  --page-hero-text:    #F7F4EF;  /* 羊皮紙ベージュ（ヘッダーのテキスト色） */
+  --page-hero-text:    #ffffff;  /* 羊皮紙ベージュ（ヘッダーのテキスト色） */
 }
 
 /* ============================================================
@@ -40,8 +48,8 @@
   background-color: var(--page-hero-bg);
   /* 微細なドット装飾（背景テクスチャ） */
   background-image:
-    radial-gradient(circle, rgba(181,148,105,0.18) 1px, transparent 1px),
-    radial-gradient(circle, rgba(181,148,105,0.10) 1px, transparent 1px);
+    radial-gradient(circle, rgba(45, 44, 43, 0.18) 1px, transparent 1px),
+    radial-gradient(circle, rgba(148, 147, 148, 0.1) 1px, transparent 1px);
   background-size: 60px 60px, 90px 90px;
   background-position: 0 0, 30px 30px;
   padding: var(--space-xl) var(--space-sm) var(--space-lg);
@@ -57,7 +65,7 @@
   font-family: var(--font-display);
   font-size: 0.75rem;
   letter-spacing: 0.25em;
-  color: rgba(247,244,239,0.7);
+  color: rgba(239, 245, 247, 0.7);
   margin-bottom: var(--space-sm);
   text-transform: uppercase;
 }
@@ -75,7 +83,7 @@
 
 /* 開催場所 */
 .page-hero__place {
-  font-size: 0.82rem;
+  font-size: 1.1rem;
   color: rgba(247,244,239,0.6);
   letter-spacing: 0.12em;
   display: flex;
@@ -347,10 +355,26 @@
   display: block;
   font-family: var(--font-display);
   font-size: 0.9rem;
-  color: rgba(247,244,239,0.85);
+  color: rgba(255, 249, 62, 0.85);
   letter-spacing: 0.2em;
   margin-bottom: 8px;
 }
 .page-footer a {
   color: var(--page-accent);
+}
+main, 
+.section, 
+section {
+  background-color: #c6b7e7 !important;
+  color: #f5eedf !important;  
+}
+
+.section div, 
+.section p, 
+.section h3 {
+  color: #040404;
+}
+.timeline__item::before,
+.timeline-item::before {
+  left: -25px !important;
 }
