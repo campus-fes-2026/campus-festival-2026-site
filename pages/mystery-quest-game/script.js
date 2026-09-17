@@ -214,13 +214,14 @@ function handleStage1Fail() {
 function handleFinalSuccess() {
   state.finalCleared = true;
 
-  const inputEl         = document.getElementById('final-input');
-  const submitEl        = document.getElementById('final-submit');
-  const errorEl         = document.getElementById('final-error');
-  const dmMsg3          = document.getElementById('dm-msg-3');
-  const revealPostsSlot = document.getElementById('reveal-posts-slot');
-  const dmContactCulprit = document.getElementById('dm-contact-culprit');
-  const dmTabBadge       = document.getElementById('dm-tab-badge');
+  const inputEl          = document.getElementById('final-input');
+  const submitEl         = document.getElementById('final-submit');
+  const errorEl          = document.getElementById('final-error');
+  const dmMsg3            = document.getElementById('dm-msg-3');
+  const revealPostsSlot   = document.getElementById('reveal-posts-slot');
+  const dmContactCulprit  = document.getElementById('dm-contact-culprit');
+  const dmTabBadge        = document.getElementById('dm-tab-badge');
+  const dmCulpritNotice   = document.getElementById('dm-culprit-notice');
 
   if (inputEl)  inputEl.classList.add('is-correct');
   if (submitEl) submitEl.disabled = true;
@@ -238,6 +239,7 @@ function handleFinalSuccess() {
   // DM側：トーク一覧に犯人を出現させ、DMタブに新着通知バッジを表示
   if (dmContactCulprit) dmContactCulprit.hidden = false;
   if (dmTabBadge)        dmTabBadge.hidden = false;
+  if (dmCulpritNotice)   dmCulpritNotice.hidden = false;
 }
 
 /**
@@ -571,6 +573,9 @@ function markCulpritRead() {
   const contact = document.getElementById('dm-contact-culprit');
   const unread  = contact ? contact.querySelector('.dm-contact__unread') : null;
   if (unread) unread.hidden = true;
+
+  const notice = document.getElementById('dm-culprit-notice');
+  if (notice) notice.hidden = true;
 }
 
 /**
@@ -599,7 +604,12 @@ function initDmInbox() {
     if (!target) return;
 
     inbox.hidden = true;
-    target.hidden = false;
+    // target以外の会話は確実に隠す（開いている会話から別の会話へ直接ジャンプしても
+    // 両方が同時に表示されたままにならないようにするため）
+    Object.keys(conversations).forEach((key) => {
+      const el = conversations[key];
+      if (el) el.hidden = (key !== name);
+    });
 
     if (name === 'culprit') {
       markCulpritRead();
@@ -614,6 +624,12 @@ function initDmInbox() {
   document.querySelectorAll('[data-back-to-inbox]').forEach((btn) => {
     btn.addEventListener('click', backToInbox);
   });
+
+  // スタッフR会話内の通知ボタンから、犯人とのトークに直接ジャンプ
+  const openCulpritBtn = document.getElementById('dm-open-culprit-btn');
+  if (openCulpritBtn) {
+    openCulpritBtn.addEventListener('click', () => openConversation('culprit'));
+  }
 
   // DM画面を開いたときの初期状態は常にトーク一覧
   backToInbox();

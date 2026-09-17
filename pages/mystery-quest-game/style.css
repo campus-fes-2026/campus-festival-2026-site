@@ -710,8 +710,8 @@ img {
 /* 未読バッジ（小さな赤丸） */
 .dm-contact__unread {
   flex-shrink: 0;
-  width: 10px;
-  height: 10px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   background-color: var(--accent-red);
 }
@@ -943,6 +943,33 @@ img {
   color: var(--text-secondary);
 }
 
+/* 犯人からの新着DM通知（スタッフR会話内、最終回答正解後にJSで表示） */
+.dm-culprit-notice {
+  margin: 12px 16px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--accent-red);
+  border-radius: 8px;
+  background-color: rgba(200, 60, 60, 0.06);
+  text-align: center;
+}
+
+.dm-culprit-notice p {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+}
+
+.dm-culprit-notice__btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  background-color: var(--accent-red);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
 /* ============================================================
    9. 下部固定タブバー
    ============================================================ */
@@ -1000,16 +1027,22 @@ img {
   height: 22px;
 }
 
-/* タブアイコン右上の新着通知バッジ（小さな赤丸） */
+/* タブアイコン右上の新着通知バッジ（大きめの赤丸＋点滅アニメーション） */
 .tabbar__badge {
   position: absolute;
-  top: -2px;
-  right: -4px;
-  width: 9px;
-  height: 9px;
+  top: -4px;
+  right: -6px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background-color: var(--accent-red);
-  border: 1.5px solid var(--bg-card);
+  border: 2px solid var(--bg-card);
+  animation: tabbar-badge-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes tabbar-badge-pulse {
+  0%, 100% { transform: scale(1);   opacity: 1;   }
+  50%      { transform: scale(1.25); opacity: 0.75; }
 }
 
 .tabbar__label {
