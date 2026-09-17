@@ -298,7 +298,7 @@ const ICONS = {
   'laptop': ICON_SVG_HEAD + '<path d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z"/><path d="M20.054 15.987H3.946"/></svg>',
   'megaphone': ICON_SVG_HEAD + '<path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>',
   // ももこ（雑談）で使われているSVGそのまま
-  'smile': ICON_SVG_HEAD + '<path d="M15 10V9"/><path d="M9 10V9"/><path d="M9 16a5 5 0 0 1 6 0"/><circle cx="12" cy="12" r="10"/></svg>',
+  'smile': ICON_SVG_HEAD + '<path d="M15 10V9"/><path d="M9 10V9"/><path d="M9 16a5 5 0 0 0 6 0"/><circle cx="12" cy="12" r="10"/></svg>',
   // だいすけ先輩（雑談）で使われているSVGそのまま
   'user': ICON_SVG_HEAD + '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
   // Lucide circle-help（新規取得・ISCライセンス）
