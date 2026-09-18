@@ -226,6 +226,19 @@
   color: var(--page-accent-pale);
 }
 
+.menu-item__img-wrap-5 {
+  width: 100px;
+  height: 124px;
+  flex-shrink: 0;
+  background-color: var(--color-bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  /* 画像がないときのプレースホルダー色 */
+  color: var(--page-accent-pale);
+}
+
 .menu-item__img-wrap img {
   width: 100%;
   height: 100%;
