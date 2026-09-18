@@ -417,28 +417,23 @@
 }
 
 /* ============================================================
-   10. イラストショーケース（左：大きい画像 / 右：選択ボタン）
+   10. イラストショーケース（画像 → 商品説明を縦に並べる）
    ============================================================
    ✏️ 【カスタマイズガイド】
-      右側のボタン（.illust-btn）をクリックすると、左側の
-      大きい画像（.illust-showcase__display 内の img）が
-      切り替わります。
-      ・ボタンを増やしたい → index.html 側で .illust-btn を
-        コピーして追加してください（data-img属性に画像パスを指定）。
-      ・選ばれているボタンの色を変えたい → .illust-btn.is-active
-        の background-color / border-color を調整してください。
+      画像はトリミングされず全体が表示されます
+      （width:100%; height:auto; で自然な比率のまま表示）。
+      商品を増やしたい場合は .illust-item のブロックをコピーして
+      .illust-showcase の中に追加してください。
    ============================================================ */
 .illust-showcase {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(200px, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: var(--space-sm);
-  max-width: 900px;
+  max-width: 520px;
   margin: 0 auto;
 }
 
 .illust-showcase__display {
-  position: relative;
-  aspect-ratio: 4 / 3;
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--page-accent-pale);
@@ -446,8 +441,7 @@
 }
 .illust-showcase__display img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
   animation: illustFadeIn 0.5s ease;
 }
@@ -462,28 +456,7 @@
   }
 }
 
-.illust-showcase__caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 14px 16px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
-  color: #fff;
-  font-size: 0.82rem;
-  line-height: 1.6;
-}
-
-.illust-showcase__list {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.illust-btn {
+.illust-item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -495,53 +468,21 @@
   border: 1px solid var(--page-accent-pale);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
-  cursor: pointer;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
-.illust-btn:hover {
-  box-shadow: var(--shadow-sm);
-  transform: translateY(-1px);
-}
-.illust-btn.is-active {
-  border-color: var(--page-accent);
-  background-color: var(--page-accent-pale);
-}
-.illust-btn__name {
+.illust-item__name {
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--color-text);
 }
-.illust-btn__desc {
+.illust-item__desc {
   font-size: 0.74rem;
   color: var(--color-text-sub);
   line-height: 1.6;
 }
-.illust-btn__price {
+.illust-item__price {
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 500;
   color: var(--page-accent-dark);
   margin-top: 2px;
-}
-
-/* スマホでは画像を上・ボタンを横スクロールの列にする */
-@media (max-width: 700px) {
-  .illust-showcase {
-    grid-template-columns: 1fr;
-  }
-  .illust-showcase__display {
-    aspect-ratio: 3 / 2;
-  }
-  .illust-showcase__list {
-    flex-direction: row;
-    align-self: auto;
-    overflow-x: auto;
-    overflow-y: visible;
-    padding-right: 0;
-    padding-bottom: 6px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .illust-btn {
-    flex: 0 0 190px;
-  }
 }

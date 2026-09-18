@@ -213,73 +213,42 @@
 
     <!-- ========================================================
          ② メニュー・イラストショーケース
-            （左：大きい画像 / 右：選べるボタン一覧）
+            （画像 → ランダムチェキの説明 → 固定チェキの説明、の順に縦並び）
          ========================================================
-    ✏️ 【編集ガイド】画像の入れ方
-       ① 画像ファイル（jpg / png / gif など）を用意して、
-          このHTMLファイルと同じ階層に置いてください。
-          （images フォルダを作ってその中に入れるのがおすすめです。
-            例：images/item1.jpg）
-       ② 右側の各ボタン（.illust-btn）の data-img="ここ" の部分を、
-          用意した画像のファイル名・パスに書き換えてください。
-          例）images フォルダに item1.jpg を入れた場合：
-              data-img="images/item1.jpg"
-       ③ data-alt="" の中は、画像が表示されないときに代わりに
-          読み上げ・表示される説明文です。画像の内容に合わせて変えてください。
+    ✏️ 【編集ガイド】画像の変更
+       画像を差し替えたいときは、.illust-showcase__display 内の
+       <img src="..."> のファイル名を書き換えてください。
 
-    ✏️ 【編集ガイド】ボタンの中身（商品名・説明・値段）
-       .illust-btn__name  → 商品名
-       .illust-btn__desc  → 説明文（不要なら削除OK）
-       .illust-btn__price → 値段（不要なら削除OK）
-
-    ✏️ 【編集ガイド】商品（ボタン）を増やしたいとき
-       .illust-btn のブロックをまるごとコピーして、
-       .illust-showcase__list の中に追加してください。
-       一番最初のボタンが、最初に表示される画像になります。
-
-       ボタンをクリック（タップ）すると、左側の大きい画像が
-       フワッと切り替わります。
+    ✏️ 【編集ガイド】説明文の変更
+       .illust-item__name  → 商品名
+       .illust-item__desc  → 説明文（不要なら削除OK）
+       .illust-item__price → 値段（不要なら削除OK）
     ======================================================== -->
     <section class="section menu-section" id="menu">
       <div class="container">
 
         <h2 class="page-section-title">Menu — メニュー</h2>
 
-        <div class="illust-showcase" id="illustShowcase">
+        <div class="illust-showcase">
 
-          <!-- 左：選ばれている作品を大きく表示するエリア -->
+          <!-- 作品一覧の画像（トリミングせず全体を表示） -->
           <div class="illust-showcase__display">
-            <img id="illustShowcaseImg" src="1.png" alt="商品1のイメージ写真">
-            <p class="illust-showcase__caption" id="illustShowcaseCaption">
-              手作りイラストを中心に、様々な作品をご用意してお待ちしています。
-            </p>
+            <img src="1.png" alt="イラスト作品一覧">
           </div>
 
-          <!-- 右：作品を選ぶボタン一覧（クリックで左の画像が切り替わります） -->
-          <div class="illust-showcase__list">
-            <!-- ============ 商品2 ============ -->
-            <button type="button" class="illust-btn"
-                    data-img="2.png"
-                    data-alt="商品2のイメージ写真"
-                    data-caption="さまざまなイラストのチェキが34種からランダムで登場！">
-              <span class="illust-btn__name">ランダムチェキ</span>
-              <span class="illust-btn__desc">さまざまなイラストのチェキが34種からランダムで登場！</span>
-              <span class="illust-btn__price">¥300</span>
-            </button>
-            <!-- ============ / 商品2 ============ -->
+          <!-- ランダムチェキの説明 -->
+          <div class="illust-item">
+            <span class="illust-item__name">ランダムチェキ</span>
+            <span class="illust-item__desc">さまざまなイラストのチェキが34種からランダムで登場！</span>
+            <span class="illust-item__price">¥300</span>
+          </div>
 
-            <!-- ============ 商品3 ============ -->
-            <button type="button" class="illust-btn"
-                    data-img="2.png"
-                    data-alt="商品3のイメージ写真"
-                    data-caption="ランダムチェキの中から選んで購入することができます。">
-              <span class="illust-btn__name">固定チェキ</span>
-              <span class="illust-btn__desc">※完全予約制です。ランダムチェキの中から選んで購入することができます。</span>
-              <span class="illust-btn__price">¥400</span>
-            </button>
-            <!-- ============ / 商品3 ============ -->
-
-          </div><!-- /.illust-showcase__list -->
+          <!-- 固定チェキの説明（画像なし） -->
+          <div class="illust-item">
+            <span class="illust-item__name">固定チェキ</span>
+            <span class="illust-item__desc">※完全予約制です。ランダムチェキの中から選んで購入することができます。</span>
+            <span class="illust-item__price">¥400</span>
+          </div>
 
         </div><!-- /.illust-showcase -->
 
@@ -346,40 +315,6 @@
     </p>
 
   </footer>
-
-  <!--
-  ✏️ イラストショーケースの動作用スクリプト
-     右側のボタン（.illust-btn）をクリックすると、左側の
-     大きい画像・キャプションが切り替わります。基本的に触らなくてOKです。
-  -->
-  <script>
-    (function () {
-      const display = document.getElementById('illustShowcaseImg');
-      const caption = document.getElementById('illustShowcaseCaption');
-      const buttons = document.querySelectorAll('.illust-btn');
-
-      buttons.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          const img = btn.getAttribute('data-img');
-          const alt = btn.getAttribute('data-alt') || '';
-          const cap = btn.getAttribute('data-caption') || '';
-
-          // ボタンの見た目（選択中の状態）を切り替え
-          buttons.forEach(function (b) { b.classList.remove('is-active'); });
-          btn.classList.add('is-active');
-
-          // 左側の画像・キャプションを切り替え（CSS側でフワッと表示されます）
-          if (img) {
-            display.src = img;
-            display.alt = alt;
-          }
-          if (caption) {
-            caption.textContent = cap;
-          }
-        });
-      });
-    })();
-  </script>
 
   <!--
   メニュー自動クローズ JS の読み込み
