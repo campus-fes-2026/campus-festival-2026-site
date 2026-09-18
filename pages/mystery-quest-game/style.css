@@ -836,6 +836,18 @@ img {
   border-color: var(--border-green);
 }
 
+/* 犯人が入力中であることを示す「・・・」の吹き出し（自動的にゆっくり明滅） */
+.dm-msg__bubble--typing p {
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  animation: dm-typing-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes dm-typing-blink {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 1; }
+}
+
 /* 犯人の投稿本文を引用表示するブロック（DM2通目内） */
 .dm-msg__quote {
   margin: 8px 0;

@@ -779,27 +779,50 @@ const CULPRIT_DM_SCRIPT = [
   { type: 'text', text: 'ありがとう。' },
 ];
 
-/** 犯人の個別チャットで、いま「タップで次へ進める」状態かどうか */
-let culpritWaitingForTap = false;
 /** CULPRIT_DM_SCRIPT のうち、次に処理するノードのインデックス */
 let culpritStep = 0;
 /** 会話を開始済みか（2回目以降に開いたときは最初から作り直さない） */
 let culpritConversationStarted = false;
 
+/** 「・・・」を表示しておく時間（ミリ秒） */
+const CULPRIT_TYPING_DELAY_MS = 900;
+/** 本文表示後、次のノードに自動で進むまでの、1文字あたりの追加待ち時間（ミリ秒） */
+const CULPRIT_READ_MS_PER_CHAR = 60;
+/** 自動で次に進むまでの待ち時間の下限・上限（ミリ秒） */
+const CULPRIT_READ_MIN_MS = 1200;
+const CULPRIT_READ_MAX_MS = 4500;
+
 /**
- * 犯人側のメッセージ（相手側の吹き出し）を #culprit-dm-thread に1件追加する
+ * 犯人側のメッセージを、「・・・」（入力中）→ 実際の本文、の順で1件表示する。
+ * 本文表示後、文字数に応じた時間だけ待ってから onDone() を呼ぶ（自動で次のノードへ）。
  * @param {string} text
+ * @param {Function} onDone
  */
-function renderCulpritTextNode(text) {
+function renderCulpritTypingThenText(text, onDone) {
   const thread = document.getElementById('culprit-dm-thread');
-  if (!thread) return;
+  if (!thread) { onDone(); return; }
+
   const el = document.createElement('div');
   el.className = 'dm-msg';
   el.innerHTML =
     '<span class="dm-msg__avatar" aria-hidden="true">' + iconSvg('circle-help') + '</span>' +
-    '<div class="dm-msg__bubble"><p>' + escapeHtml(text) + '</p></div>';
+    '<div class="dm-msg__bubble dm-msg__bubble--typing"><p>・・・</p></div>';
   thread.appendChild(el);
   scrollToElement(el);
+
+  setTimeout(() => {
+    const bubble = el.querySelector('.dm-msg__bubble');
+    const p = el.querySelector('p');
+    if (bubble) bubble.classList.remove('dm-msg__bubble--typing');
+    if (p) p.textContent = text; // textContentで代入するのでエスケープ処理は不要
+    scrollToElement(el);
+
+    const readDelay = Math.min(
+      CULPRIT_READ_MAX_MS,
+      Math.max(CULPRIT_READ_MIN_MS, text.length * CULPRIT_READ_MS_PER_CHAR)
+    );
+    setTimeout(onDone, readDelay);
+  }, CULPRIT_TYPING_DELAY_MS);
 }
 
 /**
@@ -856,37 +879,29 @@ function renderCulpritChoiceNode(node, onDone) {
  */
 function culpritRenderNext() {
   if (culpritStep >= CULPRIT_DM_SCRIPT.length) {
-    culpritWaitingForTap = false;
     return;
   }
   const node = CULPRIT_DM_SCRIPT[culpritStep];
   culpritStep++;
 
   if (node.type === 'choice') {
-    culpritWaitingForTap = false; // 選択待ちの間はタップでは進めない
     renderCulpritChoiceNode(node, () => {
       culpritRenderNext(); // 選択後は自動的に次へ
     });
   } else {
-    renderCulpritTextNode(node.text);
-    culpritWaitingForTap = true; // 次のタップで続きへ
+    renderCulpritTypingThenText(node.text, () => {
+      culpritRenderNext(); // 本文の表示・読み終わり待ちが終わったら自動的に次へ
+    });
   }
 }
 
 /**
  * 犯人との個別チャットを初期化する（初回に開いたときだけ会話を開始する）。
- * チャット領域をタップすると、タップ待ち状態のときだけ次のセリフに進む。
  */
 function initCulpritConversation() {
   const thread = document.getElementById('culprit-dm-thread');
   if (!thread || culpritConversationStarted) return;
   culpritConversationStarted = true;
-
-  thread.addEventListener('click', () => {
-    if (!culpritWaitingForTap) return;
-    culpritWaitingForTap = false;
-    culpritRenderNext();
-  });
 
   culpritRenderNext(); // 最初のノードを表示
 }
