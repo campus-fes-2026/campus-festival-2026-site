@@ -263,6 +263,7 @@
             <button type="button" class="illust-btn"
                     data-img="1.jpg"
                     data-alt="フォトスポットのイメージ写真"
+                    data-aspect="4/3"
                     data-caption="">
               <span class="illust-btn__name">フォトスポット１</span>
               <span class="illust-btn__desc">ルパン車</span>
@@ -274,6 +275,7 @@
             <button type="button" class="illust-btn"
                     data-img="2.jpg"
                     data-alt="フォトスポットのイメージ写真"
+                    data-aspect="3/4"
                     data-caption="">
               <span class="illust-btn__name">フォトスポット２</span>
               <span class="illust-btn__desc">ハリポタ</span>
@@ -354,6 +356,7 @@
   <script>
     (function () {
       const display = document.getElementById('illustShowcaseImg');
+      const container = document.querySelector('.illust-showcase__display');
       const caption = document.getElementById('illustShowcaseCaption');
       const buttons = document.querySelectorAll('.illust-btn');
 
@@ -362,6 +365,7 @@
           const img = btn.getAttribute('data-img');
           const alt = btn.getAttribute('data-alt') || '';
           const cap = btn.getAttribute('data-caption') || '';
+          const aspect = btn.getAttribute('data-aspect') || '4/3';
 
           // ボタンの見た目（選択中の状態）を切り替え
           buttons.forEach(function (b) { b.classList.remove('is-active'); });
@@ -371,6 +375,9 @@
           if (img) {
             display.src = img;
             display.alt = alt;
+          }
+          if(container){
+            container.style.aspectRatio = aspect;
           }
           if (caption) {
             caption.textContent = cap;

@@ -530,7 +530,7 @@
     grid-template-columns: 1fr;
   }
   .illust-showcase__display {
-    aspect-ratio: 3 / 4;
+    
   }
   .illust-showcase__list {
     flex-direction: row;
