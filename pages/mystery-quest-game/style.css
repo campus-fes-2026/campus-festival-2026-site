@@ -640,6 +640,24 @@ img {
    8. DM ビュー（トーク一覧 → 個別チャット）
    ============================================================ */
 
+/* DM画面（トーク一覧・個別チャット）を、コンテンツが少なくても
+   画面の高さいっぱいまで伸ばす。会話が短いときはメッセージが
+   下寄せで表示され、実際のチャットアプリのような見た目になる。
+   会話が長いときは今まで通りページ全体がスクロールする（内側に
+   別のスクロール領域は作らない）。 */
+.dm-inbox,
+.dm-conversation {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--nav-height) - var(--tabbar-height));
+  min-height: calc(100dvh - var(--nav-height) - var(--tabbar-height));
+}
+
+.dm-conversation__back,
+.dm-header {
+  flex-shrink: 0;
+}
+
 /* --- トーク一覧（LINEのような相手一覧） --- */
 .dm-inbox {
   display: flex;
@@ -785,6 +803,8 @@ img {
   flex-direction: column;
   gap: 14px;
   padding: 18px 16px;
+  flex: 1 0 auto;
+  justify-content: flex-end;
 }
 
 /* 左寄せの吹き出し（捜査本部からのメッセージ） */
