@@ -1156,32 +1156,50 @@ body::after {
   z-index: 1500;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   /* left:50% だと幅が画面の半分までに縮んで文字が不自然に折り返すため、内容幅に合わせる */
   width: max-content;
-  max-width: min(360px, calc(100% - 32px));
-  padding: 12px 20px;
+  max-width: min(380px, calc(100% - 32px));
+  padding: 15px 24px;
   background: var(--color-text, #2c1a08);
   color: #fff;
   border-radius: 999px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  font-size: 0.85rem;
-  font-weight: 600;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+  font-size: 0.92rem;
+  font-weight: 700;
   line-height: 1.4;
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -140%);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  /* 出てくる時に少し弾むイージングにして、目に留まりやすくする */
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
 }
 
 .dm-toast.is-visible {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, 0);
+  /* 表示中、影を数回ふわっと光らせて注意を引く（うるさくなりすぎない程度に3回だけ） */
+  animation: dm-toast-glow 1.3s ease-in-out 0.5s 3;
+}
+
+@keyframes dm-toast-glow {
+  0%, 100% {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    /* リングの色は、明るい背景（ナビ・ベージュのページ）でも見えるようトースト本体と同じ濃い茶色系にする */
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 0 7px rgba(74, 59, 50, 0.28);
+  }
 }
 
 .dm-toast__icon {
-  font-size: 1rem;
+  font-size: 1.25rem;
   flex-shrink: 0;
+}
+
+/* スマホ幅で2行に折り返す時、最後の1文字だけが次の行に残らないよう均等に分ける */
+.dm-toast__text {
+  text-wrap: balance;
 }

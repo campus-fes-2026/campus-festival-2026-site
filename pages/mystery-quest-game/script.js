@@ -160,7 +160,7 @@ function showDmToast(text, contactKey) {
   if (dmToastHideTimer) clearTimeout(dmToastHideTimer);
   dmToastHideTimer = setTimeout(() => {
     toast.classList.remove('is-visible');
-  }, 3200);
+  }, 6000);
 }
 
 /** トースト通知をタップしたら、DMタブに切り替えた上で、該当の相手のトークを直接開く */
