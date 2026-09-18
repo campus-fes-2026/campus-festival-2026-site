@@ -162,8 +162,8 @@
 
 /* 商品画像エリア */
 .menu-item__img-wrap-1 {
-  width: 300px;
-  height: 400px;
+  width: 350px;
+  height: 450px;
   flex-shrink: 0;
   background-color: var(--color-bg-dark);
   display: flex;
