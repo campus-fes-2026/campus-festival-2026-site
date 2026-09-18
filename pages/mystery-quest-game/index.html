@@ -55,10 +55,13 @@
     </div>
   </nav>
 
-  <!-- 新着DM通知トースト（画面上部からスライドして出てくる） -->
-  <div class="dm-toast" id="dm-toast" aria-live="polite">
-    <span class="dm-toast__icon" aria-hidden="true">✉️</span>
-    <span class="dm-toast__text" id="dm-toast-text"></span>
+  <!-- 新着DM通知アラート（ボタンを押して確認するまで閉じない） -->
+  <div class="dm-alert-overlay" id="dm-alert-overlay" role="alertdialog" aria-modal="true" aria-label="新着DM通知" hidden>
+    <div class="dm-alert">
+      <p class="dm-alert__icon" aria-hidden="true">✉️</p>
+      <p class="dm-alert__text" id="dm-alert-text"></p>
+      <button type="button" class="dm-alert__btn" id="dm-alert-btn">今すぐ確認する</button>
+    </div>
   </div>
 
   <!-- メニューパネル（右側からスライドイン） -->

@@ -1146,60 +1146,78 @@ body::after {
 }
 
 /* ===================================================
-   DM新着通知トースト（画面上部から出てくる通知）
+   DM新着通知アラート（ボタンを押すまで閉じない全画面オーバーレイ）
 =================================================== */
-.dm-toast {
+.dm-alert-overlay {
   position: fixed;
-  top: 14px;
-  left: 50%;
-  /* 共通ナビ（z-index:1000）より手前に出す。メニューパネル・封筒モーダル（2000前後）よりは奥 */
+  inset: 0;
   z-index: 1500;
   display: flex;
   align-items: center;
-  gap: 10px;
-  /* left:50% だと幅が画面の半分までに縮んで文字が不自然に折り返すため、内容幅に合わせる */
-  width: max-content;
-  max-width: min(380px, calc(100% - 32px));
-  padding: 15px 24px;
-  background: var(--color-text, #2c1a08);
-  color: #fff;
-  border-radius: 999px;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
-  font-size: 0.92rem;
-  font-weight: 700;
-  line-height: 1.4;
-  cursor: pointer;
+  justify-content: center;
+  padding: 24px;
+  background-color: rgba(30, 22, 16, 0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -140%);
-  /* 出てくる時に少し弾むイージングにして、目に留まりやすくする */
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 
-.dm-toast.is-visible {
+.dm-alert-overlay.is-open {
   opacity: 1;
   pointer-events: auto;
-  transform: translate(-50%, 0);
-  /* 表示中、影を数回ふわっと光らせて注意を引く（うるさくなりすぎない程度に3回だけ） */
-  animation: dm-toast-glow 1.3s ease-in-out 0.5s 3;
 }
 
-@keyframes dm-toast-glow {
-  0%, 100% {
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
-  }
-  50% {
-    /* リングの色は、明るい背景（ナビ・ベージュのページ）でも見えるようトースト本体と同じ濃い茶色系にする */
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 0 7px rgba(74, 59, 50, 0.28);
-  }
+.dm-alert {
+  width: min(340px, 100%);
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px 24px;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.dm-toast__icon {
-  font-size: 1.25rem;
-  flex-shrink: 0;
+.dm-alert-overlay.is-open .dm-alert {
+  transform: scale(1);
 }
 
-/* スマホ幅で2行に折り返す時、最後の1文字だけが次の行に残らないよう均等に分ける */
-.dm-toast__text {
-  text-wrap: balance;
+.dm-alert__icon {
+  font-size: 2rem;
+  margin: 0 0 12px;
+}
+
+.dm-alert__text {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.dm-alert__btn {
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 13px;
+  background: var(--accent-gold);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.dm-alert__btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.dm-alert__btn:active {
+  transform: translateY(0);
 }

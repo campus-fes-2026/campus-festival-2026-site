@@ -137,44 +137,55 @@ function revealElement(el) {
 }
 
 /* ===========================================================
-   DM新着通知トースト（画面上部から出てくる通知）
+   DM新着通知アラート（ボタンを押すまで閉じない全画面オーバーレイ）
    =========================================================== */
-let dmToastHideTimer = null;
-/** トーストをタップした時に直接開く相手（'culprit' | 'staff' | null） */
-let dmToastTargetContact = null;
+/** アラートのボタンを押した時に直接開く相手（'culprit' | 'staff' | null） */
+let dmAlertTargetContact = null;
 
 /**
- * 画面上部にトースト通知を表示する。タップで該当の相手のトークまで直接ジャンプできる。
+ * 新着DMアラートを表示する。画面全体を薄暗くして操作をブロックし、
+ * 「今すぐ確認する」ボタンを押すまで閉じない。
  * @param {string} text 通知本文
- * @param {string} [contactKey] タップした時に開く相手（'culprit' | 'staff'）。省略時はDMタブに切り替えるだけ
+ * @param {string} [contactKey] ボタンを押した時に開く相手（'culprit' | 'staff'）。省略時はDMタブに切り替えるだけ
  */
-function showDmToast(text, contactKey) {
-  const toast   = document.getElementById('dm-toast');
-  const textEl  = document.getElementById('dm-toast-text');
-  if (!toast || !textEl) return;
+function showDmAlert(text, contactKey) {
+  const overlay = document.getElementById('dm-alert-overlay');
+  const textEl  = document.getElementById('dm-alert-text');
+  if (!overlay || !textEl) return;
 
   textEl.textContent = text;
-  dmToastTargetContact = contactKey || null;
-  toast.classList.add('is-visible');
+  dmAlertTargetContact = contactKey || null;
+  overlay.hidden = false;
+  // 1フレーム後にクラスを付けて、確実にトランジションを発火させる
+  requestAnimationFrame(() => overlay.classList.add('is-open'));
+  document.body.style.overflow = 'hidden'; // 裏のスクロール操作を止める
 
-  if (dmToastHideTimer) clearTimeout(dmToastHideTimer);
-  dmToastHideTimer = setTimeout(() => {
-    toast.classList.remove('is-visible');
-  }, 6000);
+  // キーボード操作でも（Enter / Space で）ボタンを押せるよう、ボタンにフォーカスを移す
+  const btn = document.getElementById('dm-alert-btn');
+  if (btn) btn.focus({ preventScroll: true });
 }
 
-/** トースト通知をタップしたら、DMタブに切り替えた上で、該当の相手のトークを直接開く */
-function initDmToastClick() {
-  const toast = document.getElementById('dm-toast');
+/**
+ * 「今すぐ確認する」ボタンを押したら、DMタブに切り替えた上で該当の相手のトークを直接開き、
+ * アラートを閉じる。オーバーレイの外側クリックやEscapeキーでは閉じない
+ * （ボタンを押して内容を確認しないと次に進めないようにするため、意図的に付けていない）。
+ */
+function initDmAlertClick() {
+  const overlay  = document.getElementById('dm-alert-overlay');
+  const btn      = document.getElementById('dm-alert-btn');
   const dmTabBtn = document.querySelector('.tabbar__btn[data-view="view-dm"]');
-  if (!toast || !dmTabBtn) return;
-  toast.addEventListener('click', () => {
+  if (!overlay || !btn || !dmTabBtn) return;
+
+  btn.addEventListener('click', () => {
+    overlay.classList.remove('is-open');
+    overlay.hidden = true;
+    document.body.style.overflow = '';
+
     dmTabBtn.click();
-    if (dmToastTargetContact) {
-      const contactBtn = document.querySelector('.dm-contact[data-contact="' + dmToastTargetContact + '"]');
+    if (dmAlertTargetContact) {
+      const contactBtn = document.querySelector('.dm-contact[data-contact="' + dmAlertTargetContact + '"]');
       if (contactBtn) contactBtn.click();
     }
-    toast.classList.remove('is-visible');
   });
 }
 
@@ -297,7 +308,7 @@ function handleFinalSuccess() {
   if (dmContactCulprit) dmContactCulprit.hidden = false;
   if (dmTabBadge)        dmTabBadge.hidden = false;
 
-  showDmToast('謎の人物「???」から新着メッセージ', 'culprit');
+  showDmAlert('謎の人物「???」から新着メッセージが届きました。', 'culprit');
 }
 
 /**
@@ -319,7 +330,7 @@ function showStaffFollowupMessage() {
   // トーク一覧の「キャンフェススタッフR」の行にも、新着が来たことを示す赤丸を表示
   if (staffUnread) staffUnread.hidden = false;
   // 画面上部にトースト通知も表示
-  showDmToast('キャンフェススタッフRから新着メッセージ', 'staff');
+  showDmAlert('キャンフェススタッフRから新着メッセージが届きました。', 'staff');
 }
 
 /**
@@ -782,7 +793,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   initTabBar();
   initDmInbox();
-  initDmToastClick();
+  initDmAlertClick();
 
   /* --- 入力フォームのバインド ---
      ゲーム核心の入力欄はスプレッドシート取得を待たずに先に有効化する。 */
