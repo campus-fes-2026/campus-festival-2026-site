@@ -217,8 +217,6 @@ function handleFinalSuccess() {
   const inputEl          = document.getElementById('final-input');
   const submitEl         = document.getElementById('final-submit');
   const errorEl          = document.getElementById('final-error');
-  const dmMsg3            = document.getElementById('dm-msg-3');
-  const revealPostsSlot   = document.getElementById('reveal-posts-slot');
   const dmContactCulprit  = document.getElementById('dm-contact-culprit');
   const dmTabBadge        = document.getElementById('dm-tab-badge');
   const dmCulpritNotice   = document.getElementById('dm-culprit-notice');
@@ -227,19 +225,30 @@ function handleFinalSuccess() {
   if (submitEl) submitEl.disabled = true;
   if (errorEl)  errorEl.hidden = true;
 
-  // DM側：3通目メッセージ（旧エンディングを統合・景品受け取り案内を含む）を表示
-  if (dmMsg3) {
-    revealElement(dmMsg3);
-    scrollToElement(dmMsg3);
-  }
-
-  // タイムライン側：事件解決後の種明かし投稿（種別=reveal）を表示
-  if (revealPostsSlot) revealElement(revealPostsSlot);
-
   // DM側：トーク一覧に犯人を出現させ、DMタブに新着通知バッジを表示
+  // （スタッフRからの3通目メッセージ＝事件解決の連絡と、タイムラインの種明かし投稿は、
+  //   犯人とのエピローグ会話が終わった後に culpritRenderNext() 側から表示される。
+  //   下記②③を参照）
   if (dmContactCulprit) dmContactCulprit.hidden = false;
   if (dmTabBadge)        dmTabBadge.hidden = false;
   if (dmCulpritNotice)   dmCulpritNotice.hidden = false;
+}
+
+/**
+ * 犯人とのエピローグ会話が最後まで終わったタイミングで、
+ * スタッフRから3通目メッセージ（事件解決・景品受け取り案内）と、
+ * タイムライン側の種明かし投稿（種別=reveal）の両方を届ける。
+ */
+function showStaffFollowupMessage() {
+  const dmMsg3          = document.getElementById('dm-msg-3');
+  const revealPostsSlot = document.getElementById('reveal-posts-slot');
+  const dmTabBadge      = document.getElementById('dm-tab-badge');
+
+  if (dmMsg3) revealElement(dmMsg3);
+  if (revealPostsSlot) revealElement(revealPostsSlot);
+  // DMタブに新着通知バッジを再表示（プレイヤーは今このとき犯人とのトーク画面を
+  // 見ているはずなので、スタッフR側に新着が来たことをタブバッジで知らせる）
+  if (dmTabBadge) dmTabBadge.hidden = false;
 }
 
 /**
@@ -615,6 +624,12 @@ function initDmInbox() {
       markCulpritRead();
       initCulpritConversation(); // 初回のみ会話を開始（2回目以降は何もしない）
     }
+
+    if (name === 'staff') {
+      // スタッフRとのトークを開いたら、DMタブの新着バッジ（②で再表示したもの）を消す
+      const badge = document.getElementById('dm-tab-badge');
+      if (badge) badge.hidden = true;
+    }
   }
 
   inbox.querySelectorAll('.dm-contact[data-contact]').forEach((btn) => {
@@ -783,6 +798,8 @@ const CULPRIT_DM_SCRIPT = [
 let culpritStep = 0;
 /** 会話を開始済みか（2回目以降に開いたときは最初から作り直さない） */
 let culpritConversationStarted = false;
+/** 犯人とのエピローグ会話が終わった後の処理を、二重に呼ばないためのフラグ */
+let culpritEpilogueFinished = false;
 
 /** 「・・・」を表示しておく時間（ミリ秒） */
 const CULPRIT_TYPING_DELAY_MS = 900;
@@ -879,6 +896,10 @@ function renderCulpritChoiceNode(node, onDone) {
  */
 function culpritRenderNext() {
   if (culpritStep >= CULPRIT_DM_SCRIPT.length) {
+    if (!culpritEpilogueFinished) {
+      culpritEpilogueFinished = true;
+      showStaffFollowupMessage();
+    }
     return;
   }
   const node = CULPRIT_DM_SCRIPT[culpritStep];
