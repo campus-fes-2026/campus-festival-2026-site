@@ -8,7 +8,7 @@
      検索エンジンやSNSでシェアされたときに表示される説明文です。
      企画の内容・場所・見どころを110文字程度で書いてください。
   -->
-  <meta name="description" content="Campus Café — キャンフェス2026の企画紹介ページ。人狼のサイトです。3号館 204教室にてオープン。">
+  <meta name="description" content="Campus Café — キャンフェス2026の企画紹介ページ。人狼のサイトです。カマトロにてオープン。">
 
   <!--
   ✏️ 【編集ガイド】ページタイトル
@@ -77,7 +77,6 @@
       <div class="site-nav__logo">
         <a href="../../index.html">Campus Festival</a>
       </div>
-
       <!-- ハンバーガーアイコン（<label> で checkbox と連動） -->
       <label for="nav-toggle" class="site-nav__hamburger" aria-label="メニューを開く">
         <span></span>
@@ -155,7 +154,7 @@
     <h1 class="page-hero__title" id="hero-title" data-mode-copy>陽だまりの村</h1>
 
     <!-- ✏️ 開催場所 -->
-    <p class="page-hero__place" id="hero-place" data-mode-copy>3号館 2F &ensp;—&ensp; 204教室</p>
+    <p class="page-hero__place" id="hero-place" data-mode-copy>カマトロ</p>
 
     <a class="scroll-cue" href="#about">
       日が沈むころ、村の顔が変わる。
@@ -187,7 +186,16 @@
         <ul class="menu-list" role="list">
 
           <li class="menu-item">
-            <div class="menu-item__img-wrap" aria-hidden="true">🧑‍🌾</div>
+          <!-- 村人（市民） -->
+          <div class="menu-item__img-wrap" aria-hidden="true">
+            <img
+              class="menu-item__img"
+              src="../../assets/roles/villager-day.png"
+              data-day-src="../../assets/roles/villager-day.png"
+              data-night-src="../../assets/roles/villager-night.png"
+              alt="">
+          </div>
+
             <div class="menu-item__body">
               <p class="menu-item__name" data-village="村人（市民）" data-werewolf="狼（人狼）">村人（市民）</p>
               <p class="menu-item__desc" data-village="特別な能力を持たない、ごく普通の村人です。話し合いで村を守ります。" data-werewolf="夜になれば正体を現し、笑顔の裏に研いだ牙で、眠りについた村人を喰らい尽くす。">
@@ -197,7 +205,14 @@
           </li>
 
           <li class="menu-item">
-            <div class="menu-item__img-wrap" aria-hidden="true">🔮</div>
+          <div class="menu-item__img-wrap" aria-hidden="true">
+            <img
+              class="menu-item__img"
+              src="../../assets/roles/seer-day.png"
+              data-day-src="../../assets/roles/seer-day.png"
+              data-night-src="../../assets/roles/seer-night.png"
+              alt="">
+          </div>
             <div class="menu-item__body">
               <p class="menu-item__name" data-village="占い師" data-werewolf="人狼の正体を知る者">占い師</p>
               <p class="menu-item__desc" data-village="毎晩、誰か一人の正体が「人狼」かどうかを知ることができる賢者です。" data-werewolf="夜ごとに誰が本当の獣かを見抜き、最後には最初に噛み殺す。">
@@ -207,7 +222,31 @@
           </li>
 
           <li class="menu-item">
-            <div class="menu-item__img-wrap" aria-hidden="true">🛡️</div>
+          <div class="menu-item__img-wrap" aria-hidden="true">
+            <img
+              class="menu-item__img"
+              src="../../assets/roles/medium-day.png"
+              data-day-src="../../assets/roles/medium-day.png"
+              data-night-src="../../assets/roles/medium-night.png"
+              alt="">
+          </div>
+            <div class="menu-item__body">
+              <p class="menu-item__name" data-village="霊媒師" data-werewolf="死者の声を聞く者">霊媒師</p>
+              <p class="menu-item__desc" data-village="前日に処刑された人が「人狼」だったかどうかを知ることができる者です。" data-werewolf="死してなお裁かれし者の正体を告げ、次に狩る獲物を静かに見定める。">
+                前日に処刑された人が「人狼」だったかどうかを知ることができる者です。
+              </p>
+            </div>
+          </li>
+
+          <li class="menu-item">
+            <div class="menu-item__img-wrap" aria-hidden="true">
+            <img
+              class="menu-item__img"
+              src="../../assets/roles/knight-day.png"
+              data-day-src="../../assets/roles/knight-day.png"
+              data-night-src="../../assets/roles/knight-night.png"
+              alt="">
+          </div>
             <div class="menu-item__body">
               <p class="menu-item__name" data-village="騎士（狩人）" data-werewolf="人狼の夜を守る鎧の下の獣">騎士（狩人）</p>
               <p class="menu-item__desc" data-village="毎晩、誰か一人を人狼の襲撃から守り抜く勇敢な戦士です。" data-werewolf="守りの名のもとに、夜の最初の犠牲者を見逃さずにその牙を向ける。">
@@ -272,7 +311,7 @@
 
     <!-- ✏️ 担当チーム情報（不要なら削除してください） -->
     <p style="margin-bottom: 10px;">
-      担当：○○学部 △△科 3年A組<br>
+      部門長：片岡海彩/西谷和真<br>
       ご不明な点は当日スタッフまでお声がけください。
     </p>
 
@@ -462,6 +501,15 @@
         const roleText = mode === 'night' ? element.dataset.werewolf : element.dataset.village;
         if (roleText !== undefined) element.textContent = roleText;
       });
+
+      // ✏️ 追加：夜/昼でイラストを差し替える
+      const img = card.querySelector('.menu-item__img');
+      if (img) {
+        const nextSrc = mode === 'night' ? img.dataset.nightSrc : img.dataset.daySrc;
+        if (nextSrc && img.getAttribute('src') !== nextSrc) {
+          img.setAttribute('src', nextSrc);
+        }
+      }
     };
 
     const revealNightRole = (card) => {

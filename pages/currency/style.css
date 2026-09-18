@@ -145,6 +145,28 @@ body {
   transform: translate(-50%, 0);
 }
 
+/* ✏️ スマホ幅では、下部中央の帯(.night-return-btn)が画面幅いっぱいに
+   広がるため、右下の☀️ボタン(.reset-daylight-btn)と重なってしまいます。
+   ☀️ボタンをナビバーのすぐ下（画面上部）に移動して衝突を避けます。 */
+@media (max-width: 600px) {
+  .reset-daylight-btn {
+    top: calc(var(--nav-height) + 10px);
+    right: 12px;
+    bottom: auto;
+  }
+  .night-return-btn {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    max-width: none;
+    transform: none;
+    text-align: center;
+  }
+  .night-return-btn.is-visible {
+    transform: none;
+  }
+}
+
 /* ✏️ 人狼陣営への切り替えはJS側では一瞬ですが、
    対象になる要素にまとめてtransitionをかけることで、
    見た目には0.6秒ほどかけてなめらかにフェードします。 */
@@ -663,4 +685,11 @@ body.mode-copy-is-changing [data-mode-copy] {
 }
 .page-footer a {
   color: var(--page-accent);
+}
+.menu-item__img {
+  transition: opacity 0.28s ease, filter 0.28s ease;
+}
+.menu-item.role-is-changing .menu-item__img {
+  opacity: 0;
+  filter: blur(2px);
 }
