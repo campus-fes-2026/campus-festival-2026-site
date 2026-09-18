@@ -140,17 +140,21 @@ function revealElement(el) {
    DM新着通知トースト（画面上部から出てくる通知）
    =========================================================== */
 let dmToastHideTimer = null;
+/** トーストをタップした時に直接開く相手（'culprit' | 'staff' | null） */
+let dmToastTargetContact = null;
 
 /**
- * 画面上部にトースト通知を表示する。タップでDMタブへジャンプできる。
+ * 画面上部にトースト通知を表示する。タップで該当の相手のトークまで直接ジャンプできる。
  * @param {string} text 通知本文
+ * @param {string} [contactKey] タップした時に開く相手（'culprit' | 'staff'）。省略時はDMタブに切り替えるだけ
  */
-function showDmToast(text) {
+function showDmToast(text, contactKey) {
   const toast   = document.getElementById('dm-toast');
   const textEl  = document.getElementById('dm-toast-text');
   if (!toast || !textEl) return;
 
   textEl.textContent = text;
+  dmToastTargetContact = contactKey || null;
   toast.classList.add('is-visible');
 
   if (dmToastHideTimer) clearTimeout(dmToastHideTimer);
@@ -159,13 +163,17 @@ function showDmToast(text) {
   }, 3200);
 }
 
-/** トースト通知をタップしたら、DMタブに切り替える */
+/** トースト通知をタップしたら、DMタブに切り替えた上で、該当の相手のトークを直接開く */
 function initDmToastClick() {
   const toast = document.getElementById('dm-toast');
   const dmTabBtn = document.querySelector('.tabbar__btn[data-view="view-dm"]');
   if (!toast || !dmTabBtn) return;
   toast.addEventListener('click', () => {
     dmTabBtn.click();
+    if (dmToastTargetContact) {
+      const contactBtn = document.querySelector('.dm-contact[data-contact="' + dmToastTargetContact + '"]');
+      if (contactBtn) contactBtn.click();
+    }
     toast.classList.remove('is-visible');
   });
 }
@@ -277,7 +285,6 @@ function handleFinalSuccess() {
   const errorEl          = document.getElementById('final-error');
   const dmContactCulprit  = document.getElementById('dm-contact-culprit');
   const dmTabBadge        = document.getElementById('dm-tab-badge');
-  const dmCulpritNotice   = document.getElementById('dm-culprit-notice');
 
   if (inputEl)  inputEl.classList.add('is-correct');
   if (submitEl) submitEl.disabled = true;
@@ -289,9 +296,8 @@ function handleFinalSuccess() {
   //   下記②③を参照）
   if (dmContactCulprit) dmContactCulprit.hidden = false;
   if (dmTabBadge)        dmTabBadge.hidden = false;
-  if (dmCulpritNotice)   dmCulpritNotice.hidden = false;
 
-  showDmToast('謎の人物「???」から新着メッセージ');
+  showDmToast('謎の人物「???」から新着メッセージ', 'culprit');
 }
 
 /**
@@ -313,7 +319,7 @@ function showStaffFollowupMessage() {
   // トーク一覧の「キャンフェススタッフR」の行にも、新着が来たことを示す赤丸を表示
   if (staffUnread) staffUnread.hidden = false;
   // 画面上部にトースト通知も表示
-  showDmToast('キャンフェススタッフRから新着メッセージ');
+  showDmToast('キャンフェススタッフRから新着メッセージ', 'staff');
 }
 
 /**
@@ -647,9 +653,6 @@ function markCulpritRead() {
   const contact = document.getElementById('dm-contact-culprit');
   const unread  = contact ? contact.querySelector('.dm-contact__unread') : null;
   if (unread) unread.hidden = true;
-
-  const notice = document.getElementById('dm-culprit-notice');
-  if (notice) notice.hidden = true;
 }
 
 /**
@@ -707,12 +710,6 @@ function initDmInbox() {
   document.querySelectorAll('[data-back-to-inbox]').forEach((btn) => {
     btn.addEventListener('click', backToInbox);
   });
-
-  // スタッフR会話内の通知ボタンから、犯人とのトークに直接ジャンプ
-  const openCulpritBtn = document.getElementById('dm-open-culprit-btn');
-  if (openCulpritBtn) {
-    openCulpritBtn.addEventListener('click', () => openConversation('culprit'));
-  }
 
   // DM画面を開いたときの初期状態は常にトーク一覧
   backToInbox();
