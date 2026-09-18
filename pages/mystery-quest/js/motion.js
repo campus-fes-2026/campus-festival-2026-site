@@ -6,10 +6,14 @@
 
   document.documentElement.classList.add('motion-ready');
 
-  const timelineItems = document.querySelectorAll('.timeline__item');
+  // アニメーションさせたい要素のグループ（グループごとに0番から遅延をつける）
+  const groups = [
+    document.querySelectorAll('.timeline__item'),
+    document.querySelectorAll('.menu-item'),
+  ];
 
   if (!('IntersectionObserver' in window)) {
-    timelineItems.forEach((item) => item.classList.add('is-visible'));
+    groups.forEach((items) => items.forEach((item) => item.classList.add('is-visible')));
     return;
   }
 
@@ -18,12 +22,13 @@
       if (!entry.isIntersecting) return;
 
       const item = entry.target;
-      const index = [...timelineItems].indexOf(item);
+      const items = groups.find((group) => [...group].includes(item));
+      const index = items ? [...items].indexOf(item) : 0;
       item.style.transitionDelay = `${index * 90}ms`;
       item.classList.add('is-visible');
       currentObserver.unobserve(item);
     });
   }, { threshold: 0.15 });
 
-  timelineItems.forEach((item) => observer.observe(item));
+  groups.forEach((items) => items.forEach((item) => observer.observe(item)));
 })();

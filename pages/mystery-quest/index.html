@@ -50,7 +50,6 @@
       <div class="site-nav__logo">
         <a href="../../index.html">Mystery</a>
       </div>
-
       <!-- ハンバーガーアイコン（<label> で checkbox と連動） -->
       <label for="nav-toggle" class="site-nav__hamburger" aria-label="メニューを開く">
         <span></span>
@@ -128,7 +127,7 @@
     <h1 class="page-hero__title">Campus Mystery</h1>
 
     <!-- ✏️ 開催場所 -->
-    <p class="page-hero__place">3号館 2F &ensp;—&ensp; 204教室</p>
+    <p class="page-hero__place">???</p>
 
   </header>
 
@@ -152,10 +151,77 @@
 
         <!-- ✏️ ここに紹介文を書いてください（100〜200文字程度） -->
         <p class="about-text">
-キャンフェス全体に仕掛けられている謎を、企画を回りながら一緒に楽しめるものになっています！クリアできたら景品が貰えたり記念撮影ができるのでぜひ来てください！
+キャンフェス全体に仕掛けられている謎を、企画を回りながら一緒に楽しめるものになっています！クリアできたら景品が貰えたり記念撮影ができるのでぜひ来てください！<br>
+もしあなたが謎解きを解けたなら、記念撮影ができるボードを用意しているので、ぜひ写真を撮っていってください！
         </p>
         <!-- ✏️ ここまでが紹介文です -->
 
+      </div>
+    </section>
+    <!-- ========================================================
+         ② メニュー・サービス内容
+         ========================================================
+    ✏️ 【編集ガイド】メニューの追加・変更方法
+       .menu-item のブロックをコピーして商品を増やせます。
+       各商品の変更箇所：
+       1. .menu-item__img-wrap 内 → 商品画像（下の説明を参照）
+       2. .menu-item__name → 商品名
+       3. .menu-item__desc → 商品の説明（不要なら <p> ごと削除OK）
+       4. .menu-item__price → 値段
+
+       【画像の差し替え方】
+       画像ファイルを準備したら、絵文字のプレースホルダーを削除して、
+       以下のように <img> タグを記述してください：
+       <img src="coffee.jpg" alt="本日のコーヒー">
+    ======================================================== -->
+    <section class="section menu-section" id="menu">
+      <div class="container">
+
+        <h2 class="page-section-title">Prize — 景品</h2>
+
+        <ul class="menu-list" role="list">
+
+          <!-- ============ 商品1 ============
+               ✏️ このブロックをコピーして商品を追加できます -->
+          <li class="menu-item" id="menu-item-coffee">
+
+            <!-- 商品画像エリア
+                 ✏️ 画像ができたら、下の絵文字テキストを
+                    <img src="coffee.jpg" alt="本日のコーヒー"> に差し替えてください -->
+            <div class="menu-item__img-wrap" aria-hidden="true"></div>
+
+            <div class="menu-item__body">
+              <!-- ✏️ 商品名 -->
+              <p class="menu-item__name">ハッピー○ーン</p>
+              <!-- ✏️ 商品説明（不要なら <p> ごと削除してください） -->
+              <p class="menu-item__desc">
+                謎解きの景品です
+              </p>
+              <!-- ✏️ 値段（税込み表記を忘れずに） -->
+                          </div>
+          </li>
+          <!-- ============ / 商品1 ============ -->
+
+          <!-- ============ 商品2 ============ -->
+          <li class="menu-item" id="menu-item-cake">
+            <div class="menu-item__img-wrap" aria-hidden="true"></div>
+            <div class="menu-item__body">
+              <p class="menu-item__name">○イの実</p>
+              <p class="menu-item__desc">
+                謎解きの景品です
+              </p>
+            </div>
+          </li>
+          <!-- ============ / 商3 ============ -->   
+                    <li class="menu-item" id="menu-item-ramune">
+            <div class="menu-item__img-wrap" aria-hidden="true"></div>
+            <div class="menu-item__body">
+              <p class="menu-item__name">クッピ○ラムネ</p>
+              <p class="menu-item__desc">
+              謎解きの景品です
+              </p>
+            </div>
+          </li>     </ul><!-- /.menu-list -->
       </div>
     </section>
     <section class="section" id="hours" style="background-color: var(--color-bg-dark);">
@@ -174,7 +240,7 @@
           </div>
 
           <div class="timeline__item">
-            <p class="timeline__time">10 : 00 — 12 : 00</p>
+            <p class="timeline__time">10 : 00 — 12 : 30</p>
             <div class="timeline__body">
               <strong>受付対応</strong>
               <p>スタッフ3名体制で対応します。</p>
@@ -182,7 +248,7 @@
           </div>
 
           <div class="timeline__item">
-            <p class="timeline__time">12 : 00 — 14 : 00</p>
+            <p class="timeline__time">12 : 00 — 14 : 30</p>
             <div class="timeline__body">
               <strong>受付対応</strong>
               <p>スタッフ2名体制で対応します。</p>
@@ -190,7 +256,7 @@
           </div>
 
           <div class="timeline__item">
-            <p class="timeline__time">14 : 00 — 16 : 00</p>
+            <p class="timeline__time">14 : 00 — 16 : 30</p>
             <div class="timeline__body">
               <strong>受付対応</strong>
               <p>スタッフ2名体制で対応します。</p>
@@ -223,7 +289,7 @@
 
     <!-- ✏️ 担当チーム情報（不要なら削除してください） -->
     <p class="scramble" style="margin-bottom: 10px;">
-      担当：○○学部 △△科 3年A組<br>
+      部門長：鈴木 颯<br>
       ご不明な点は当日スタッフまでお声がけください。
     </p>
 

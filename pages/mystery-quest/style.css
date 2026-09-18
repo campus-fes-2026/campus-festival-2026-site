@@ -396,4 +396,16 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* 画面内に入ったメニューだけを、上から順に一度だけ表示する */
+  .motion-ready .menu-item {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+
+  .motion-ready .menu-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
