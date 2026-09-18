@@ -68,7 +68,7 @@
 .hero__subtitle {
   font-size: clamp(1.05rem, 4vw, 1.35rem);
   letter-spacing: 0.1em;
-  font-weight: 500;
+  font-weight: 800;
   color: var(--color-text-sub);
   margin-bottom: var(--space-lg);
 }
@@ -156,8 +156,17 @@
 }
 
 @keyframes bounce-down {
-  0%, 100% { transform: translateY(0);  opacity: 0.5; }
-  50%       { transform: translateY(6px); opacity: 1; }
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
 }
 
 /* ---------------------------------------------------
@@ -333,8 +342,8 @@
   position: relative;
   overflow: hidden;
   transition: background-color 0.2s ease,
-              transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.35s ease;
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.35s ease;
 }
 
 .floating-kuji-banner__card:hover {
@@ -346,7 +355,9 @@
 .floating-kuji-banner__card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--color-accent-dark), var(--color-accent), #D4A853);
 }
@@ -437,15 +448,22 @@
     padding: 16px 10px 14px;
   }
 
-  .floating-kuji-banner__icon  { font-size: 1.55rem; }
-  .floating-kuji-banner__title { font-size: 0.74rem; }
+  .floating-kuji-banner__icon {
+    font-size: 1.55rem;
+  }
+
+  .floating-kuji-banner__title {
+    font-size: 0.74rem;
+  }
 
   .floating-kuji-banner__badge {
     font-size: 0.52rem;
     padding: 2px 6px;
   }
 
-  .floating-kuji-banner__link-text { font-size: 0.6rem; }
+  .floating-kuji-banner__link-text {
+    font-size: 0.6rem;
+  }
 
   .floating-kuji-banner__close {
     width: 28px;
