@@ -438,7 +438,7 @@
 
 .illust-showcase__display {
   position: relative;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--page-accent-pale);
@@ -530,7 +530,7 @@
     grid-template-columns: 1fr;
   }
   .illust-showcase__display {
-    
+
   }
   .illust-showcase__list {
     flex-direction: row;
