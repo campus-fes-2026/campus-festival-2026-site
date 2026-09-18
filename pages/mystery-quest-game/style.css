@@ -134,6 +134,7 @@ img {
    ============================================================ */
 .mt-app {
   max-width: 640px;
+  width: 100%;
   margin: 0 auto;
   flex: 1 0 auto;
 }
@@ -803,8 +804,6 @@ img {
   flex-direction: column;
   gap: 14px;
   padding: 18px 16px;
-  flex: 1 0 auto;
-  justify-content: flex-end;
 }
 
 /* 左寄せの吹き出し（捜査本部からのメッセージ） */
