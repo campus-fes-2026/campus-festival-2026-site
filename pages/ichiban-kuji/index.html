@@ -90,7 +90,7 @@
     </h1>
 
     <!-- 開催場所 -->
-    <p class="page-hero__place">カマトロの扉側</p>
+    <p class="page-hero__place">カマトロ（扉横）</p>
 
   </header>
 
@@ -111,6 +111,15 @@
           謎の商人が営むくじ引きです。1回500円で、豪華景品ラインナップに挑戦できます。<br>
           売り切れ次第終了なので、お早めにどうぞ。
         </p>
+
+        <!-- ✏️ 参加費バッジ（About と 景品ラインナップの間に目立つように表示） -->
+        <div class="kuji-price-badge-wrap">
+          <p class="kuji-price-badge">
+            <span class="kuji-price-badge__unit">1回</span>
+            <span class="kuji-price-badge__amount">500<small>円</small></span>
+            <span class="kuji-price-badge__note">（税込）</span>
+          </p>
+        </div>
       </div>
     </section>
 
@@ -138,7 +147,7 @@
 
         <div class="kuji-grid">
 
-          <!-- ============ S賞 ============ -->
+          <!-- ============ A賞 ============ -->
           <div class="kuji-card kuji-card--s" id="kuji-card-s">
             <div class="kuji-card__bar"></div>
             <!-- 画像エリア（実際の景品画像に差し替え可） -->
@@ -148,19 +157,19 @@
             </div>
             <div class="kuji-card__body">
               <!-- 賞の名前 -->
-              <p class="kuji-card__prize">S 賞</p>
+              <p class="kuji-card__prize">A 賞</p>
               <!-- 景品名 ✏️ 変更してください -->
-              <p class="kuji-card__name">キャンフェス2026 オリジナル アクリルスタンド（特大）</p>
+              <p class="kuji-card__name">おにぎり・コッペパンのスマホスタンド</p>
               <!-- 説明文 ✏️ 変更してください -->
               <p class="kuji-card__desc">
-                キャンフェス2026限定デザインの特大アクリルスタンド。<br>
-                全1種・最高レアリティ。
+                おにぎりとコッペパン、2種類のゆるかわスマホスタンド。<br>
+                全2種・ランダム封入。
               </p>
             </div>
           </div>
-          <!-- ============ / S賞 ============ -->
+          <!-- ============ / A賞 ============ -->
 
-          <!-- ============ A賞 ============ -->
+          <!-- ============ B賞 ============ -->
           <div class="kuji-card kuji-card--a" id="kuji-card-a">
             <div class="kuji-card__bar"></div>
             <div class="kuji-card__img-wrap" aria-hidden="true">
@@ -168,17 +177,17 @@
               <div class="img-placeholder-border"></div>
             </div>
             <div class="kuji-card__body">
-              <p class="kuji-card__prize">A 賞</p>
-              <p class="kuji-card__name">キャンフェス2026 オリジナル アクリルキーホルダー</p>
+              <p class="kuji-card__prize">B 賞</p>
+              <p class="kuji-card__name">「愛されメンター」チェキ2枚セット</p>
               <p class="kuji-card__desc">
-                持ち歩けるミニサイズのキーホルダー。<br>
-                全3種・ランダム封入。
+                全6種からランダムで2枚封入。<br>
+                お気に入りの組み合わせが引けるかも？
               </p>
             </div>
           </div>
-          <!-- ============ / A賞 ============ -->
+          <!-- ============ / B賞 ============ -->
 
-          <!-- ============ B賞 ============ -->
+          <!-- ============ C賞 ============ -->
           <div class="kuji-card kuji-card--b" id="kuji-card-b">
             <div class="kuji-card__bar"></div>
             <div class="kuji-card__img-wrap" aria-hidden="true">
@@ -186,42 +195,35 @@
               <div class="img-placeholder-border"></div>
             </div>
             <div class="kuji-card__body">
-              <p class="kuji-card__prize">B 賞</p>
-              <p class="kuji-card__name">キャンフェス2026 オリジナル 缶バッジセット</p>
-              <p class="kuji-card__desc">
-                全5種デザインの缶バッジ3枚セット。<br>
-                ランダム封入。
-              </p>
-            </div>
-          </div>
-          <!-- ============ / B賞 ============ -->
-
-          <!-- ============ C賞 ============ -->
-          <!--
-          💡 SOLD OUT 表示のデモ：
-             下のカードに is-soldout クラスが付いています。
-             実際に完売したらこの形式を使ってください。
-          -->
-          <div class="kuji-card kuji-card--c is-soldout" id="kuji-card-c">
-            <div class="kuji-card__bar"></div>
-            <div class="kuji-card__img-wrap" aria-hidden="true">
-              🥉
-              <!-- SOLD OUT バッジ（is-soldout クラス付きカードに挿入） -->
-              <span class="soldout-badge" aria-label="完売">SOLD OUT</span>
-              <div class="img-placeholder-border"></div>
-            </div>
-            <div class="kuji-card__body">
               <p class="kuji-card__prize">C 賞</p>
-              <p class="kuji-card__name">キャンフェス2026 オリジナル クリアファイル</p>
+              <p class="kuji-card__name">「愛されメンター」好物モチーフ 前髪クリップ2個セット</p>
               <p class="kuji-card__desc">
-                A4サイズのオリジナルデザインクリアファイル。<br>
-                全2種・ランダム封入。
+                前髪をかわいくとめられる、好物モチーフの前髪クリップ2個セット。
               </p>
+              <!-- ✏️ 全体の種類数（バリエーション数）が分かり次第、上の説明文に追記してください -->
             </div>
           </div>
           <!-- ============ / C賞 ============ -->
 
           <!-- ============ D賞 ============ -->
+          <div class="kuji-card kuji-card--c" id="kuji-card-c">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              🥉
+              <div class="img-placeholder-border"></div>
+            </div>
+            <div class="kuji-card__body">
+              <p class="kuji-card__prize">D 賞</p>
+              <p class="kuji-card__name">メンター検定キーホルダー</p>
+              <p class="kuji-card__desc">
+                全4種のメンター検定キーホルダー。<br>
+                ランダム封入。
+              </p>
+            </div>
+          </div>
+          <!-- ============ / D賞 ============ -->
+
+          <!-- ============ E賞 ============ -->
           <div class="kuji-card kuji-card--d" id="kuji-card-d">
             <div class="kuji-card__bar"></div>
             <div class="kuji-card__img-wrap" aria-hidden="true">
@@ -229,15 +231,15 @@
               <div class="img-placeholder-border"></div>
             </div>
             <div class="kuji-card__body">
-              <p class="kuji-card__prize">D 賞</p>
-              <p class="kuji-card__name">キャンフェス2026 オリジナル ステッカーセット</p>
+              <p class="kuji-card__prize">E 賞</p>
+              <p class="kuji-card__name">メンター検定ステッカー10枚セット</p>
               <p class="kuji-card__desc">
-                使いやすいミニステッカー5枚セット。<br>
+                全4種デザインのステッカーが入った10枚セット。<br>
                 ランダムアソート。
               </p>
             </div>
           </div>
-          <!-- ============ / D賞 ============ -->
+          <!-- ============ / E賞 ============ -->
 
           <!-- ============ ラストワン賞 ============ -->
           <div class="kuji-card kuji-card--last-one" id="kuji-card-last-one">
@@ -248,10 +250,10 @@
             </div>
             <div class="kuji-card__body">
               <p class="kuji-card__prize">Last One 賞</p>
-              <p class="kuji-card__name">キャンフェス2026 オリジナル アクリルスタンド（豪華仕様）</p>
+              <p class="kuji-card__name">おにぎり・コッペパンフィギュア</p>
               <p class="kuji-card__desc">
-                最後の1枚を引いた方のみに贈られる、<br>
-                限定仕様の特別ラストワン賞！
+                最後の1枚を引いた方だけがもらえる、<br>
+                限定のおにぎり・コッペパンフィギュア！
               </p>
             </div>
           </div>
