@@ -53,6 +53,7 @@ const FINAL_ANSWER = ['ルパン車', 'るぱん車', 'るぱんしゃ', 'ルパ
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwLgsSgWQ6TqzSPro4A6DDnF5tZQNlSP10EENuA8iKivNs0c_ovbV6ekIaNioyEMIwo1mIckbb39uv/pub?gid=1802561556&single=true&output=csv';
 const FETCH_TIMEOUT_MS = 6000;
 const CACHE_KEY = 'matsutter_posts_csv_v1';
+const PROGRESS_KEY = 'matsutter_progress_v1';
 
 /* ===========================================================
    ② ゲーム状態管理
@@ -62,6 +63,27 @@ const state = {
   finalCleared: false,
   posts: [], // fetchPostsCSV → csvToObjects の結果。各ハンドラーから参照できるよう保持
 };
+
+/** 進行度（stage1Cleared / finalCleared）をlocalStorageに保存する */
+function saveProgress() {
+  try {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify({
+      stage1Cleared: state.stage1Cleared,
+      finalCleared: state.finalCleared,
+    }));
+  } catch (e) { /* 無視（保存できない環境でもゲーム自体は動く） */ }
+}
+
+/** 保存済みの進行度を読み込む（無ければnull） */
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch (e) {
+    return null;
+  }
+}
 
 /* ===========================================================
    ③ ユーティリティ関数
@@ -114,6 +136,40 @@ function revealElement(el) {
   });
 }
 
+/* ===========================================================
+   DM新着通知トースト（画面上部から出てくる通知）
+   =========================================================== */
+let dmToastHideTimer = null;
+
+/**
+ * 画面上部にトースト通知を表示する。タップでDMタブへジャンプできる。
+ * @param {string} text 通知本文
+ */
+function showDmToast(text) {
+  const toast   = document.getElementById('dm-toast');
+  const textEl  = document.getElementById('dm-toast-text');
+  if (!toast || !textEl) return;
+
+  textEl.textContent = text;
+  toast.classList.add('is-visible');
+
+  if (dmToastHideTimer) clearTimeout(dmToastHideTimer);
+  dmToastHideTimer = setTimeout(() => {
+    toast.classList.remove('is-visible');
+  }, 3200);
+}
+
+/** トースト通知をタップしたら、DMタブに切り替える */
+function initDmToastClick() {
+  const toast = document.getElementById('dm-toast');
+  const dmTabBtn = document.querySelector('.tabbar__btn[data-view="view-dm"]');
+  if (!toast || !dmTabBtn) return;
+  toast.addEventListener('click', () => {
+    dmTabBtn.click();
+    toast.classList.remove('is-visible');
+  });
+}
+
 /**
  * スムーズスクロールでターゲットまで移動
  * @param {HTMLElement} el
@@ -152,6 +208,7 @@ function showError(errorEl) {
  */
 function handleStage1Success() {
   state.stage1Cleared = true;
+  saveProgress();
 
   const inputEl        = document.getElementById('stage1-input');
   const submitEl       = document.getElementById('stage1-submit');
@@ -213,6 +270,7 @@ function handleStage1Fail() {
  */
 function handleFinalSuccess() {
   state.finalCleared = true;
+  saveProgress();
 
   const inputEl          = document.getElementById('final-input');
   const submitEl         = document.getElementById('final-submit');
@@ -232,6 +290,8 @@ function handleFinalSuccess() {
   if (dmContactCulprit) dmContactCulprit.hidden = false;
   if (dmTabBadge)        dmTabBadge.hidden = false;
   if (dmCulpritNotice)   dmCulpritNotice.hidden = false;
+
+  showDmToast('謎の人物「???」から新着メッセージ');
 }
 
 /**
@@ -243,12 +303,17 @@ function showStaffFollowupMessage() {
   const dmMsg3          = document.getElementById('dm-msg-3');
   const revealPostsSlot = document.getElementById('reveal-posts-slot');
   const dmTabBadge      = document.getElementById('dm-tab-badge');
+  const staffUnread     = document.getElementById('dm-staff-unread');
 
   if (dmMsg3) revealElement(dmMsg3);
   if (revealPostsSlot) revealElement(revealPostsSlot);
   // DMタブに新着通知バッジを再表示（プレイヤーは今このとき犯人とのトーク画面を
   // 見ているはずなので、スタッフR側に新着が来たことをタブバッジで知らせる）
   if (dmTabBadge) dmTabBadge.hidden = false;
+  // トーク一覧の「キャンフェススタッフR」の行にも、新着が来たことを示す赤丸を表示
+  if (staffUnread) staffUnread.hidden = false;
+  // 画面上部にトースト通知も表示
+  showDmToast('キャンフェススタッフRから新着メッセージ');
 }
 
 /**
@@ -626,9 +691,12 @@ function initDmInbox() {
     }
 
     if (name === 'staff') {
-      // スタッフRとのトークを開いたら、DMタブの新着バッジ（②で再表示したもの）を消す
+      // スタッフRとのトークを開いたら、DMタブの新着バッジ（②で再表示したもの）と
+      // トーク一覧の未読赤丸を消す
       const badge = document.getElementById('dm-tab-badge');
       if (badge) badge.hidden = true;
+      const staffUnread = document.getElementById('dm-staff-unread');
+      if (staffUnread) staffUnread.hidden = true;
     }
   }
 
@@ -702,6 +770,14 @@ function initSearch() {
   });
 }
 
+/** 保存済みの進行度があれば、既存の正解処理をそのまま呼び出して画面を復元する */
+function restoreProgress() {
+  const saved = loadProgress();
+  if (!saved) return;
+  if (saved.stage1Cleared) handleStage1Success();
+  if (saved.finalCleared)  handleFinalSuccess();
+}
+
 /* ===========================================================
    ⑩ 初期化（DOMContentLoaded）
    =========================================================== */
@@ -709,6 +785,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   initTabBar();
   initDmInbox();
+  initDmToastClick();
 
   /* --- 入力フォームのバインド ---
      ゲーム核心の入力欄はスプレッドシート取得を待たずに先に有効化する。 */
@@ -751,6 +828,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderSearchChips();
 
   initSearch();
+
+  // 投稿データ（state.posts）の描画が終わってから、保存済みの進行度を復元する
+  restoreProgress();
 
   /*
   ✏️ 【開発用デバッグ】

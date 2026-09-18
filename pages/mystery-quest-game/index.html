@@ -55,6 +55,12 @@
     </div>
   </nav>
 
+  <!-- 新着DM通知トースト（画面上部からスライドして出てくる） -->
+  <div class="dm-toast" id="dm-toast" aria-live="polite">
+    <span class="dm-toast__icon" aria-hidden="true">✉️</span>
+    <span class="dm-toast__text" id="dm-toast-text"></span>
+  </div>
+
   <!-- メニューパネル（右側からスライドイン） -->
   <div class="nav-menu" role="dialog" aria-modal="true" aria-label="サイトメニュー">
     <label for="nav-toggle" class="nav-menu__close" aria-label="メニューを閉じる">×</label>
@@ -187,6 +193,7 @@
             <span class="dm-contact__name">キャンフェススタッフR</span>
             <span class="dm-contact__preview">【捜査について】キーワードがわかったら、こちらに送信してください！</span>
           </span>
+          <span class="dm-contact__unread" id="dm-staff-unread" hidden aria-hidden="true"></span>
         </button>
 
         <!-- 犯人（最終問題正解後にJSで表示、初期状態は hidden） -->
@@ -306,7 +313,7 @@
                   d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
               </svg></span>
             <div class="dm-msg__bubble dm-msg__bubble--success">
-              <p>🎉 事件解決、お疲れ様でした！ あなたの捜査により、デマ投稿の犯人が特定されました。この画面を<strong>「のり」</strong>の前の受付スタッフに見せて、景品を受け取ってください！</p>
+              <p>🎉 事件解決、本当にお疲れ様でした！あなたの粘り強い捜査のおかげで、デマ投稿の犯人を突き止めることができました。この画面を<strong>「のり」</strong>前の受付スタッフに見せていただければ、景品をお渡しします。捜査へのご協力、ありがとうございました！</p>
               <div class="dm-clear-badge" aria-label="クリア達成バッジ">
                 <span class="dm-clear-badge__icon" aria-hidden="true">🔓</span>
                 <span class="dm-clear-badge__label">CASE CLOSED</span>
