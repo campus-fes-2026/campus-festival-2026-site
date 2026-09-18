@@ -162,8 +162,8 @@
 
 /* 商品画像エリア */
 .menu-item__img-wrap-1 {
-  width: 350px;
-  height: 450px;
+  width: 100%;
+  height: 700px;
   flex-shrink: 0;
   background-color: var(--color-bg-dark);
   display: flex;
@@ -180,8 +180,8 @@
 }
 
 .menu-item__img-wrap-2 {
-  width: 400px;
-  height: 200px;
+  width: 100%;
+  height: 300px;
   flex-shrink: 0;
   background-color: var(--color-bg-dark);
   display: flex;
