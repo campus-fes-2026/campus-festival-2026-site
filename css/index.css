@@ -66,10 +66,11 @@
 
 /* サブタイトル（スローガン） */
 .hero__subtitle {
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
+  font-size: clamp(1.05rem, 4vw, 1.35rem);
+  letter-spacing: 0.1em;
+  font-weight: 500;
   color: var(--color-text-sub);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-lg);
 }
 
 /* 紹介文 */
