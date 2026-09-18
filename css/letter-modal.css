@@ -127,50 +127,132 @@
 }
 
 /* ===================================================
-   モーダルコンテナ
+   封筒コンテナ（3D遠近法の親 / perspective 設定）
 =================================================== */
 .letter-envelope {
+  /* 3Dアニメーションのため perspective を設定 */
+  perspective: 800px;
+  perspective-origin: 50% 40%;
   width: min(460px, 100%);
   position: relative;
 }
 
+/* ===================================================
+   封筒ボディ（下半分 — 固定の長方形）
+=================================================== */
 .letter-envelope__body {
   position: relative;
   width: 100%;
+  /* ✏️ 封筒の地色（ベージュ） */
+  background: linear-gradient(160deg, #f0e6d2 0%, #e8d8be 100%);
+  border-radius: 4px 4px 10px 10px;
+  /* 手紙カードが競り出る分の高さを確保 */
+  min-height: 240px;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.2);
+  /* overflow: visible で手紙カードが上に飛び出せるようにする */
+  overflow: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* 封筒の側面三角形（左右の折り目 / ::before と ::after） */
+.letter-envelope__body::before,
+.letter-envelope__body::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  /* フタや手紙カードより奥に */
+  z-index: 1;
+}
+.letter-envelope__body::before {
+  left: 0;
+  border-width: 0 0 72px 112px;
+  border-color: transparent transparent #cdb898 transparent;
+}
+.letter-envelope__body::after {
+  right: 0;
+  border-width: 0 112px 72px 0;
+  border-color: transparent #cdb898 transparent transparent;
+}
+
 /* ===================================================
-   手紙カード（フェード＋下から少しスライド）
+   封筒フタ（上フラップ — 3D回転で開く）
+=================================================== */
+.letter-envelope__flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  /* 変形の基点：下辺（封筒との接続部） */
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+  /* フタは手紙カードより前面 */
+  z-index: 20;
+  /* 閉じた状態 */
+  transform: rotateX(0deg);
+  transition: transform 0.5s ease-out;
+  /* 180度回転して裏返った時に、裏面（三角形の裏側）が見えてしまうバグの修正 */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* フタの三角形（逆三角形のクリップ） */
+.letter-envelope__flap-inner {
+  width: 100%;
+  height: 100%;
+  /* ✏️ フタの色（やや濃いベージュ） */
+  background: linear-gradient(170deg, #b8986a 0%, #d4b880 55%, #c8a860 100%);
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* フタが開いた状態（.is-open でJS付与） */
+.letter-overlay.is-open .letter-envelope__flap {
+  /* -180deg でフタが完全に裏返って開く */
+  transform: rotateX(-180deg);
+  transition-delay: 0.1s;
+}
+
+/* ===================================================
+   手紙カード（封筒から競り出す）
 =================================================== */
 .letter-card {
   position: relative;
+  /* フタ（z-index:20）と封筒三角（z-index:1）の間に配置 */
   z-index: 10;
   width: calc(100% - 28px);
   /* ✏️ 手紙の地色（クリーム白） */
   background: #fdfaf5;
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 22px 20px 18px;
   box-shadow:
-    0 24px 64px rgba(0, 0, 0, 0.35),
-    0 4px 16px rgba(0, 0, 0, 0.15);
+    0 -2px 8px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.12);
   margin: 0 auto;
-  /* 初期：少し下・透明 */
-  transform: translateY(24px);
+  /* 初期：封筒内に隠れている */
+  transform: translateY(55%);
   opacity: 0;
   transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity   0.3s ease;
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   0.4s ease;
 }
 
-/* モーダルが開いた状態 */
+/* 手紙が競り出た状態 */
 .letter-overlay.is-open .letter-card {
-  transform: translateY(0);
+  /* 封筒の上端からカード全体が見えるよう -65% 上へ */
+  transform: translateY(-65%);
   opacity: 1;
-  /* オーバーレイのフェードに少し遅れて出てくる */
-  transition-delay: 0.08s;
+  /* フタが開いてから競り出す */
+  transition-delay: 0.48s;
 }
 
 /* 手紙内の装飾ライン */
@@ -277,7 +359,7 @@
 =================================================== */
 @media (max-width: 480px) {
   .letter-overlay.is-open .letter-card {
-    transform: translateY(0);
+    transform: translateY(-55%);
   }
 
   .letter-card {
