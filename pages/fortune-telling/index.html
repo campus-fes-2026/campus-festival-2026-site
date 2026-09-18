@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +31,7 @@
   <link rel="stylesheet" href="../../css/letter-modal.css">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- ========================================================
@@ -125,11 +127,13 @@
 
     <!-- ✏️ 企画名（自分の企画名に変えてください） -->
     <h1 class="page-hero__title"><ruby>
-  神<rp>（</rp><rt>ゴッド</rt><rp>）</rp>
-</ruby>占い師</h1>
+        神<rp>（</rp>
+        <rt>ゴッド</rt>
+        <rp>）</rp>
+      </ruby>占い師</h1>
 
     <!-- ✏️ 開催場所 -->
-    <p class="page-hero__place">N/S/R高 松戸キャンパス &ensp;—&ensp; うに</p>
+    <p class="page-hero__place">ウニ</p>
 
   </header>
 
@@ -192,7 +196,9 @@
             <!-- 商品画像エリア
                  ✏️ 画像ができたら、下の絵文字テキストを
                     <img src="coffee.jpg" alt="本日のコーヒー"> に差し替えてください -->
-            <div class="menu-item__img-wrap" aria-hidden="true"><div class="menu-item__img-wrap" aria-hidden="true"><img src="images/fortune-1.jpg" ></div></div>
+            <div class="menu-item__img-wrap" aria-hidden="true">
+              <div class="menu-item__img-wrap" aria-hidden="true"><img src="images/fortune-1.jpg"></div>
+            </div>
 
             <div class="menu-item__body">
               <!-- ✏️ 商品名 -->
@@ -210,7 +216,9 @@
 
           <!-- ============ 商品2 ============ -->
           <li class="menu-item" id="menu-item-cake">
-             <div class="menu-item__img-wrap" aria-hidden="true"><div class="menu-item__img-wrap" aria-hidden="true"><img src="images/fortune-2.jpg" ></div></div>
+            <div class="menu-item__img-wrap" aria-hidden="true">
+              <div class="menu-item__img-wrap" aria-hidden="true"><img src="images/fortune-2.jpg"></div>
+            </div>
             <div class="menu-item__body">
               <p class="menu-item__name">タロット占い</p>
               <p class="menu-item__desc">
@@ -220,7 +228,7 @@
           </li>
           <!-- ============ / 商品2 ============ -->
 
-    <!-- ========================================================
+          <!-- ========================================================
          ④ 営業タイムスケジュール
          ========================================================
     ✏️ 【編集ガイド】タイムスケジュール
@@ -232,60 +240,63 @@
        ハイライト（目立たせる）にしたい項目には
        class="timeline__item--highlight" を追加してください。
     ======================================================== -->
-    <section class="section" id="hours" style="background-color: var(--color-bg-dark);">
-      <div class="container">
+          <section class="section" id="hours" style="background-color: var(--color-bg-dark);">
+            <div class="container">
 
-        <h2 class="page-section-title">Hours — 営業時間</h2>
+              <h2 class="page-section-title">Hours — 営業時間</h2>
 
-        <div class="timeline">
+              <div class="timeline">
 
-          <!-- ✏️ 以下の項目を営業スケジュールに書き換えてください -->
+                <!-- ✏️ 以下の項目を営業スケジュールに書き換えてください -->
 
-          <div class="timeline__item timeline__item--highlight">
-            <!-- ✏️ 時刻 -->
-            <p class="timeline__time">11:00-12:00</p>
-            <div class="timeline__body">
-              <!-- ✏️ イベント名 -->
-              <strong>オープン</strong>
-              <!-- ✏️ 説明文（不要なら削除） -->
-              <p><ruby>
-  神<rp>(</rp><rt>ゴッド</rt> <rp>)</rp></ruby>占い師が開始します。<br>
-                タロット占い1名、手相占い1名がそれぞれ担当します。
-              </p>
+                <div class="timeline__item timeline__item--highlight">
+                  <!-- ✏️ 時刻 -->
+                  <p class="timeline__time">11:00-12:00</p>
+                  <div class="timeline__body">
+                    <!-- ✏️ イベント名 -->
+                    <strong>オープン</strong>
+                    <!-- ✏️ 説明文（不要なら削除） -->
+                    <p><ruby>
+                        神<rp>(</rp>
+                        <rt>ゴッド</rt>
+                        <rp>)</rp>
+                      </ruby>占い師が開始します。<br>
+                      タロット占い1名、手相占い1名がそれぞれ担当します。
+                    </p>
+                  </div>
+                </div>
+
+
+                <div class="timeline__item">
+                  <p class="timeline__time">13:00-14:00</p>
+                  <div class="timeline__body">
+                    <strong>営業中</strong>
+                    <p>継続して2種類の占いを行なっています。<br>
+                      どちらの占いも1名ずつ担当します。</p>
+                  </div>
+                </div>
+
+                <div class="timeline__item">
+                  <p class="timeline__time">14:00-15:00 —</p>
+                  <div class="timeline__body">
+                    <strong>営業中</strong>
+                    <p>継続して2種類の占いを行なっています。<br>
+                      どちらの占いも1名ずつ担当します。</p>
+                  </div>
+                </div>
+
+                <div class="timeline__item timeline__item--highlight">
+                  <p class="timeline__time">15:00-16:00</p>
+                  <div class="timeline__body">
+                    <strong>ラスト</strong>
+                    <p>2種類ともこの時間で最後となります。<br>
+                      どちらの占いも1名ずつ担当します。</p>
+                  </div>
+                </div>
+
+              </div><!-- /.timeline -->
             </div>
-          </div>
-
-
-          <div class="timeline__item">
-            <p class="timeline__time">13:00-14:00</p>
-            <div class="timeline__body">
-              <strong>営業中</strong>
-              <p>継続して2種類の占いを行なっています。<br>
-                どちらの占いも1名ずつ担当します。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item">
-            <p class="timeline__time">14:00-15:00 —</p>
-            <div class="timeline__body">
-              <strong>営業中</strong>
-              <p>継続して2種類の占いを行なっています。<br>
-                どちらの占いも1名ずつ担当します。</p>
-            </div>
-          </div>
-
-          <div class="timeline__item timeline__item--highlight">
-            <p class="timeline__time">15:00-16:00</p>
-            <div class="timeline__body">
-              <strong>ラスト</strong>
-              <p>2種類ともこの時間で最後となります。<br>
-                どちらの占いも1名ずつ担当します。</p>
-            </div>
-          </div>
-
-        </div><!-- /.timeline -->
-      </div>
-    </section>
+          </section>
 
   </main>
 
@@ -326,4 +337,5 @@
   <script src="../../js/letter-modal.js"></script>
 
 </body>
+
 </html>
