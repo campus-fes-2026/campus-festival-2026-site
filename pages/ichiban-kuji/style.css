@@ -312,7 +312,7 @@
 .kuji-card__img-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 枠に合わせてキレイにトリミング表示 */
+  object-fit: contain; /* 枠に合わせてキレイにトリミング表示 */
 }
 
 
