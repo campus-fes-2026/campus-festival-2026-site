@@ -1,0 +1,229 @@
+import sys, io
+
+path = "pages/ichiban-kuji/index.html"
+with io.open(path, encoding="utf-8") as f:
+    html = f.read()
+
+replacements = []
+
+replacements.append((
+'''       1. .kuji-card の modifier クラス（--s, --a, --last-one）→ 賞の種類''',
+'''       1. .kuji-card の modifier クラス（--a, --last-one）→ 賞の種類'''
+))
+
+replacements.append((
+'''          <div class="kuji-card kuji-card--s" id="kuji-card-s">
+            <div class="kuji-card__bar"></div>
+            <!-- 画像エリア（実際の景品画像に差し替え可） -->
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+             <img src="img/スクリーンショット 2026-09-19 5.10.24.png" alt="おにぎり・コッペパンのスマホスタンド">
+            </div>
+            <div class="kuji-card__body">
+              <!-- 賞の名前 -->
+              <p class="kuji-card__prize">S 賞</p>''',
+'''          <div class="kuji-card kuji-card--a" id="kuji-card-a">
+            <div class="kuji-card__bar"></div>
+            <!-- 画像エリア（実際の景品画像に差し替え可） -->
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+             <img src="img/スクリーンショット 2026-09-19 5.10.24.png" alt="おにぎり・コッペパンのスマホスタンド">
+            </div>
+            <div class="kuji-card__body">
+              <!-- 賞の名前 -->
+              <p class="kuji-card__prize">A 賞</p>'''
+))
+
+replacements.append((
+'''          <div class="kuji-card kuji-card--a" id="kuji-card-a">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              <img src="img/スクリーンショット 2026-09-19 5.10.31.png" alt="チェキ2枚セット">
+            </div>
+            <div class="kuji-card__body">
+              <p class="kuji-card__prize">A 賞</p>
+              <p class="kuji-card__name">「愛されメンター」チェキ2枚セット</p>
+              <p class="kuji-card__desc">
+                全6種からランダムで2枚封入。<br>
+                お気に入りの組み合わせが引けるかも？
+              </p>
+            </div>
+          </div>''',
+'''          <div class="kuji-card kuji-card--b" id="kuji-card-b">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              <img src="img/スクリーンショット 2026-09-19 5.10.31.png" alt="チェキ2枚セット">
+            </div>
+            <div class="kuji-card__body">
+              <p class="kuji-card__prize">B 賞</p>
+              <p class="kuji-card__name">「愛されメンター」チェキ2枚セット</p>
+              <p class="kuji-card__desc">
+                全5種からランダムで2枚封入。<br>
+                お気に入りの組み合わせが引けるかも？
+              </p>
+            </div>
+          </div>'''
+))
+
+replacements.append((
+'''          <div class="kuji-card kuji-card--b" id="kuji-card-b">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              <img src="img/スクリーンショット 2026-09-19 5.10.37.png" alt="前髪クリップ2個セット">
+            </div>
+            <div class="kuji-card__body">
+              <p class="kuji-card__prize">B 賞</p>
+              <p class="kuji-card__name">「愛されメンター」好物モチーフ 前髪クリップ2個セット</p>
+              <p class="kuji-card__desc">
+                前髪をかわいくとめられる、好物モチーフの前髪クリップ2個セット。
+              </p>
+              <!-- ✏️ 全体の種類数（バリエーション数）が分かり次第、上の説明文に追記してください -->
+            </div>
+          </div>''',
+'''          <div class="kuji-card kuji-card--c" id="kuji-card-c">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              <img src="img/スクリーンショット 2026-09-19 5.10.37.png" alt="前髪クリップ2個セット">
+            </div>
+            <div class="kuji-card__body">
+              <p class="kuji-card__prize">C 賞</p>
+              <p class="kuji-card__name">「愛されメンター」好物モチーフ 前髪クリップ2個セット</p>
+              <p class="kuji-card__desc">
+                前髪をかわいくとめられる、好物モチーフの前髪クリップ2個セット。<br>
+                全8種からのランダム封入。
+              </p>
+            </div>
+          </div>'''
+))
+
+replacements.append((
+'''          <div class="kuji-card kuji-card--c" id="kuji-card-c">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              <img src="img/スクリーンショット 2026-09-19 5.10.42.png" alt="メンター検定キーホルダー">
+            </div>
+            <div class="kuji-card__body">
+              <p class="kuji-card__prize">C 賞</p>
+              <p class="kuji-card__name">メンター検定キーホルダー</p>
+              <p class="kuji-card__desc">
+                全4種のメンター検定キーホルダー。<br>
+                ランダム封入。
+              </p>
+            </div>
+          </div>''',
+'''          <div class="kuji-card kuji-card--d" id="kuji-card-d">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              <img src="img/スクリーンショット 2026-09-19 5.10.42.png" alt="メンター検定キーホルダー">
+            </div>
+            <div class="kuji-card__body">
+              <p class="kuji-card__prize">D 賞</p>
+              <p class="kuji-card__name">メンター検定キーホルダー</p>
+              <p class="kuji-card__desc">
+                全15種のメンター検定キーホルダー。<br>
+                ランダム封入。
+              </p>
+            </div>
+          </div>'''
+))
+
+replacements.append((
+'''          <div class="kuji-card kuji-card--d" id="kuji-card-d">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              <img src="img/IMG_1989.jpg" alt="メンター検定ステッカー10枚セット">
+            </div>
+            <div class="kuji-card__body">
+              <p class="kuji-card__prize">D 賞</p>
+              <p class="kuji-card__name">メンター検定ステッカー10枚セット</p>
+              <p class="kuji-card__desc">
+                全4種デザインのステッカーが入った10枚セット。<br>
+                ランダムアソート。
+              </p>
+            </div>
+          </div>''',
+'''          <div class="kuji-card kuji-card--e" id="kuji-card-e">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              <img src="img/kuji-e-shou.png" alt="メンター検定ステッカー10枚セット">
+            </div>
+            <div class="kuji-card__body">
+              <p class="kuji-card__prize">E 賞</p>
+              <p class="kuji-card__name">メンター検定ステッカー10枚セット</p>
+              <p class="kuji-card__desc">
+                全20種デザインのステッカーが入った10枚セット。<br>
+                ランダムアソート。
+              </p>
+            </div>
+          </div>'''
+))
+
+replacements.append((
+'''          <div class="kuji-card kuji-card--last-one" id="kuji-card-last-one">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              🌟
+              <div class="img-placeholder-border"></div>
+            </div>''',
+'''          <div class="kuji-card kuji-card--last-one" id="kuji-card-last-one">
+            <div class="kuji-card__bar"></div>
+            <div class="kuji-card__img-wrap" aria-hidden="true">
+              <img src="img/kuji-lastone.png" alt="ラストワン賞">
+            </div>'''
+))
+
+for old, new in replacements:
+    count = html.count(old)
+    if count != 1:
+        print("MISMATCH (count=%d): %s" % (count, old[:60].replace('\n','\\n')))
+        sys.exit(1)
+    html = html.replace(old, new)
+
+with io.open(path, "w", encoding="utf-8") as f:
+    f.write(html)
+
+print("index.html: all replacements applied OK")
+
+path2 = "pages/ichiban-kuji/style.css"
+with io.open(path2, encoding="utf-8") as f:
+    css = f.read()
+
+css_replacements = []
+css_replacements.append((
+'''/* S賞のバー（ダークゴールド → 明るいゴールド） */
+.kuji-card--s .kuji-card__bar {
+  background: linear-gradient(90deg, var(--kuji-gold-dark), var(--kuji-s-prize), #D4A853);
+}''',
+'''/* A賞のバー（ダークゴールド → 明るいゴールド） */
+.kuji-card--a .kuji-card__bar {
+  background: linear-gradient(90deg, var(--kuji-gold-dark), var(--kuji-top-prize), #D4A853);
+}'''
+))
+css_replacements.append((
+'''/* S賞ラベル（ゴールド強調） */
+.kuji-card--s .kuji-card__prize {
+  color: var(--kuji-s-prize);
+  background: rgba(184, 134, 11, 0.08);
+  border-color: rgba(184, 134, 11, 0.25);
+}''',
+'''/* A賞ラベル（ゴールド強調） */
+.kuji-card--a .kuji-card__prize {
+  color: var(--kuji-top-prize);
+  background: rgba(184, 134, 11, 0.08);
+  border-color: rgba(184, 134, 11, 0.25);
+}'''
+))
+css_replacements.append((
+'''  --kuji-s-prize:     #B8860B;   /* S賞（ダークゴールド） */''',
+'''  --kuji-top-prize:   #B8860B;   /* 一番人気の賞（ダークゴールド） */'''
+))
+
+for old, new in css_replacements:
+    count = css.count(old)
+    if count != 1:
+        print("CSS MISMATCH (count=%d): %s" % (count, old[:60].replace('\n','\\n')))
+        sys.exit(1)
+    css = css.replace(old, new)
+
+with io.open(path2, "w", encoding="utf-8") as f:
+    f.write(css)
+
+print("style.css: all replacements applied OK")

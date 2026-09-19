@@ -45,7 +45,7 @@
 
   /* 特別賞の強調色 */
   --kuji-last-one:    #C0392B;   /* ラストワン賞（落ち着いた赤） */
-  --kuji-s-prize:     #B8860B;   /* S賞（ダークゴールド） */
+  --kuji-top-prize:   #B8860B;   /* 一番人気の賞（ダークゴールド） */
 }
 
 /* ============================================================
@@ -271,9 +271,9 @@
   background: linear-gradient(90deg, #8B2500, var(--kuji-last-one), #E57368);
 }
 
-/* S賞のバー（ダークゴールド → 明るいゴールド） */
-.kuji-card--s .kuji-card__bar {
-  background: linear-gradient(90deg, var(--kuji-gold-dark), var(--kuji-s-prize), #D4A853);
+/* A賞のバー（ダークゴールド → 明るいゴールド） */
+.kuji-card--a .kuji-card__bar {
+  background: linear-gradient(90deg, var(--kuji-gold-dark), var(--kuji-top-prize), #D4A853);
 }
 
 /* 画像エリア */
@@ -395,9 +395,9 @@
   border-color: rgba(192, 57, 43, 0.25);
 }
 
-/* S賞ラベル（ゴールド強調） */
-.kuji-card--s .kuji-card__prize {
-  color: var(--kuji-s-prize);
+/* A賞ラベル（ゴールド強調） */
+.kuji-card--a .kuji-card__prize {
+  color: var(--kuji-top-prize);
   background: rgba(184, 134, 11, 0.08);
   border-color: rgba(184, 134, 11, 0.25);
 }
