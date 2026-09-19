@@ -297,6 +297,12 @@
     margin: 0 auto;
     aspect-ratio: 1 / 1;
   }
+  /* E賞・ラストワン賞はスマホでも横長のまま幅いっぱいに表示 */
+  .kuji-card--e .kuji-card__img-wrap,
+  .kuji-card--last-one .kuji-card__img-wrap {
+    width: 100%;
+    aspect-ratio: auto;
+  }
 }
 
 /* 画像プレースホルダーの装飾ライン */
@@ -313,6 +319,25 @@
   width: 100%;
   height: 100%;
   object-fit: contain; /* 枠に合わせてキレイにトリミング表示 */
+}
+
+/* 画像の注意書き（※画像はイメージです） */
+.kuji-card__img-note {
+  margin: 6px 0 0;
+  font-size: 0.72rem;
+  color: var(--kuji-text-muted);
+  text-align: center;
+}
+
+/* E賞・ラストワン賞は横長バナー画像のため、正方形の枠に収めず
+   画像本来の縦横比のまま表示する（上下に余白ができるのを防ぐ） */
+.kuji-card--e .kuji-card__img-wrap,
+.kuji-card--last-one .kuji-card__img-wrap {
+  aspect-ratio: auto;
+}
+.kuji-card--e .kuji-card__img-wrap img,
+.kuji-card--last-one .kuji-card__img-wrap img {
+  height: auto;
 }
 
 
